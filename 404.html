@@ -182,7 +182,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <p class="footer-copy">© 2025 YangHub. Alle Rechte vorbehalten.</p>
+    <p class="footer-copy">© <span id="footer-year"></span> YangHub. Alle Rechte vorbehalten.</p>
     <p class="footer-disclaimer">YangHub ist kein offizielles Produkt von Gameforge oder Metin2.</p>
   </footer>
 
@@ -233,6 +233,7 @@
       });
       requestAnimationFrame(tick);
     })();
-  </script>
-</body>
+    // Footer Jahr dynamisch
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  
 </html>

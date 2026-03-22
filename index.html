@@ -247,18 +247,36 @@
     .btn-tip:hover, .btn-tip.is-hovered { background:var(--accent-glow); color:var(--accent-light); border-color:var(--accent); box-shadow:0 0 30px rgba(45,158,107,.18); }
     .footer-copy,.footer-disclaimer { font-size:.75rem; color:var(--text-muted); margin-bottom:.25rem; }
 
+    /* ── IN DEV BADGE – oben rechts jeder Karte ── */
+    .indev-badge {
+      position: absolute; top: .85rem; right: .9rem; z-index: 2;
+      display: flex; align-items: center; gap: .35rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: .6rem; font-weight: 600; letter-spacing: .13em;
+      text-transform: uppercase; color: rgba(220,120,40,.75);
+      background: rgba(220,120,40,.06);
+      border: 1px solid rgba(220,120,40,.22);
+      border-radius: 999px; padding: .18rem .55rem .18rem .45rem;
+      pointer-events: none;
+    }
+    .indev-dot {
+      width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(220,120,40,.9);
+      box-shadow: 0 0 5px rgba(220,120,40,.7);
+      animation: indevPulse 2.4s ease-in-out infinite;
+    }
+    @keyframes indevPulse {
+      0%,100% { opacity: 1;   box-shadow: 0 0 5px rgba(220,120,40,.7); }
+      50%      { opacity: .45; box-shadow: 0 0 2px rgba(220,120,40,.3); }
+    }
+
+    /* Okey-Karte: nicht klickbar + subtiler oranger Highlight */
     .tool-card--soon {
       pointer-events: none;
-      opacity: .55;
       cursor: default;
-    }
-    .soon-badge {
-      display: inline-block;
-      font-size: .63rem; font-weight: 600; letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--accent); border: 1px solid var(--border-accent);
-      border-radius: 999px; padding: .18rem .6rem;
-      white-space: nowrap; flex-shrink: 0;
+      opacity: .72;
+      border-color: rgba(180,90,20,.28);
+      box-shadow: 0 0 22px rgba(180,90,20,.07), inset 0 0 18px rgba(180,90,20,.04);
     }
 
     /* FADE-IN */
@@ -315,6 +333,7 @@
       <div class="tools-grid">
         <article class="tool-card fade-in" id="card-1" data-href="notes.html" role="button" tabindex="0">
           <canvas class="card-canvas" id="card-canvas-1" aria-hidden="true"></canvas>
+          <span class="indev-badge" aria-label="In Entwicklung"><span class="indev-dot"></span>In Dev</span>
           <div class="card-content">
             <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
             <h3 data-i18n="tool1-name">Metin2 Notes</h3>
@@ -323,20 +342,19 @@
         </article>
         <article class="tool-card fade-in" id="card-2" data-href="schnapp-king.html" role="button" tabindex="0">
           <canvas class="card-canvas" id="card-canvas-2" aria-hidden="true"></canvas>
+          <span class="indev-badge" aria-label="In Entwicklung"><span class="indev-dot"></span>In Dev</span>
           <div class="card-content">
             <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="3" y2="21"/><line x1="3" y1="19" x2="5" y2="21"/></svg></div>
             <h3 data-i18n="tool2-name">SchnappKingM2</h3>
             <p data-i18n="tool2-desc">Companion-Tool für 'Schnapp den König'. Tracke Karten und visualisiere die Warnungs-Logik.</p>
           </div>
         </article>
-        <article class="tool-card fade-in tool-card--soon" id="card-3" role="button" tabindex="-1" aria-disabled="true">
+        <article class="tool-card fade-in" id="card-3" data-href="okey-tracker.html" role="button" tabindex="0">
           <canvas class="card-canvas" id="card-canvas-3" aria-hidden="true"></canvas>
+          <span class="indev-badge" aria-label="In Entwicklung"><span class="indev-dot"></span>In Dev</span>
           <div class="card-content">
             <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
-            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;">
-              <h3 style="margin-bottom:0" data-i18n="tool3-name">Okey-Event Tracker</h3>
-              <span class="soon-badge" data-i18n="soon-badge">Kommt bald</span>
-            </div>
+            <h3 data-i18n="tool3-name">Okey-Event Tracker</h3>
             <p data-i18n="tool3-desc">Behalte den Überblick über alle Karten im Okey-Event. Markiere gespielte Karten und plane Kombinationen.</p>
           </div>
         </article>
@@ -400,7 +418,6 @@
         "tool2-desc":"Companion-Tool für 'Schnapp den König'. Tracke Karten und visualisiere die Warnungs-Logik.",
         "tool3-name":"Okey-Event Tracker",
         "tool3-desc":"Behalte den Überblick über alle Karten im Okey-Event. Markiere gespielte Karten und plane Kombinationen.",
-        "soon-badge":"Kommt bald",
         "about-label":"DIE VISION","about-title":"Über YangHub",
         "about-sub":"Ein Ort für alle Metin2 Tools – kostenlos für die Community.",
         "about-text1":'<strong class="accent">YangHub</strong> ist meine Vision, einen zentralen Ort zu schaffen, an dem Metin2 Spieler alles finden, was sie brauchen.',
@@ -426,7 +443,6 @@
         "tool2-desc":"Companion tool for 'Catch the King'. Track cards and visualize warning logic.",
         "tool3-name":"Okey-Event Tracker",
         "tool3-desc":"Keep track of all cards in the Okey Event. Mark played cards and plan combinations.",
-        "soon-badge":"Coming soon",
         "about-label":"THE VISION","about-title":"About YangHub",
         "about-sub":"One place for all Metin2 Tools – free for the community.",
         "about-text1":'<strong class="accent">YangHub</strong> is my vision to create a central place where Metin2 players can find everything they need.',
