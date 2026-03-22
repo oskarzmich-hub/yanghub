@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SchnappKingM2 – Schnapp den König Tracker | YangHub</title>
+  <meta name="description" content="SchnappKingM2 – Companion-Tool für das Metin2-Event 'Schnapp den König'. Tracke aufgedeckte Karten und visualisiere die 5er-Warnungslogik auf dem 5×5-Spielfeld." />
+  <meta name="keywords" content="Metin2 Schnapp den König, SchnappKingM2, Metin2 Event Tracker, YangHub, Totenkopf Warnung Tracker" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0c1a15" />
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="SchnappKingM2 – Schnapp den König Tracker | YangHub" />
+  <meta property="og:description" content="Tracke deine aufgedeckten Karten und visualisiere die Warnungen vor einer 5 in der Nähe." />
+  <meta property="og:locale"      content="de_DE" />
+  <meta name="author" content="YangHub" />
+  <!-- <link rel="canonical" href="https://yanghub.de/schnapp-king.html" /> -->
+  <!-- <meta property="og:url"   content="https://yanghub.de/schnapp-king.html" /> -->
+  <!-- <meta property="og:image" content="https://yanghub.de/preview-schnapp.png" /> -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SchnappKingM2",
+    "description": "Companion-Tool für das Metin2-Minispiel 'Schnapp den König'. Tracke Karten und visualisiere Warnungslogik.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "inLanguage": ["de", "en"],
+    "isPartOf": { "@type": "WebSite", "name": "YangHub" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ── DESIGN TOKENS (identical to index.html & notes.html) ── */
+    :root {
+      --bg-deep:       #07100d;
+      --bg-main:       #0c1a15;
+      --bg-card:       #111f18;
+      --bg-card-hover: #162a20;
+      --border:        #1e3528;
+      --border-accent: #2d6b4a;
+      --accent:        #2d9e6b;
+      --accent-light:  #3dbf82;
+      --accent-glow:   rgba(45,158,107,.15);
+      --text-primary:  #e8e0d0;
+      --text-secondary:#8fa898;
+      --text-muted:    #4a6357;
+      --red:           #c0392b;
+      --red-light:     #e07070;
+      --red-glow:      rgba(192,57,43,.13);
+      --red-border:    rgba(192,57,43,.45);
+      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+      --ease: .25s ease;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(13,40,28,.55) 0%, transparent 65%);
+    }
+
+    /* ── BACKGROUND PARTICLE CANVAS ── */
+    #page-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+    /* ── HEADER ── */
+    .app-header {
+      position: sticky; top: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .7rem 1.5rem; gap: 1rem;
+      background: rgba(7,16,13,.94);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: .35rem;
+      color: var(--text-muted); font-size: .8rem; font-weight: 500;
+      text-decoration: none; letter-spacing: .04em; white-space: nowrap;
+      padding: .32rem .75rem; border-radius: var(--radius-sm);
+      border: 1px solid transparent; transition: all var(--ease);
+    }
+    .back-btn:hover { color: var(--accent-light); border-color: var(--border-accent); background: var(--accent-glow); }
+    .app-title-wrap { display: flex; align-items: center; gap: .65rem; flex: 1; }
+    .app-icon-box {
+      width: 34px; height: 34px; flex-shrink: 0;
+      background: var(--accent-glow); border: 1px solid var(--border-accent);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .app-name { font-family: 'Cinzel', serif; font-size: .95rem; font-weight: 600; line-height: 1.2; }
+    .app-name .accent { color: var(--accent); }
+    .app-sub-text { font-size: .68rem; color: var(--text-muted); letter-spacing: .04em; }
+    .header-right { display: flex; align-items: center; gap: .9rem; flex-shrink: 0; }
+    .lang-switch {
+      display: flex; gap: 2px;
+      background: rgba(7,16,13,.9); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 3px;
+    }
+    .lang-btn {
+      background: transparent; border: none; color: var(--text-muted);
+      font-family: 'Outfit', sans-serif; font-size: .72rem; font-weight: 600;
+      letter-spacing: .08em; padding: .28rem .6rem; border-radius: 4px;
+      cursor: pointer; transition: color var(--ease), background var(--ease);
+    }
+    .lang-btn:hover { color: var(--text-primary); }
+    .lang-btn.active { background: var(--border-accent); color: var(--accent-light); }
+    .header-logo {
+      font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600;
+      text-decoration: none; color: inherit;
+    }
+    .header-logo:visited, .header-logo:active { color: inherit; }
+    .header-logo .yang { color: var(--accent); }
+
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      position: relative; z-index: 1;
+      max-width: 1100px; margin: 0 auto;
+      padding: 1.75rem 1.25rem 2rem;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+
+    /* ── TOOL HERO ── */
+    .tool-hero { text-align: center; padding: .25rem 0; }
+    .tool-hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.3rem, 4vw, 1.9rem);
+      font-weight: 600; line-height: 1.25; margin-bottom: .5rem;
+    }
+    .tool-hero p { font-size: .88rem; color: var(--text-secondary); max-width: 540px; margin: 0 auto; line-height: 1.65; }
+
+    /* ── TRACKER LAYOUT ── */
+    .tracker-layout {
+      display: grid;
+      grid-template-columns: 1fr 290px;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    @media (max-width: 780px) { .tracker-layout { grid-template-columns: 1fr; } }
+
+    /* ── GRID SECTION ── */
+    .grid-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.25rem 1rem;
+      position: relative; overflow: hidden;
+    }
+    .grid-section::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--accent) 40%, var(--accent-light) 60%, transparent 95%);
+      opacity: .55; pointer-events: none;
+    }
+
+    /* Column headers */
+    .grid-col-headers {
+      display: grid;
+      grid-template-columns: 26px repeat(5, 1fr);
+      gap: 5px; margin-bottom: 5px;
+    }
+    .col-label {
+      text-align: center; font-size: .68rem; font-weight: 700;
+      letter-spacing: .12em; color: var(--text-muted); padding: .2rem 0;
+    }
+
+    /* Grid rows */
+    .grid-row {
+      display: grid;
+      grid-template-columns: 26px repeat(5, 1fr);
+      gap: 5px; margin-bottom: 5px;
+    }
+    .grid-row:last-child { margin-bottom: 0; }
+    .row-label {
+      display: flex; align-items: center; justify-content: center;
+      font-size: .68rem; font-weight: 700; letter-spacing: .1em; color: var(--text-muted);
+    }
+
+    /* ── CELL ── */
+    .cell {
+      aspect-ratio: 1;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-deep);
+      cursor: pointer; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color var(--ease), background var(--ease), box-shadow var(--ease);
+      user-select: none; min-height: 52px;
+    }
+    .cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .cell:hover:not(.cell-placed) {
+      border-color: var(--border-accent);
+      background: rgba(45,158,107,.07);
+    }
+
+    /* Coordinate label inside cell */
+    .cell-coord {
+      position: absolute; top: 3px; left: 4px;
+      font-size: .56rem; color: var(--text-muted);
+      letter-spacing: .02em; line-height: 1; pointer-events: none;
+    }
+
+    /* ── CELL STATES ── */
+    /* Safe: 5 ausgeschlossen */
+    .cell-safe {
+      border-color: var(--accent);
+      background: rgba(45,158,107,.1);
+      box-shadow: 0 0 10px rgba(45,158,107,.12);
+    }
+    /* Unsafe: 5 möglich */
+    .cell-unsafe {
+      border-color: var(--red-border);
+      background: var(--red-glow);
+      box-shadow: 0 0 8px rgba(192,57,43,.1);
+    }
+    /* Placed card */
+    .cell-placed {
+      border-color: var(--accent-light);
+      background: rgba(45,158,107,.18);
+      cursor: context-menu;
+      box-shadow: 0 0 14px rgba(45,158,107,.18);
+    }
+    .cell-placed:hover { border-color: var(--accent-light); background: rgba(45,158,107,.22); }
+
+    /* Card value display */
+    .cell-card-value {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--text-primary); line-height: 1;
+      pointer-events: none;
+    }
+
+    /* State icon (bottom-right) */
+    .cell-state-icon {
+      position: absolute; bottom: 3px; right: 4px;
+      font-size: .62rem; line-height: 1; font-weight: 700; pointer-events: none;
+    }
+    .cell-safe   .cell-state-icon { color: var(--accent); }
+    .cell-unsafe .cell-state-icon { color: var(--red-light); }
+
+    /* Mode badge (top-right of placed cell) */
+    .cell-mode-badge {
+      position: absolute; top: 3px; right: 4px;
+      font-size: .52rem; font-weight: 700;
+      letter-spacing: .04em; line-height: 1;
+      padding: 1px 3px; border-radius: 3px; pointer-events: none;
+    }
+    .cell-mode-badge.safe   { background: rgba(45,158,107,.3); color: var(--accent-light); }
+    .cell-mode-badge.unsafe { background: rgba(192,57,43,.25); color: var(--red-light); }
+
+    /* ── CONTROLS PANEL ── */
+    .controls-panel { display: flex; flex-direction: column; gap: .8rem; }
+
+    .control-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      overflow: hidden; position: relative;
+    }
+    .control-block::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--accent) 40%, var(--accent-light) 60%, transparent 95%);
+      opacity: .4; pointer-events: none;
+    }
+    .block-title {
+      font-size: .62rem; font-weight: 700;
+      letter-spacing: .16em; color: var(--text-muted);
+      padding: .6rem 1rem .3rem;
+    }
+    .block-body { padding: .3rem .7rem .7rem; }
+
+    /* Modus radio options */
+    .modus-option {
+      display: flex; align-items: center; gap: .6rem;
+      padding: .52rem .65rem;
+      border-radius: var(--radius-sm); border: 1px solid var(--border);
+      cursor: pointer; margin-bottom: .38rem; transition: all var(--ease);
+    }
+    .modus-option:last-child { margin-bottom: 0; }
+    .modus-option input[type="radio"] { display: none; }
+    .modus-option.active-safe   { border-color: var(--accent);      background: rgba(45,158,107,.1); }
+    .modus-option.active-unsafe { border-color: var(--red-border);  background: var(--red-glow); }
+
+    .radio-dot {
+      width: 14px; height: 14px; flex-shrink: 0; border-radius: 50%;
+      border: 2px solid var(--border-accent);
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--ease);
+    }
+    .modus-option.active-safe   .radio-dot { border-color: var(--accent);     background: var(--accent); }
+    .modus-option.active-unsafe .radio-dot { border-color: var(--red-border); background: var(--red); }
+    .radio-inner {
+      width: 5px; height: 5px; border-radius: 50%; background: white;
+      opacity: 0; transition: opacity var(--ease);
+    }
+    .modus-option.active-safe .radio-inner,
+    .modus-option.active-unsafe .radio-inner { opacity: 1; }
+    .modus-label { flex: 1; }
+    .modus-label-title { font-size: .78rem; font-weight: 600; color: var(--text-primary); }
+    .modus-label-sub   { font-size: .66rem; color: var(--text-secondary); }
+    .modus-icon { font-size: .82rem; }
+
+    /* Card selection grid */
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .38rem; }
+    .card-btn {
+      padding: .5rem .25rem;
+      background: var(--bg-deep); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text-secondary);
+      font-family: 'Cinzel', serif; font-size: .9rem; font-weight: 600;
+      cursor: pointer; text-align: center; transition: all var(--ease);
+    }
+    .card-btn:hover { border-color: var(--border-accent); color: var(--text-primary); background: rgba(45,158,107,.07); }
+    .card-btn.selected {
+      background: rgba(45,158,107,.2); border-color: var(--accent);
+      color: var(--accent-light); box-shadow: 0 0 12px rgba(45,158,107,.14);
+    }
+
+    /* Action buttons */
+    .action-row { display: grid; grid-template-columns: 1fr; gap: .38rem; margin-bottom: .38rem; }
+    .act-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .3rem;
+      padding: .45rem .6rem; border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif; font-size: .76rem; font-weight: 500;
+      cursor: pointer; border: 1px solid var(--border);
+      background: transparent; color: var(--text-muted); transition: all var(--ease);
+    }
+    .act-btn:hover:not(:disabled) { background: var(--accent-glow); color: var(--accent-light); border-color: var(--border-accent); }
+    .act-btn:disabled { opacity: .28; cursor: not-allowed; }
+    .reset-btn {
+      width: 100%; padding: .5rem;
+      border-radius: var(--radius-sm); cursor: pointer;
+      border: 1px solid var(--red-border);
+      background: rgba(192,57,43,.07); color: var(--red-light);
+      font-family: 'Outfit', sans-serif; font-size: .78rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
+      transition: all var(--ease);
+    }
+    .reset-btn:hover { background: rgba(192,57,43,.16); border-color: rgba(192,57,43,.65); }
+
+    /* Legend toggle */
+    .legend-toggle {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      background: none; border: none; cursor: pointer;
+      padding: .6rem 1rem .4rem;
+      color: var(--text-muted); font-size: .62rem; font-weight: 700;
+      letter-spacing: .16em; transition: color var(--ease);
+    }
+    .legend-toggle:hover { color: var(--text-secondary); }
+    .legend-chevron { font-size: .68rem; transition: transform .22s ease; display: inline-block; }
+    .legend-chevron.open { transform: rotate(180deg); }
+    .legend-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .3s ease, padding .3s ease;
+      padding: 0 .7rem;
+    }
+    .legend-body.open { max-height: 320px; padding: 0 .7rem .7rem; }
+    .legend-item {
+      display: flex; align-items: flex-start; gap: .5rem;
+      padding: .28rem 0; border-bottom: 1px solid rgba(30,53,40,.4);
+      font-size: .74rem;
+    }
+    .legend-item:last-child { border-bottom: none; }
+    .legend-badge {
+      width: 22px; height: 22px; flex-shrink: 0; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 700;
+    }
+    .lb-placed  { background: rgba(45,158,107,.2); border: 1px solid var(--accent-light); color: var(--text-primary); font-family:'Cinzel',serif; }
+    .lb-safe    { background: rgba(45,158,107,.15); border: 1px solid var(--accent); color: var(--accent); }
+    .lb-unsafe  { background: rgba(192,57,43,.15); border: 1px solid var(--red-border); color: var(--red-light); }
+    .lb-unknown { background: var(--bg-deep); border: 1px solid var(--border); color: var(--text-muted); }
+    .legend-text strong { color: var(--text-primary); display: block; font-size: .74rem; }
+    .legend-text span   { color: var(--text-secondary); font-size: .68rem; }
+    .legend-note { font-size: .67rem; color: var(--text-muted); padding: .45rem 0 .1rem; line-height: 1.6; }
+    .legend-note strong { color: var(--accent); }
+
+    /* ── CONFLICT TOAST ── */
+    #conflict-toast {
+      position: fixed; bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: rgba(12,22,18,.97); border: 1px solid var(--red-border);
+      border-radius: var(--radius-md); padding: .7rem 1.2rem;
+      font-size: .78rem; color: var(--red-light);
+      z-index: 500; pointer-events: none;
+      transition: transform .3s ease, opacity .3s ease;
+      opacity: 0; max-width: 340px; text-align: center;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 24px rgba(0,0,0,.4);
+    }
+    #conflict-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ── SECTION DIVIDER ── */
+    .divider {
+      display: flex; align-items: center; justify-content: center; gap: .7rem; padding: .3rem 0;
+    }
+    .divider::before, .divider::after { content: ''; flex: 1; max-width: 180px; height: 1px; }
+    .divider::before { background: linear-gradient(90deg, transparent, var(--border)); }
+    .divider::after  { background: linear-gradient(90deg, var(--border), transparent); }
+    .divider-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 8px rgba(45,158,107,.55);
+      animation: dotPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%,100% { transform: scale(1);    box-shadow: 0 0 8px  rgba(45,158,107,.4); }
+      50%      { transform: scale(1.38); box-shadow: 0 0 14px rgba(45,158,107,.85); }
+    }
+
+    /* ── HOW-TO SECTION ── */
+    .howto-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .howto-section::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--accent) 40%, var(--accent-light) 60%, transparent 95%);
+      opacity: .45; pointer-events: none;
+    }
+    .howto-title {
+      font-family: 'Cinzel', serif; font-size: .88rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: .9rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .howto-steps { display: grid; gap: .55rem; }
+    @media (min-width: 580px) { .howto-steps { grid-template-columns: repeat(2, 1fr); } }
+    .howto-step { display: flex; align-items: flex-start; gap: .6rem; }
+    .step-num {
+      width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%;
+      background: rgba(45,158,107,.18); border: 1px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .67rem; font-weight: 700; color: var(--accent); margin-top: .1rem;
+    }
+    .step-text { font-size: .8rem; color: var(--text-secondary); line-height: 1.58; }
+    .step-text strong { color: var(--text-primary); }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--bg-deep); border-top: 1px solid var(--border);
+      padding: 2.5rem 0 1.75rem; text-align: center;
+      position: relative; z-index: 1;
+    }
+    .footer-inner {
+      max-width: 600px; margin: 0 auto; padding: 0 1.25rem;
+      display: flex; flex-direction: column; align-items: center; gap: .55rem;
+    }
+    .footer-logo { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 600; margin-bottom: .35rem; }
+    .footer-logo .yang { color: var(--accent); }
+    .footer-logo .hub  { color: var(--text-primary); }
+    .footer-tip-wrap { display: flex; flex-direction: column; align-items: center; gap: .5rem; margin-bottom: .65rem; }
+    .footer-tip-label { font-size: .85rem; color: var(--text-muted); }
+    /* Magnetic button wrapper – static, no transform */
+    .mag-wrap { position: relative; display: inline-block; }
+    .mag-canvas { position: absolute; pointer-events: none; z-index: 0; }
+    .btn-tip {
+      position: relative; z-index: 1;
+      display: inline-flex; align-items: center; gap: .4rem; padding: .6rem 1.5rem;
+      background: transparent; border: 1px solid var(--border-accent); border-radius: 999px;
+      color: var(--text-secondary); font-family: 'Outfit', sans-serif; font-size: .85rem;
+      cursor: pointer; text-decoration: none;
+      transition: background var(--ease), color var(--ease), border-color var(--ease), box-shadow var(--ease);
+    }
+    .btn-tip:hover, .btn-tip.is-hovered {
+      background: var(--accent-glow); color: var(--accent-light);
+      border-color: var(--accent); box-shadow: 0 0 30px rgba(45,158,107,.18);
+    }
+    .footer-copy, .footer-disclaimer { font-size: .75rem; color: var(--text-muted); margin-bottom: .15rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .app-header { padding: .6rem .9rem; }
+      .header-logo { display: none; }
+      .main-wrap { padding: 1rem .75rem 3.5rem; }
+      .cell { min-height: 46px; }
+    }
+    @media (max-width: 420px) {
+      .cell { min-height: 38px; }
+      .cell-card-value { font-size: 1rem; }
+      .cell-coord { font-size: .48rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Full-page animated particle background -->
+  <canvas id="page-canvas" aria-hidden="true"></canvas>
+
+  <!-- ══════════════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════════════ -->
+  <header class="app-header">
+    <a href="index.html" class="back-btn" aria-label="Zurück zur Hauptseite">
+      ← <span data-i18n="back-btn">Zurück</span>
+    </a>
+    <div class="app-title-wrap">
+      <div class="app-icon-box">🎮</div>
+      <div>
+        <div class="app-name">Schnapp<span class="accent">King</span> M2</div>
+        <div class="app-sub-text" data-i18n="app-sub">Companion Tool</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="de">DE</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+      <a href="index.html" class="header-logo"><span class="yang">Yang</span>Hub</a>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════
+       MAIN
+  ══════════════════════════════════════════════════ -->
+  <main class="main-wrap">
+
+    <!-- HERO TEXT -->
+    <div class="tool-hero">
+      <h1 data-i18n="hero-title">Schnapp den König — <span style="color:var(--accent)">Tracker</span></h1>
+      <p data-i18n="hero-desc">Tracke deine aufgedeckten Karten und visualisiere die Warnungen vor einer 5 in der Nähe.<br>Manuelle Analyse-Hilfe ohne Vorhersagen oder automatische Züge.</p>
+    </div>
+
+    <!-- ─── TRACKER LAYOUT ─────────────────────────────── -->
+    <div class="tracker-layout">
+
+      <!-- 5×5 GRID -->
+      <div class="grid-section" aria-label="5×5 Spielfeld">
+        <div class="grid-col-headers">
+          <div></div>
+          <div class="col-label">A</div>
+          <div class="col-label">B</div>
+          <div class="col-label">C</div>
+          <div class="col-label">D</div>
+          <div class="col-label">E</div>
+        </div>
+        <div id="grid-rows"></div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="controls-panel">
+
+        <!-- MODUS -->
+        <div class="control-block">
+          <div class="block-title" data-i18n="modus-title">MODUS</div>
+          <div class="block-body">
+            <label class="modus-option active-safe" id="opt-safe" onclick="setMode('safe')">
+              <input type="radio" name="modus" value="safe" checked />
+              <div class="radio-dot"><div class="radio-inner"></div></div>
+              <div class="modus-label">
+                <div class="modus-label-title" data-i18n="mode-safe-title">Sicher</div>
+                <div class="modus-label-sub"   data-i18n="mode-safe-sub">Keine Warnung — 5 ausgeschlossen</div>
+              </div>
+              <span class="modus-icon">✅</span>
+            </label>
+            <label class="modus-option" id="opt-unsafe" onclick="setMode('unsafe')">
+              <input type="radio" name="modus" value="unsafe" />
+              <div class="radio-dot"><div class="radio-inner"></div></div>
+              <div class="modus-label">
+                <div class="modus-label-title" data-i18n="mode-unsafe-title">Unsicher</div>
+                <div class="modus-label-sub"   data-i18n="mode-unsafe-sub">Warnung erschien — 5 möglich</div>
+              </div>
+              <span class="modus-icon">⚠️</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- KARTE WÄHLEN -->
+        <div class="control-block">
+          <div class="block-title" data-i18n="card-title">KARTE WÄHLEN</div>
+          <div class="block-body">
+            <div class="card-grid" id="card-grid">
+              <button class="card-btn selected" data-card="1" onclick="selectCard('1')">1</button>
+              <button class="card-btn"          data-card="2" onclick="selectCard('2')">2</button>
+              <button class="card-btn"          data-card="3" onclick="selectCard('3')">3</button>
+              <button class="card-btn"          data-card="4" onclick="selectCard('4')">4</button>
+              <button class="card-btn"          data-card="5" onclick="selectCard('5')">5</button>
+              <button class="card-btn"          data-card="K" onclick="selectCard('K')" aria-label="König">♛</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AKTIONEN -->
+        <div class="control-block">
+          <div class="block-title" data-i18n="actions-title">AKTIONEN</div>
+          <div class="block-body">
+            <div class="action-row">
+              <button class="act-btn" id="undo-btn" onclick="undo()" disabled>
+                ↩ <span data-i18n="btn-undo">Rückgängig</span>
+              </button>
+            </div>
+            <button class="reset-btn" id="reset-btn" onclick="resetGrid()">
+              🗑 <span data-i18n="btn-reset">Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- LEGENDE (ausklappbar) -->
+        <div class="control-block">
+          <button class="legend-toggle" id="legend-toggle-btn"
+                  onclick="toggleLegend()" aria-expanded="false" aria-controls="legend-body">
+            <span data-i18n="legend-title">LEGENDE</span>
+            <span class="legend-chevron" id="legend-chevron">▼</span>
+          </button>
+          <div class="legend-body" id="legend-body" role="region">
+            <div class="legend-item">
+              <div class="legend-badge lb-placed">3</div>
+              <div class="legend-text">
+                <strong data-i18n="leg-placed-title">Aufgedeckte Karte</strong>
+                <span data-i18n="leg-placed-sub">Im Spiel aufgedeckt.</span>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-badge lb-safe">✓</div>
+              <div class="legend-text">
+                <strong data-i18n="leg-safe-title">5 Ausgeschlossen</strong>
+                <span data-i18n="leg-safe-sub">Keine 5 möglich — sicher.</span>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-badge lb-unsafe">!</div>
+              <div class="legend-text">
+                <strong data-i18n="leg-unsafe-title">5 Möglich</strong>
+                <span data-i18n="leg-unsafe-sub">Warnung — 5 in der Nähe.</span>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-badge lb-unknown">?</div>
+              <div class="legend-text">
+                <strong data-i18n="leg-unknown-title">Unbekannt</strong>
+                <span data-i18n="leg-unknown-sub">Keine Info.</span>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-badge lb-placed" style="font-size:.8rem">♛</div>
+              <div class="legend-text">
+                <strong data-i18n="leg-king-title">König (K)</strong>
+                <span data-i18n="leg-king-sub">König platziert.</span>
+              </div>
+            </div>
+            <p class="legend-note">
+              <span data-i18n="leg-tip">💡 Tipp: Rechtsklick entfernt Karte.</span><br>
+              <strong data-i18n="leg-priority">Priorität: Grün überschreibt Rot.</strong>
+            </p>
+          </div>
+        </div>
+
+      </div><!-- /controls-panel -->
+    </div><!-- /tracker-layout -->
+
+    <!-- DIVIDER -->
+    <div class="divider" aria-hidden="true"><span class="divider-dot"></span></div>
+
+    <!-- SO FUNKTIONIERT'S -->
+    <section class="howto-section" aria-label="Anleitung">
+      <div class="howto-title">ℹ️ <span data-i18n="howto-title">So funktioniert's</span></div>
+      <div class="howto-steps">
+        <div class="howto-step">
+          <div class="step-num">1</div>
+          <div class="step-text" data-i18n="howto-1"><strong>Modus wählen:</strong> „Sicher" wenn keine Warnung erschien, „Unsicher" wenn eine Warnung kam.</div>
+        </div>
+        <div class="howto-step">
+          <div class="step-num">2</div>
+          <div class="step-text" data-i18n="howto-2"><strong>Karte wählen:</strong> Wähle die Karte (1–5 oder König), die du im Spiel aufgedeckt hast.</div>
+        </div>
+        <div class="howto-step">
+          <div class="step-num">3</div>
+          <div class="step-text" data-i18n="howto-3"><strong>Feld klicken:</strong> Klicke auf das entsprechende Feld im Grid. Die Nachbarfelder werden automatisch markiert.</div>
+        </div>
+        <div class="howto-step">
+          <div class="step-num">4</div>
+          <div class="step-text" data-i18n="howto-4"><strong>Rechtsklick</strong> auf eine belegte Zelle entfernt die Karte und alle zugehörigen Markierungen.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo"><span class="yang">Yang</span><span class="hub">Hub</span></div>
+      <div class="footer-tip-wrap">
+        <span class="footer-tip-label" data-i18n="footer-tip-label">Gefällt dir YangHub?</span>
+        <div class="mag-wrap" id="tip-wrap">
+          <canvas class="mag-canvas" id="tip-canvas"></canvas>
+          <a href="https://revolut.me/oskarr1um"
+             class="btn-tip" id="tip-btn"
+             target="_blank" rel="noopener noreferrer"
+             data-i18n="footer-tip-btn">☕ Trinkgeld geben</a>
+        </div>
+      </div>
+      <p class="footer-copy"       data-i18n="footer-copy">© 2025 YangHub. Alle Rechte vorbehalten.</p>
+      <p class="footer-disclaimer" data-i18n="footer-disclaimer">YangHub ist kein offizielles Produkt von Gameforge oder Metin2.</p>
+    </div>
+  </footer>
+
+  <!-- Conflict notification toast -->
+  <div id="conflict-toast" role="alert" aria-live="polite"></div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // TRANSLATIONS  (DE / EN)
+    // ═══════════════════════════════════════════════════════════
+    const T = {
+      de: {
+        'back-btn': 'Zurück', 'app-sub': 'Companion Tool',
+        'hero-title': 'Schnapp den König — <span style="color:var(--accent)">Tracker</span>',
+        'hero-desc': 'Tracke deine aufgedeckten Karten und visualisiere die Warnungen vor einer 5 in der Nähe.<br>Manuelle Analyse-Hilfe ohne Vorhersagen oder automatische Züge.',
+        'modus-title': 'MODUS',
+        'mode-safe-title': 'Sicher',   'mode-safe-sub':   'Keine Warnung — 5 ausgeschlossen',
+        'mode-unsafe-title': 'Unsicher', 'mode-unsafe-sub': 'Warnung erschien — 5 möglich',
+        'card-title': 'KARTE WÄHLEN',
+        'actions-title': 'AKTIONEN',
+        'btn-undo': 'Rückgängig', 'btn-reset': 'Reset',
+        'legend-title': 'LEGENDE',
+        'leg-placed-title': 'Aufgedeckte Karte', 'leg-placed-sub': 'Im Spiel aufgedeckt.',
+        'leg-safe-title':   '5 Ausgeschlossen',  'leg-safe-sub':   'Keine 5 möglich — sicher.',
+        'leg-unsafe-title': '5 Möglich',          'leg-unsafe-sub': 'Warnung — 5 in der Nähe.',
+        'leg-unknown-title': 'Unbekannt',         'leg-unknown-sub': 'Keine Info.',
+        'leg-king-title': 'König (K)',             'leg-king-sub':   'König platziert.',
+        'leg-tip':      '💡 Tipp: Rechtsklick entfernt Karte.',
+        'leg-priority': 'Priorität: Grün überschreibt Rot.',
+        'howto-title': "So funktioniert's",
+        'howto-1': '<strong>Modus wählen:</strong> „Sicher" wenn keine Warnung erschien, „Unsicher" wenn eine Warnung kam.',
+        'howto-2': '<strong>Karte wählen:</strong> Wähle die Karte (1–5 oder König), die du im Spiel aufgedeckt hast.',
+        'howto-3': '<strong>Feld klicken:</strong> Klicke auf das entsprechende Feld im Grid. Die Nachbarfelder werden automatisch markiert.',
+        'howto-4': '<strong>Rechtsklick</strong> auf eine belegte Zelle entfernt die Karte und alle zugehörigen Markierungen.',
+        'footer-tip-label': 'Gefällt dir YangHub?', 'footer-tip-btn': '☕ Trinkgeld geben',
+        'footer-copy': '© 2025 YangHub. Alle Rechte vorbehalten.',
+        'footer-disclaimer': 'YangHub ist kein offizielles Produkt von Gameforge oder Metin2.',
+        'conflict-msg': '⚠️ Konflikt: Ein Nachbarfeld ist bereits als 5-Ausschluss markiert — sichere Info hat Vorrang.',
+        'confirm-reset': 'Grid wirklich zurücksetzen?',
+      },
+      en: {
+        'back-btn': 'Back', 'app-sub': 'Companion Tool',
+        'hero-title': 'Catch the King — <span style="color:var(--accent)">Tracker</span>',
+        'hero-desc': 'Track your revealed cards and visualize warnings near a 5.<br>Manual analysis aid — no predictions, no automatic moves.',
+        'modus-title': 'MODE',
+        'mode-safe-title': 'Safe',   'mode-safe-sub':   'No warning — 5 excluded',
+        'mode-unsafe-title': 'Unsafe', 'mode-unsafe-sub': 'Warning appeared — 5 possible',
+        'card-title': 'CHOOSE CARD',
+        'actions-title': 'ACTIONS',
+        'btn-undo': 'Undo', 'btn-reset': 'Reset',
+        'legend-title': 'LEGEND',
+        'leg-placed-title': 'Revealed Card',  'leg-placed-sub': 'Revealed in game.',
+        'leg-safe-title':   '5 Excluded',     'leg-safe-sub':   'No 5 possible — safe.',
+        'leg-unsafe-title': '5 Possible',     'leg-unsafe-sub': 'Warning — 5 nearby.',
+        'leg-unknown-title': 'Unknown',        'leg-unknown-sub': 'No info.',
+        'leg-king-title': 'King (K)',          'leg-king-sub':   'King placed.',
+        'leg-tip':      '💡 Tip: Right-click removes card.',
+        'leg-priority': 'Priority: Green overrides Red.',
+        'howto-title': "How it works",
+        'howto-1': '<strong>Choose mode:</strong> "Safe" if no warning appeared, "Unsafe" if a warning came.',
+        'howto-2': '<strong>Choose card:</strong> Select the card (1–5 or King) you revealed in game.',
+        'howto-3': '<strong>Click cell:</strong> Click the corresponding cell in the grid. Neighboring cells are automatically marked.',
+        'howto-4': '<strong>Right-click</strong> a filled cell to remove the card and its markings.',
+        'footer-tip-label': 'Enjoying YangHub?', 'footer-tip-btn': '☕ Leave a tip',
+        'footer-copy': '© 2025 YangHub. All rights reserved.',
+        'footer-disclaimer': 'YangHub is not an official product of Gameforge or Metin2.',
+        'conflict-msg': '⚠️ Conflict: A neighboring cell is already marked as 5-excluded — safe info takes priority.',
+        'confirm-reset': 'Really reset the grid?',
+      }
+    };
+
+    let lang = (function(){ try { return localStorage.getItem('yh-lang') || 'de'; } catch(e){ return 'de'; } })();
+
+    function applyLang(l) {
+      lang = l;
+      try { localStorage.setItem('yh-lang', l); } catch(e) {}
+      document.documentElement.lang = l;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (T[l][k] !== undefined) el.innerHTML = T[l][k];
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn =>
+        btn.classList.toggle('active', btn.dataset.lang === l)
+      );
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // GRID STATE & LOGIC
+    // ═══════════════════════════════════════════════════════════
+    const ROWS = 5, COLS = 5;
+    const COL_LABELS = ['A','B','C','D','E'];
+
+    // placed[r][c] = { card: '1'|'2'|'3'|'4'|'5'|'K', mode: 'safe'|'unsafe' } | null
+    let placed    = emptyGrid();
+    let undoStack = [];
+    let selectedCard = '1';
+    let selectedMode = 'safe';
+
+    function emptyGrid() {
+      return Array.from({length: ROWS}, () => Array(COLS).fill(null));
+    }
+    function cloneGrid(g) {
+      return g.map(row => row.map(cell => cell ? {...cell} : null));
+    }
+
+    // Derive neighbor marking states from all placed cards
+    function calcNeighborStates() {
+      const states = Array.from({length: ROWS}, () => Array(COLS).fill(null));
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          if (!placed[r][c]) continue;
+          const mode = placed[r][c].mode;
+          for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+              if (dr === 0 && dc === 0) continue;
+              const nr = r + dr, nc = c + dc;
+              if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
+              if (placed[nr][nc]) continue; // cell has a card → skip neighbor marking
+              if (mode === 'safe') {
+                states[nr][nc] = 'safe';   // safe always wins
+              } else {
+                if (states[nr][nc] !== 'safe') states[nr][nc] = 'unsafe';
+              }
+            }
+          }
+        }
+      }
+      return states;
+    }
+
+    // Build & render the complete grid DOM
+    function buildGrid() {
+      const container = document.getElementById('grid-rows');
+      container.innerHTML = '';
+      const neighborStates = calcNeighborStates();
+
+      for (let r = 0; r < ROWS; r++) {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'grid-row';
+
+        // Row number label
+        const lbl = document.createElement('div');
+        lbl.className = 'row-label';
+        lbl.textContent = r + 1;
+        rowEl.appendChild(lbl);
+
+        for (let c = 0; c < COLS; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.id = `cell-${r}-${c}`;
+          cell.setAttribute('role', 'button');
+          cell.setAttribute('tabindex', '0');
+          cell.setAttribute('aria-label', `${COL_LABELS[c]}${r+1}`);
+
+          // Coordinate label
+          const coord = document.createElement('span');
+          coord.className = 'cell-coord';
+          coord.textContent = `${COL_LABELS[c]}${r+1}`;
+          cell.appendChild(coord);
+
+          const p = placed[r][c];
+          if (p) {
+            // ── Placed card ──
+            cell.classList.add('cell-placed');
+            const val = document.createElement('div');
+            val.className = 'cell-card-value';
+            val.textContent = p.card === 'K' ? '♛' : p.card;
+            cell.appendChild(val);
+            const badge = document.createElement('div');
+            badge.className = `cell-mode-badge ${p.mode}`;
+            badge.textContent = p.mode === 'safe' ? 'S' : 'U';
+            cell.appendChild(badge);
+          } else {
+            // ── Neighbor state ──
+            const ns = neighborStates[r][c];
+            if (ns === 'safe') {
+              cell.classList.add('cell-safe');
+              const icon = document.createElement('span');
+              icon.className = 'cell-state-icon';
+              icon.textContent = '✓';
+              cell.appendChild(icon);
+            } else if (ns === 'unsafe') {
+              cell.classList.add('cell-unsafe');
+              const icon = document.createElement('span');
+              icon.className = 'cell-state-icon';
+              icon.textContent = '!';
+              cell.appendChild(icon);
+            }
+          }
+
+          // ── Event listeners ──
+          cell.addEventListener('click', () => handleCellClick(r, c));
+          cell.addEventListener('contextmenu', e => { e.preventDefault(); handleCellRemove(r, c); });
+          cell.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCellClick(r, c); }
+            if (e.key === 'Delete' || e.key === 'Backspace') handleCellRemove(r, c);
+          });
+
+          rowEl.appendChild(cell);
+        }
+        container.appendChild(rowEl);
+      }
+      updateUndoBtn();
+    }
+
+    function handleCellClick(r, c) {
+      if (placed[r][c]) return; // already placed — use right-click to remove
+
+      const neighborStates = calcNeighborStates();
+      let hasConflict = false;
+
+      // Conflict check: placing unsafe card, but some neighbors we'd mark unsafe are already safe
+      if (selectedMode === 'unsafe') {
+        for (let dr = -1; dr <= 1; dr++) {
+          for (let dc = -1; dc <= 1; dc++) {
+            if (dr === 0 && dc === 0) continue;
+            const nr = r + dr, nc = c + dc;
+            if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
+            if (!placed[nr][nc] && neighborStates[nr][nc] === 'safe') { hasConflict = true; }
+          }
+        }
+      }
+
+      // Save undo snapshot
+      undoStack.push(cloneGrid(placed));
+      if (undoStack.length > 50) undoStack.shift();
+
+      placed[r][c] = { card: selectedCard, mode: selectedMode };
+      buildGrid();
+
+      if (hasConflict) showConflict();
+    }
+
+    function handleCellRemove(r, c) {
+      if (!placed[r][c]) return;
+      undoStack.push(cloneGrid(placed));
+      placed[r][c] = null;
+      buildGrid();
+    }
+
+    function undo() {
+      if (!undoStack.length) return;
+      placed = undoStack.pop();
+      buildGrid();
+    }
+
+    function resetGrid() {
+      if (!confirm(T[lang]['confirm-reset'])) return;
+      undoStack.push(cloneGrid(placed));
+      placed = emptyGrid();
+      buildGrid();
+    }
+
+    function updateUndoBtn() {
+      const btn = document.getElementById('undo-btn');
+      if (btn) btn.disabled = undoStack.length === 0;
+    }
+
+    function setMode(m) {
+      selectedMode = m;
+      document.getElementById('opt-safe').className   = 'modus-option' + (m === 'safe'   ? ' active-safe'   : '');
+      document.getElementById('opt-unsafe').className = 'modus-option' + (m === 'unsafe' ? ' active-unsafe' : '');
+    }
+
+    function selectCard(c) {
+      selectedCard = c;
+      document.querySelectorAll('.card-btn').forEach(btn =>
+        btn.classList.toggle('selected', btn.dataset.card === c)
+      );
+    }
+
+    // ── Conflict toast ──
+    let conflictTimer = null;
+    function showConflict() {
+      const toast = document.getElementById('conflict-toast');
+      toast.textContent = T[lang]['conflict-msg'];
+      toast.classList.add('show');
+      if (conflictTimer) clearTimeout(conflictTimer);
+      conflictTimer = setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // ── Legend toggle ──
+    function toggleLegend() {
+      const body    = document.getElementById('legend-body');
+      const chevron = document.getElementById('legend-chevron');
+      const btn     = document.getElementById('legend-toggle-btn');
+      const isOpen  = body.classList.toggle('open');
+      chevron.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', String(isOpen));
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // BACKGROUND PARTICLES (same system as index.html)
+    // ═══════════════════════════════════════════════════════════
+    (function() {
+      const canvas = document.getElementById('page-canvas');
+      const ctx = canvas.getContext('2d');
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+      const colors = ['rgba(45,158,107,0.32)','rgba(232,224,208,0.13)','rgba(100,160,130,0.2)','rgba(255,255,255,0.07)'];
+      const pts = Array.from({length: 42}, () => ({
+        x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+        r: .55 + Math.random() * 1.15,
+        vx: (Math.random() - .38) * .14, vy: (Math.random() - .5) * .14,
+        c: colors[Math.floor(Math.random() * colors.length)],
+        op: .14 + Math.random() * .46, ph: Math.random() * Math.PI * 2, ps: .004 + Math.random() * .009
+      }));
+      (function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pts.forEach(p => {
+          p.x += p.vx; p.y += p.vy; p.ph += p.ps;
+          if (p.x > canvas.width+5 || p.x < -5 || p.y > canvas.height+5 || p.y < -5) {
+            p.x = Math.random() * canvas.width;
+            p.y = Math.random() < .5 ? -5 : canvas.height + 5;
+          }
+          const op = (p.op * (.7 + .3 * Math.sin(p.ph))).toFixed(2);
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.c.replace(/[\d.]+\)$/, op + ')');
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      })();
+    })();
+
+    // ═══════════════════════════════════════════════════════════
+    // MAGNETIC BUTTON PARTICLE EFFECT (footer tip button)
+    // wrapId: static wrapper (radius measurement)
+    // btnId:  button (gets is-hovered for glow)
+    // canvasId: canvas behind the button
+    // ═══════════════════════════════════════════════════════════
+    function initButtonParticles(wrapId, btnId, canvasId) {
+      const wrap   = document.getElementById(wrapId);
+      const btn    = document.getElementById(btnId);
+      const canvas = document.getElementById(canvasId);
+      if (!wrap || !btn || !canvas) return;
+      const ctx = canvas.getContext('2d');
+      const RADIUS = 120, COUNT = 24;
+
+      function resizeCanvas() {
+        const r = wrap.getBoundingClientRect();
+        canvas.width  = r.width  + 160;
+        canvas.height = r.height + 160;
+        canvas.style.position      = 'absolute';
+        canvas.style.left          = '-80px';
+        canvas.style.top           = '-80px';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex        = '0';
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      function spawnParticle() {
+        const angle = Math.random() * Math.PI * 2;
+        const dist  = 48 + Math.random() * 38;
+        return {
+          x: canvas.width/2  + Math.cos(angle) * dist,
+          y: canvas.height/2 + Math.sin(angle) * dist,
+          size: 0.5 + Math.random() * 1.3, op: 0,
+          pulse: Math.random() * Math.PI * 2,
+          speed: 0.010 + Math.random() * 0.016,
+        };
+      }
+
+      const particles = Array.from({length: COUNT}, spawnParticle);
+      let mx = -999, my = -999, isNear = false;
+
+      window.addEventListener('mousemove',  e => { mx = e.clientX; my = e.clientY; });
+      window.addEventListener('mouseleave', () => { mx = -999; my = -999; });
+      wrap.addEventListener('mouseenter', () => btn.classList.add('is-hovered'));
+      wrap.addEventListener('mouseleave', () => btn.classList.remove('is-hovered'));
+
+      function tick() {
+        const r  = wrap.getBoundingClientRect();
+        const cx = r.left + r.width/2, cy = r.top + r.height/2;
+        const dx = mx - cx, dy = my - cy;
+        isNear = (dx*dx + dy*dy) < (RADIUS * RADIUS);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const cr  = canvas.getBoundingClientRect();
+        const lmx = mx - cr.left, lmy = my - cr.top;
+        particles.forEach(p => {
+          p.pulse += 0.04;
+          if (isNear) {
+            p.x  += (lmx - p.x) * p.speed;
+            p.y  += (lmy - p.y) * p.speed;
+            p.op  = Math.min(1, p.op + 0.06);
+            const ddx = p.x - lmx, ddy = p.y - lmy;
+            if ((ddx*ddx + ddy*ddy) < 16) { Object.assign(p, spawnParticle()); p.op = 0; }
+          } else {
+            p.op = Math.max(0, p.op - 0.04);
+          }
+          if (p.op < 0.01) return;
+          const alpha = (p.op * (0.3 + 0.2 * Math.sin(p.pulse))).toFixed(2);
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(45,158,107,${alpha})`; ctx.fill();
+        });
+        requestAnimationFrame(tick);
+      }
+      tick();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════════════════════
+    document.querySelectorAll('.lang-btn').forEach(btn =>
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang))
+    );
+
+    buildGrid();
+    applyLang(lang);
+    initButtonParticles('tip-wrap', 'tip-btn', 'tip-canvas');
+  </script>
+</body>
+</html>
