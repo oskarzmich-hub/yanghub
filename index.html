@@ -30,6 +30,8 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     /* ── SVG ICONS ── */
@@ -245,6 +247,20 @@
     .btn-tip:hover, .btn-tip.is-hovered { background:var(--accent-glow); color:var(--accent-light); border-color:var(--accent); box-shadow:0 0 30px rgba(45,158,107,.18); }
     .footer-copy,.footer-disclaimer { font-size:.75rem; color:var(--text-muted); margin-bottom:.25rem; }
 
+    .tool-card--soon {
+      pointer-events: none;
+      opacity: .55;
+      cursor: default;
+    }
+    .soon-badge {
+      display: inline-block;
+      font-size: .63rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--border-accent);
+      border-radius: 999px; padding: .18rem .6rem;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
     /* FADE-IN */
     .fade-in { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease; }
     .fade-in.visible { opacity:1; transform:translateY(0); }
@@ -256,8 +272,8 @@
 
   <!-- SPRACH-SWITCH -->
   <div class="lang-switch">
-    <button class="lang-btn active" data-lang="de">DE</button>
-    <button class="lang-btn" data-lang="en">EN</button>
+    <button type="button" class="lang-btn active" data-lang="de">DE</button>
+    <button type="button" class="lang-btn" data-lang="en">EN</button>
   </div>
 
   <!-- HERO -->
@@ -277,7 +293,7 @@
       <!-- Wrapper bleibt statisch. Canvas liegt dahinter für Partikel. -->
       <div class="mag-wrap" id="mag-wrap">
         <canvas class="mag-canvas" id="mag-canvas"></canvas>
-        <button class="btn-primary" id="hero-btn">
+        <button type="button" class="btn-primary" id="hero-btn">
           <span class="btn-icon-dot"></span>
           <span data-i18n="hero-btn">Zu den Apps</span>
         </button>
@@ -313,11 +329,14 @@
             <p data-i18n="tool2-desc">Companion-Tool für 'Schnapp den König'. Tracke Karten und visualisiere die Warnungs-Logik.</p>
           </div>
         </article>
-        <article class="tool-card fade-in" id="card-3" data-href="tools/okey-tracker.html" role="button" tabindex="0">
+        <article class="tool-card fade-in tool-card--soon" id="card-3" role="button" tabindex="-1" aria-disabled="true">
           <canvas class="card-canvas" id="card-canvas-3" aria-hidden="true"></canvas>
           <div class="card-content">
             <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
-            <h3 data-i18n="tool3-name">Okey-Event Tracker</h3>
+            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;">
+              <h3 style="margin-bottom:0" data-i18n="tool3-name">Okey-Event Tracker</h3>
+              <span class="soon-badge" data-i18n="soon-badge">Kommt bald</span>
+            </div>
             <p data-i18n="tool3-desc">Behalte den Überblick über alle Karten im Okey-Event. Markiere gespielte Karten und plane Kombinationen.</p>
           </div>
         </article>
@@ -381,6 +400,7 @@
         "tool2-desc":"Companion-Tool für 'Schnapp den König'. Tracke Karten und visualisiere die Warnungs-Logik.",
         "tool3-name":"Okey-Event Tracker",
         "tool3-desc":"Behalte den Überblick über alle Karten im Okey-Event. Markiere gespielte Karten und plane Kombinationen.",
+        "soon-badge":"Kommt bald",
         "about-label":"DIE VISION","about-title":"Über YangHub",
         "about-sub":"Ein Ort für alle Metin2 Tools – kostenlos für die Community.",
         "about-text1":'<strong class="accent">YangHub</strong> ist meine Vision, einen zentralen Ort zu schaffen, an dem Metin2 Spieler alles finden, was sie brauchen.',
@@ -406,6 +426,7 @@
         "tool2-desc":"Companion tool for 'Catch the King'. Track cards and visualize warning logic.",
         "tool3-name":"Okey-Event Tracker",
         "tool3-desc":"Keep track of all cards in the Okey Event. Mark played cards and plan combinations.",
+        "soon-badge":"Coming soon",
         "about-label":"THE VISION","about-title":"About YangHub",
         "about-sub":"One place for all Metin2 Tools – free for the community.",
         "about-text1":'<strong class="accent">YangHub</strong> is my vision to create a central place where Metin2 players can find everything they need.',

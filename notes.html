@@ -32,6 +32,8 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     /* ── RESET ── */
@@ -450,9 +452,70 @@
       .notes-editor { min-height: 220px; }
       .act-btn .btn-label { display: none; }
     }
+    /* ── CONFIRM MODALS ── */
+    .yh-modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(7,16,13,.82); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .yh-modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .yh-modal {
+      background: var(--bg-card); border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg); padding: 2rem 2rem 1.5rem;
+      max-width: 360px; width: calc(100% - 2.5rem);
+      transform: translateY(12px) scale(.97);
+      transition: transform .2s ease;
+      box-shadow: 0 16px 48px rgba(0,0,0,.6), 0 0 32px rgba(45,158,107,.08);
+    }
+    .yh-modal-overlay.open .yh-modal { transform: translateY(0) scale(1); }
+    .yh-modal h4 {
+      font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: .65rem;
+    }
+    .yh-modal p { font-size: .875rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .yh-modal-btns { display: flex; gap: .6rem; justify-content: flex-end; }
+    .yh-modal-btns button {
+      font-family: 'Outfit', sans-serif; font-size: .82rem; font-weight: 500;
+      padding: .5rem 1.2rem; border-radius: 999px; cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .yh-modal-cancel {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .yh-modal-cancel:hover { border-color: var(--border-accent); color: var(--text-primary); }
+    .yh-modal-confirm {
+      background: transparent; border: 1px solid var(--border-accent);
+      color: var(--accent-light);
+    }
+    .yh-modal-confirm:hover { background: rgba(45,158,107,.12); border-color: var(--accent); }
   </style>
 </head>
 <body>
+
+  <!-- CONFIRM MODALS -->
+  <div class="yh-modal-overlay" id="modal-reset-calc" role="dialog" aria-modal="true">
+    <div class="yh-modal">
+      <h4 data-i18n="modal-reset-calc-title">Kalkulator zurücksetzen?</h4>
+      <p data-i18n="modal-reset-calc-text">Alle Einträge werden gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.</p>
+      <div class="yh-modal-btns">
+        <button type="button" class="yh-modal-cancel" id="modal-reset-calc-cancel" data-i18n="modal-cancel">Abbrechen</button>
+        <button type="button" class="yh-modal-confirm" id="modal-reset-calc-confirm" data-i18n="modal-confirm">Zurücksetzen</button>
+      </div>
+    </div>
+  </div>
+  <div class="yh-modal-overlay" id="modal-reset-notes" role="dialog" aria-modal="true">
+    <div class="yh-modal">
+      <h4 data-i18n="modal-reset-notes-title">Notizen löschen?</h4>
+      <p data-i18n="modal-reset-notes-text">Alle Notizen werden unwiderruflich gelöscht.</p>
+      <div class="yh-modal-btns">
+        <button type="button" class="yh-modal-cancel" id="modal-reset-notes-cancel" data-i18n="modal-cancel">Abbrechen</button>
+        <button type="button" class="yh-modal-confirm" id="modal-reset-notes-confirm" data-i18n="modal-confirm">Löschen</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Full-page animated particle background -->
   <canvas id="page-canvas" aria-hidden="true"></canvas>
@@ -473,8 +536,8 @@
 
     <div class="header-right">
       <div class="lang-switch">
-        <button class="lang-btn active" data-lang="de">DE</button>
-        <button class="lang-btn" data-lang="en">EN</button>
+        <button type="button" class="lang-btn active" data-lang="de">DE</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
       </div>
       <a href="index.html" class="header-logo" style="text-decoration:none;"><span class="yang">Yang</span>Hub</a>
     </div>
@@ -496,8 +559,8 @@
           </div>
         </div>
         <div class="card-actions">
-          <button id="calc-undo-btn"  class="act-btn"        disabled><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg> <span class="btn-label" data-i18n="btn-undo">Rückgängig</span></button>
-          <button id="calc-reset-btn" class="act-btn danger"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> <span class="btn-label" data-i18n="btn-reset">Reset</span></button>
+          <button type="button" id="calc-undo-btn"  class="act-btn"        disabled><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg> <span class="btn-label" data-i18n="btn-undo">Rückgängig</span></button>
+          <button type="button" id="calc-reset-btn" class="act-btn danger"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> <span class="btn-label" data-i18n="btn-reset">Reset</span></button>
         </div>
       </div>
 
@@ -520,7 +583,7 @@
         </table>
       </div>
 
-      <button id="add-row-btn" class="add-row-btn" data-i18n="btn-add">+ Neues Item hinzufügen</button>
+      <button type="button" id="add-row-btn" class="add-row-btn" data-i18n="btn-add">+ Neues Item hinzufügen</button>
       <div class="tip-bar" data-i18n="calc-tip">💡 K = Tausend · M = Millionen · B = Milliarden — Eingabe z.B. "5M" = 5.000.000</div>
     </section>
 
@@ -538,23 +601,23 @@
           </div>
         </div>
         <div class="card-actions">
-          <button id="notes-undo-btn"  class="act-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg> <span class="btn-label" data-i18n="btn-undo">Rückgängig</span></button>
-          <button id="notes-reset-btn" class="act-btn danger"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> <span class="btn-label" data-i18n="btn-reset">Reset</span></button>
+          <button type="button" id="notes-undo-btn"  class="act-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg> <span class="btn-label" data-i18n="btn-undo">Rückgängig</span></button>
+          <button type="button" id="notes-reset-btn" class="act-btn danger"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> <span class="btn-label" data-i18n="btn-reset">Reset</span></button>
         </div>
       </div>
 
       <!-- Formatting toolbar -->
       <div class="toolbar" id="toolbar" role="toolbar" aria-label="Formatierungswerkzeuge">
-        <button class="tb-btn" data-cmd="bold"      title="Fett (Ctrl+B)"><b>B</b></button>
-        <button class="tb-btn" data-cmd="italic"    title="Kursiv (Ctrl+I)"><i>I</i></button>
-        <button class="tb-btn" data-cmd="underline" title="Unterstrichen (Ctrl+U)"><u>U</u></button>
+        <button type="button" class="tb-btn" data-cmd="bold"      title="Fett (Ctrl+B)"><b>B</b></button>
+        <button type="button" class="tb-btn" data-cmd="italic"    title="Kursiv (Ctrl+I)"><i>I</i></button>
+        <button type="button" class="tb-btn" data-cmd="underline" title="Unterstrichen (Ctrl+U)"><u>U</u></button>
         <div class="tb-sep"></div>
-        <button class="tb-btn" data-cmd="insertUnorderedList" title="Aufzählungsliste">•–</button>
-        <button class="tb-btn" data-cmd="insertOrderedList"   title="Nummerierte Liste" style="font-size:.74rem">1.</button>
+        <button type="button" class="tb-btn" data-cmd="insertUnorderedList" title="Aufzählungsliste">•–</button>
+        <button type="button" class="tb-btn" data-cmd="insertOrderedList"   title="Nummerierte Liste" style="font-size:.74rem">1.</button>
         <div class="tb-sep"></div>
-        <button class="tb-btn" data-cmd="justifyLeft"   title="Links ausrichten">L</button>
-        <button class="tb-btn" data-cmd="justifyCenter" title="Zentriert">C</button>
-        <button class="tb-btn" data-cmd="justifyRight"  title="Rechts ausrichten">R</button>
+        <button type="button" class="tb-btn" data-cmd="justifyLeft"   title="Links ausrichten">L</button>
+        <button type="button" class="tb-btn" data-cmd="justifyCenter" title="Zentriert">C</button>
+        <button type="button" class="tb-btn" data-cmd="justifyRight"  title="Rechts ausrichten">R</button>
       </div>
 
       <!-- Editable area -->
@@ -618,6 +681,12 @@
         'p-notes':      'Schreibe hier deine Metin2-Notizen...',
         'q-reset-calc': 'Tabelle wirklich zurücksetzen?',
         'q-reset-notes':'Notizen wirklich löschen?',
+        'modal-reset-calc-title':  'Kalkulator zurücksetzen?',
+        'modal-reset-calc-text':   'Alle Einträge werden gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.',
+        'modal-reset-notes-title': 'Notizen löschen?',
+        'modal-reset-notes-text':  'Alle Notizen werden unwiderruflich gelöscht.',
+        'modal-cancel':  'Abbrechen',
+        'modal-confirm': 'Zurücksetzen',
         'footer-tip-label': 'Gefällt dir YangHub?',
         'footer-tip-btn':   'Trinkgeld geben',
         'footer-copy':      '© 2025 YangHub. Alle Rechte vorbehalten.',
@@ -643,6 +712,12 @@
         'p-notes':      'Write your Metin2 notes here...',
         'q-reset-calc': 'Really reset the table?',
         'q-reset-notes':'Really clear all notes?',
+        'modal-reset-calc-title':  'Reset Calculator?',
+        'modal-reset-calc-text':   'All entries will be deleted. This action cannot be undone.',
+        'modal-reset-notes-title': 'Delete Notes?',
+        'modal-reset-notes-text':  'All notes will be permanently deleted.',
+        'modal-cancel':  'Cancel',
+        'modal-confirm': 'Reset',
         'footer-tip-label': 'Enjoying YangHub?',
         'footer-tip-btn':   'Leave a tip',
         'footer-copy':      '© 2025 YangHub. All rights reserved.',
@@ -673,6 +748,32 @@
       // Update back-btn aria-label for screen readers
       const backBtn = document.getElementById('back-btn');
       if (backBtn) backBtn.setAttribute('aria-label', T[l]['back-btn-aria']);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // CONFIRM MODAL HELPER
+    // openModal(id, onConfirm) – opens overlay, wires confirm/cancel/backdrop
+    // ═══════════════════════════════════════════════════════════
+    function openModal(id, onConfirm) {
+      const overlay = document.getElementById(id);
+      if (!overlay) return;
+      overlay.classList.add('open');
+      function close() { overlay.classList.remove('open'); cleanup(); }
+      function confirm() { close(); onConfirm(); }
+      function onKey(e) { if (e.key === 'Escape') close(); }
+      function cleanup() {
+        overlay.querySelector('.yh-modal-confirm').removeEventListener('click', confirm);
+        overlay.querySelector('.yh-modal-cancel').removeEventListener('click', close);
+        overlay.removeEventListener('click', backdropClose);
+        document.removeEventListener('keydown', onKey);
+      }
+      function backdropClose(e) { if (e.target === overlay) close(); }
+      overlay.querySelector('.yh-modal-confirm').addEventListener('click', confirm);
+      overlay.querySelector('.yh-modal-cancel').addEventListener('click', close);
+      overlay.addEventListener('click', backdropClose);
+      document.addEventListener('keydown', onKey);
+      // Focus confirm button for keyboard users
+      overlay.querySelector('.yh-modal-confirm').focus();
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -959,13 +1060,14 @@
     document.getElementById('calc-undo-btn').addEventListener('click', restoreSnap);
 
     document.getElementById('calc-reset-btn').addEventListener('click', () => {
-      if (!confirm(T[lang]['q-reset-calc'])) return;
-      snap();
-      rows = [emptyRow()];
-      snapHistory = [];
-      document.getElementById('calc-undo-btn').disabled = true;
-      renderTable();
-      calcSave();
+      openModal('modal-reset-calc', () => {
+        snap();
+        rows = [emptyRow()];
+        snapHistory = [];
+        document.getElementById('calc-undo-btn').disabled = true;
+        renderTable();
+        calcSave();
+      });
     });
 
     document.getElementById('add-row-btn').addEventListener('click', () => {
@@ -1034,9 +1136,10 @@
 
     // Notes reset
     document.getElementById('notes-reset-btn').addEventListener('click', () => {
-      if (!confirm(T[lang]['q-reset-notes'])) return;
-      editor.innerHTML = '';
-      notesSave();
+      openModal('modal-reset-notes', () => {
+        editor.innerHTML = '';
+        notesSave();
+      });
     });
 
     // ═══════════════════════════════════════════════════════════

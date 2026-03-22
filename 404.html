@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 – Seite nicht gefunden | YangHub</title>
+  <meta name="description" content="Diese Seite existiert nicht. Zurück zu den kostenlosen Metin2 Tools auf YangHub." />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#0c1a15" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    :root {
+      --bg-deep:       #07100d;
+      --bg-main:       #0c1a15;
+      --bg-card:       #111f18;
+      --border:        #1e3528;
+      --border-accent: #2d6b4a;
+      --accent:        #2d9e6b;
+      --accent-light:  #3dbf82;
+      --accent-glow:   rgba(45,158,107,.15);
+      --text-primary:  #e8e0d0;
+      --text-secondary:#8fa898;
+      --text-muted:    #4a6357;
+      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+      --ease: .25s ease;
+    }
+    body {
+      background: var(--bg-main);
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    .app-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 1.5rem;
+      background: rgba(7,16,13,.9); border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-logo {
+      font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 700;
+      text-decoration: none; color: inherit;
+    }
+    .header-logo .yang { color: var(--accent); }
+    .header-logo .hub  { color: var(--text-primary); }
+
+    /* ── MAIN 404 ── */
+    main {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 3rem 1.5rem;
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(13,40,28,.9) 0%, var(--bg-deep) 70%);
+    }
+    #particles-canvas {
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .content-wrap {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+      max-width: 520px;
+    }
+
+    /* Big 404 number */
+    .error-num {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(5rem, 22vw, 11rem);
+      font-weight: 700; line-height: 1;
+      letter-spacing: -.03em;
+      color: transparent;
+      background: linear-gradient(160deg, var(--accent-light) 0%, var(--accent) 40%, var(--text-muted) 100%);
+      -webkit-background-clip: text; background-clip: text;
+      filter: drop-shadow(0 0 40px rgba(45,158,107,.25));
+      animation: fadeSlideDown .7s ease both;
+    }
+    .divider {
+      width: clamp(120px, 40%, 320px); height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      animation: fadeIn .8s .15s ease both;
+    }
+    .error-title {
+      font-family: 'Cinzel', serif; font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+      font-weight: 600; color: var(--text-primary);
+      animation: fadeSlideUp .7s .1s ease both;
+    }
+    .error-sub {
+      font-size: clamp(.88rem, 2.2vw, 1rem);
+      color: var(--text-secondary); max-width: 380px;
+      animation: fadeSlideUp .7s .2s ease both;
+    }
+    .btn-home {
+      display: inline-flex; align-items: center; gap: .55rem;
+      padding: .8rem 2rem;
+      background: transparent;
+      border: 1px solid var(--border-accent); border-radius: 999px;
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif; font-size: .85rem;
+      font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+      transition: background .3s, border-color .3s, box-shadow .3s;
+      animation: fadeSlideUp .7s .35s ease both;
+    }
+    .btn-home:hover {
+      background: rgba(45,158,107,.1);
+      border-color: var(--accent);
+      box-shadow: 0 0 28px rgba(45,158,107,.18);
+    }
+    .btn-home:visited { color: var(--text-primary); }
+    .btn-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 8px var(--accent);
+      flex-shrink: 0;
+      animation: dotHeartbeat 2.8s ease-in-out infinite;
+    }
+    @keyframes dotHeartbeat {
+      0%,100% { transform: scale(1);    box-shadow: 0 0 6px var(--accent); }
+      14%      { transform: scale(1.45); box-shadow: 0 0 12px var(--accent-light); }
+      28%      { transform: scale(1);    box-shadow: 0 0 6px var(--accent); }
+      42%      { transform: scale(1.28); box-shadow: 0 0 10px var(--accent-light); }
+      56%      { transform: scale(1);    box-shadow: 0 0 6px var(--accent); }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.5rem 1.25rem;
+      background: var(--bg-deep); border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-copy { font-size: .75rem; color: var(--text-muted); margin-bottom: .2rem; }
+    .footer-disclaimer { font-size: .72rem; color: var(--text-muted); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <a href="index.html" class="header-logo" aria-label="YangHub Startseite">
+      <span class="yang">Yang</span><span class="hub">Hub</span>
+    </a>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
+    <div class="content-wrap">
+      <div class="error-num" aria-label="Fehler 404">404</div>
+      <div class="divider" aria-hidden="true"></div>
+      <h1 class="error-title">Seite nicht gefunden</h1>
+      <p class="error-sub">Diese Seite existiert nicht oder wurde verschoben. Aber deine Metin2 Tools warten auf dich.</p>
+      <a href="index.html" class="btn-home">
+        <span class="btn-dot"></span>
+        Zurück zur Hauptseite
+      </a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-copy">© 2025 YangHub. Alle Rechte vorbehalten.</p>
+    <p class="footer-disclaimer">YangHub ist kein offizielles Produkt von Gameforge oder Metin2.</p>
+  </footer>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // PARTICLE BACKGROUND – gleiche Logik wie index.html
+    // ═══════════════════════════════════════════════════════════
+    const canvas = document.getElementById('particles-canvas');
+    const ctx    = canvas.getContext('2d');
+    const COUNT  = 55;
+
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function spawn() {
+      return {
+        x:     Math.random() * canvas.width,
+        y:     Math.random() * canvas.height,
+        vx:    (Math.random() - .5) * .28,
+        vy:    (Math.random() - .5) * .28,
+        size:  .5 + Math.random() * 1.4,
+        op:    Math.random() * .45 + .05,
+        pulse: Math.random() * Math.PI * 2,
+      };
+    }
+    const particles = Array.from({length: COUNT}, spawn);
+
+    (function tick() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x    += p.vx;
+        p.y    += p.vy;
+        p.pulse += .018;
+        const alpha = (p.op * (.5 + .5 * Math.sin(p.pulse))).toFixed(2);
+        // Wrap around edges
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width)  p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(45,158,107,${alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

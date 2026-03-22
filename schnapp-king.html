@@ -31,6 +31,8 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     /* ── RESET ── */
@@ -515,9 +517,66 @@
       .grid-section { padding: .85rem .7rem .7rem; }
       .cell-mode-badge { font-size: .52rem; padding: 1px 3px; }
     }
+    /* ── CONFIRM MODALS ── */
+    .yh-modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(7,16,13,.82); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .2s ease;
+    }
+    .yh-modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .yh-modal {
+      background: var(--bg-card); border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg); padding: 2rem 2rem 1.5rem;
+      max-width: 360px; width: calc(100% - 2.5rem);
+      transform: translateY(12px) scale(.97); transition: transform .2s ease;
+      box-shadow: 0 16px 48px rgba(0,0,0,.6), 0 0 32px rgba(45,158,107,.08);
+    }
+    .yh-modal-overlay.open .yh-modal { transform: translateY(0) scale(1); }
+    .yh-modal h4 {
+      font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: .65rem;
+    }
+    .yh-modal p { font-size: .875rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .yh-modal-btns { display: flex; gap: .6rem; justify-content: flex-end; }
+    .yh-modal-btns button {
+      font-family: 'Outfit', sans-serif; font-size: .82rem; font-weight: 500;
+      padding: .5rem 1.2rem; border-radius: 999px; cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .yh-modal-cancel {
+      background: transparent; border: 1px solid var(--border); color: var(--text-secondary);
+    }
+    .yh-modal-cancel:hover { border-color: var(--border-accent); color: var(--text-primary); }
+    .yh-modal-confirm {
+      background: transparent; border: 1px solid var(--border-accent); color: var(--accent-light);
+    }
+    .yh-modal-confirm:hover { background: rgba(45,158,107,.12); border-color: var(--accent); }
   </style>
 </head>
 <body>
+
+  <!-- CONFIRM MODALS -->
+  <div class="yh-modal-overlay" id="modal-new-round" role="dialog" aria-modal="true">
+    <div class="yh-modal">
+      <h4 data-i18n="modal-new-round-title">Neue Runde?</h4>
+      <p data-i18n="modal-new-round-text">Das aktuelle Grid wird geleert. Alle Markierungen gehen verloren.</p>
+      <div class="yh-modal-btns">
+        <button type="button" class="yh-modal-cancel" data-i18n="modal-cancel">Abbrechen</button>
+        <button type="button" class="yh-modal-confirm" data-i18n="modal-new-round-confirm">Neue Runde</button>
+      </div>
+    </div>
+  </div>
+  <div class="yh-modal-overlay" id="modal-reset" role="dialog" aria-modal="true">
+    <div class="yh-modal">
+      <h4 data-i18n="modal-reset-title">Grid zurücksetzen?</h4>
+      <p data-i18n="modal-reset-text">Alle Daten gehen verloren. Diese Aktion kann nicht rückgängig gemacht werden.</p>
+      <div class="yh-modal-btns">
+        <button type="button" class="yh-modal-cancel" data-i18n="modal-cancel">Abbrechen</button>
+        <button type="button" class="yh-modal-confirm" data-i18n="modal-reset-confirm">Zurücksetzen</button>
+      </div>
+    </div>
+  </div>
 
   <canvas id="page-canvas" aria-hidden="true"></canvas>
 
@@ -535,8 +594,8 @@
     </div>
     <div class="header-right">
       <div class="lang-switch">
-        <button class="lang-btn active" data-lang="de">DE</button>
-        <button class="lang-btn" data-lang="en">EN</button>
+        <button type="button" class="lang-btn active" data-lang="de">DE</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
       </div>
       <a href="index.html" class="header-logo"><span class="yang">Yang</span>Hub</a>
     </div>
@@ -614,12 +673,12 @@
           <div class="block-title" data-i18n="card-title">KARTE WÄHLEN</div>
           <div class="block-body">
             <div class="card-grid">
-              <button class="card-btn selected" data-card="1" onclick="selectCard('1')">1</button>
-              <button class="card-btn"          data-card="2" onclick="selectCard('2')">2</button>
-              <button class="card-btn"          data-card="3" onclick="selectCard('3')">3</button>
-              <button class="card-btn"          data-card="4" onclick="selectCard('4')">4</button>
-              <button class="card-btn"          data-card="5" onclick="selectCard('5')">5</button>
-              <button class="card-btn"          data-card="K" onclick="selectCard('K')" aria-label="König">♛</button>
+              <button type="button" class="card-btn selected" data-card="1" onclick="selectCard('1')">1</button>
+              <button type="button" class="card-btn"          data-card="2" onclick="selectCard('2')">2</button>
+              <button type="button" class="card-btn"          data-card="3" onclick="selectCard('3')">3</button>
+              <button type="button" class="card-btn"          data-card="4" onclick="selectCard('4')">4</button>
+              <button type="button" class="card-btn"          data-card="5" onclick="selectCard('5')">5</button>
+              <button type="button" class="card-btn"          data-card="K" onclick="selectCard('K')" aria-label="König">♛</button>
             </div>
           </div>
         </div>
@@ -628,13 +687,13 @@
         <div class="control-block">
           <div class="block-title" data-i18n="actions-title">AKTIONEN</div>
           <div class="block-body">
-            <button class="act-btn" id="undo-btn" onclick="undo()" disabled>
+            <button type="button" class="act-btn" id="undo-btn" onclick="undo()" disabled>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg> <span data-i18n="btn-undo">Rückgängig</span>
             </button>
-            <button class="new-round-btn" onclick="newRound()">
+            <button type="button" class="new-round-btn" onclick="newRound()">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> <span data-i18n="btn-new-round">Neue Runde</span>
             </button>
-            <button class="reset-btn" onclick="resetGrid()">
+            <button type="button" class="reset-btn" onclick="resetGrid()">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> <span data-i18n="btn-reset">Reset</span>
             </button>
           </div>
@@ -642,7 +701,7 @@
 
         <!-- LEGENDE -->
         <div class="control-block">
-          <button class="legend-toggle" id="legend-toggle-btn"
+          <button type="button" class="legend-toggle" id="legend-toggle-btn"
                   onclick="toggleLegend()" aria-expanded="false" aria-controls="legend-body">
             <span data-i18n="legend-title">LEGENDE</span>
             <span class="legend-chevron" id="legend-chevron">▼</span>
@@ -779,6 +838,13 @@
         'info-remove':'Karte entfernt',
         'confirm-reset':'Grid wirklich zurücksetzen? Alle Daten gehen verloren.',
         'confirm-new-round':'Neue Runde starten? Das aktuelle Grid wird geleert.',
+        'modal-new-round-title':   'Neue Runde?',
+        'modal-new-round-text':    'Das aktuelle Grid wird geleert. Alle Markierungen gehen verloren.',
+        'modal-new-round-confirm': 'Neue Runde',
+        'modal-reset-title':       'Grid zurücksetzen?',
+        'modal-reset-text':        'Alle Daten gehen verloren. Diese Aktion kann nicht rückgängig gemacht werden.',
+        'modal-reset-confirm':     'Zurücksetzen',
+        'modal-cancel':            'Abbrechen',
       },
       en: {
         'back-btn':'Back','app-sub':'Companion Tool',
@@ -811,6 +877,13 @@
         'info-remove':'Card removed',
         'confirm-reset':'Really reset the grid? All data will be lost.',
         'confirm-new-round':'Start a new round? The current grid will be cleared.',
+        'modal-new-round-title':   'New Round?',
+        'modal-new-round-text':    'The current grid will be cleared. All markings will be lost.',
+        'modal-new-round-confirm': 'New Round',
+        'modal-reset-title':       'Reset Grid?',
+        'modal-reset-text':        'All data will be lost. This action cannot be undone.',
+        'modal-reset-confirm':     'Reset',
+        'modal-cancel':            'Cancel',
       }
     };
 
@@ -827,6 +900,30 @@
       document.querySelectorAll('.lang-btn').forEach(btn =>
         btn.classList.toggle('active', btn.dataset.lang === l)
       );
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // CONFIRM MODAL HELPER
+    // ═══════════════════════════════════════════════════════════
+    function openModal(id, onConfirm) {
+      const overlay = document.getElementById(id);
+      if (!overlay) return;
+      overlay.classList.add('open');
+      function close() { overlay.classList.remove('open'); cleanup(); }
+      function doConfirm() { close(); onConfirm(); }
+      function onKey(e) { if (e.key === 'Escape') close(); }
+      function backdropClose(e) { if (e.target === overlay) close(); }
+      function cleanup() {
+        overlay.querySelector('.yh-modal-confirm').removeEventListener('click', doConfirm);
+        overlay.querySelector('.yh-modal-cancel').removeEventListener('click', close);
+        overlay.removeEventListener('click', backdropClose);
+        document.removeEventListener('keydown', onKey);
+      }
+      overlay.querySelector('.yh-modal-confirm').addEventListener('click', doConfirm);
+      overlay.querySelector('.yh-modal-cancel').addEventListener('click', close);
+      overlay.addEventListener('click', backdropClose);
+      document.addEventListener('keydown', onKey);
+      overlay.querySelector('.yh-modal-confirm').focus();
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -1055,22 +1152,24 @@
     }
 
     function newRound() {
-      if (!confirm(T[lang]['confirm-new-round'])) return;
-      const section = document.getElementById('grid-section');
-      section.classList.add('new-round-anim');
-      section.addEventListener('animationend', () => {
-        section.classList.remove('new-round-anim');
-        undoStack.push(cloneGrid(placed));
-        placed = emptyGrid();
-        buildGrid();
-      }, {once: true});
+      openModal('modal-new-round', () => {
+        const section = document.getElementById('grid-section');
+        section.classList.add('new-round-anim');
+        section.addEventListener('animationend', () => {
+          section.classList.remove('new-round-anim');
+          undoStack.push(cloneGrid(placed));
+          placed = emptyGrid();
+          buildGrid();
+        }, {once: true});
+      });
     }
 
     function resetGrid() {
-      if (!confirm(T[lang]['confirm-reset'])) return;
-      undoStack = [];
-      placed = emptyGrid();
-      buildGrid();
+      openModal('modal-reset', () => {
+        undoStack = [];
+        placed = emptyGrid();
+        buildGrid();
+      });
     }
 
     function updateUndoBtn() {
