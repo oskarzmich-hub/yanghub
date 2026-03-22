@@ -37,7 +37,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
-    /* ── DESIGN TOKENS (identical to index.html & notes.html) ── */
+    /* ── DESIGN TOKENS ── */
     :root {
       --bg-deep:       #07100d;
       --bg-main:       #0c1a15;
@@ -74,7 +74,6 @@
       background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(13,40,28,.55) 0%, transparent 65%);
     }
 
-    /* ── BACKGROUND PARTICLE CANVAS ── */
     #page-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
 
     /* ── HEADER ── */
@@ -125,38 +124,80 @@
     .header-logo:visited, .header-logo:active { color: inherit; }
     .header-logo .yang { color: var(--accent); }
 
-    /* ── MAIN LAYOUT ── */
+    /* ── MAIN ── */
     .main-wrap {
       position: relative; z-index: 1;
       max-width: 1100px; margin: 0 auto;
-      padding: 1.75rem 1.25rem 2rem;
-      display: flex; flex-direction: column; gap: 1.5rem;
+      padding: 1.75rem 1.25rem 2.5rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
     }
 
     /* ── TOOL HERO ── */
-    .tool-hero { text-align: center; padding: .25rem 0; }
+    .tool-hero { text-align: center; padding: .1rem 0 .15rem; }
     .tool-hero h1 {
       font-family: 'Cinzel', serif;
-      font-size: clamp(1.3rem, 4vw, 1.9rem);
-      font-weight: 600; line-height: 1.25; margin-bottom: .5rem;
+      font-size: clamp(1.2rem, 3.5vw, 1.85rem);
+      font-weight: 600; line-height: 1.25; margin-bottom: .45rem;
     }
-    .tool-hero p { font-size: .88rem; color: var(--text-secondary); max-width: 540px; margin: 0 auto; line-height: 1.65; }
+    .tool-hero p {
+      font-size: clamp(.78rem, 2vw, .88rem);
+      color: var(--text-secondary); max-width: 560px; margin: 0 auto; line-height: 1.65;
+    }
+
+    /* ── INFO BAR (localStorage notice) ── */
+    .info-bar {
+      display: flex; align-items: flex-start; gap: .5rem;
+      background: rgba(45,158,107,.06); border: 1px solid rgba(45,107,74,.3);
+      border-radius: var(--radius-sm); padding: .45rem .85rem;
+      font-size: .71rem; color: var(--text-muted); line-height: 1.55;
+    }
+    .info-bar-icon { font-size: .78rem; flex-shrink: 0; margin-top: .05rem; }
+
+    /* ── PROGRESS BAR ── */
+    .progress-wrap {
+      background: var(--bg-card); border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md); padding: .72rem 1.1rem;
+      display: flex; align-items: center; gap: .85rem;
+      position: relative; overflow: hidden;
+    }
+    .progress-wrap::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--accent) 40%, var(--accent-light) 60%, transparent 95%);
+      opacity: .4; pointer-events: none;
+    }
+    .progress-label {
+      font-size: .62rem; font-weight: 700; letter-spacing: .14em;
+      color: var(--text-muted); white-space: nowrap; flex-shrink: 0;
+    }
+    .progress-track {
+      flex: 1; height: 6px; background: var(--bg-deep);
+      border-radius: 99px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .progress-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      border-radius: 99px;
+      transition: width .4s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 0 8px rgba(45,158,107,.4);
+    }
+    .progress-count {
+      font-family: 'Cinzel', serif; font-size: .8rem; font-weight: 600;
+      color: var(--accent-light); white-space: nowrap; flex-shrink: 0; min-width: 42px; text-align: right;
+    }
 
     /* ── TRACKER LAYOUT ── */
     .tracker-layout {
       display: grid;
-      grid-template-columns: 1fr 290px;
-      gap: 1.25rem;
-      align-items: start;
+      grid-template-columns: 1fr 284px;
+      gap: 1.25rem; align-items: start;
     }
-    @media (max-width: 780px) { .tracker-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 760px) { .tracker-layout { grid-template-columns: 1fr; } }
+    @media (min-width: 760px) and (max-width: 900px) { .tracker-layout { grid-template-columns: 1fr 258px; } }
 
     /* ── GRID SECTION ── */
     .grid-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border-accent);
-      border-radius: var(--radius-lg);
-      padding: 1.25rem 1.25rem 1rem;
+      background: var(--bg-card); border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg); padding: 1.1rem 1rem .9rem;
       position: relative; overflow: hidden;
     }
     .grid-section::before {
@@ -164,110 +205,103 @@
       background: linear-gradient(90deg, transparent 5%, var(--accent) 40%, var(--accent-light) 60%, transparent 95%);
       opacity: .55; pointer-events: none;
     }
+    @keyframes gridFadeOut {
+      0%   { opacity: 1; transform: scale(1); }
+      45%  { opacity: 0; transform: scale(.97); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .grid-section.new-round-anim { animation: gridFadeOut .5s ease forwards; }
 
-    /* Column headers */
     .grid-col-headers {
-      display: grid;
-      grid-template-columns: 26px repeat(5, 1fr);
-      gap: 5px; margin-bottom: 5px;
+      display: grid; grid-template-columns: 22px repeat(5, 1fr);
+      gap: 4px; margin-bottom: 4px;
     }
     .col-label {
-      text-align: center; font-size: .68rem; font-weight: 700;
-      letter-spacing: .12em; color: var(--text-muted); padding: .2rem 0;
+      text-align: center; font-size: .65rem; font-weight: 700;
+      letter-spacing: .12em; color: var(--text-muted); padding: .15rem 0;
     }
-
-    /* Grid rows */
     .grid-row {
-      display: grid;
-      grid-template-columns: 26px repeat(5, 1fr);
-      gap: 5px; margin-bottom: 5px;
+      display: grid; grid-template-columns: 22px repeat(5, 1fr);
+      gap: 4px; margin-bottom: 4px;
     }
     .grid-row:last-child { margin-bottom: 0; }
     .row-label {
       display: flex; align-items: center; justify-content: center;
-      font-size: .68rem; font-weight: 700; letter-spacing: .1em; color: var(--text-muted);
+      font-size: .65rem; font-weight: 700; letter-spacing: .1em; color: var(--text-muted);
     }
 
     /* ── CELL ── */
     .cell {
-      aspect-ratio: 1;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--bg-deep);
+      aspect-ratio: 1; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--bg-deep);
       cursor: pointer; position: relative;
       display: flex; align-items: center; justify-content: center;
       transition: border-color var(--ease), background var(--ease), box-shadow var(--ease);
-      user-select: none; min-height: 52px;
+      user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+      touch-action: manipulation; min-height: 50px;
     }
     .cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
     .cell:hover:not(.cell-placed) {
-      border-color: var(--border-accent);
-      background: rgba(45,158,107,.07);
+      border-color: var(--border-accent); background: rgba(45,158,107,.07);
     }
-
-    /* Coordinate label inside cell */
     .cell-coord {
       position: absolute; top: 3px; left: 4px;
-      font-size: .56rem; color: var(--text-muted);
-      letter-spacing: .02em; line-height: 1; pointer-events: none;
+      font-size: .55rem; color: var(--text-muted); line-height: 1; pointer-events: none;
     }
 
-    /* ── CELL STATES ── */
-    /* Safe: 5 ausgeschlossen */
-    .cell-safe {
-      border-color: var(--accent);
-      background: rgba(45,158,107,.1);
-      box-shadow: 0 0 10px rgba(45,158,107,.12);
-    }
-    /* Unsafe: 5 möglich */
-    .cell-unsafe {
-      border-color: var(--red-border);
-      background: var(--red-glow);
-      box-shadow: 0 0 8px rgba(192,57,43,.1);
-    }
-    /* Placed card */
+    /* Cell states */
+    .cell-safe   { border-color: var(--accent); background: rgba(45,158,107,.1); box-shadow: 0 0 10px rgba(45,158,107,.12); }
+    .cell-unsafe { border-color: var(--red-border); background: var(--red-glow); box-shadow: 0 0 8px rgba(192,57,43,.1); }
     .cell-placed {
-      border-color: var(--accent-light);
-      background: rgba(45,158,107,.18);
-      cursor: context-menu;
-      box-shadow: 0 0 14px rgba(45,158,107,.18);
+      border-color: var(--accent-light); background: rgba(45,158,107,.18);
+      cursor: context-menu; box-shadow: 0 0 14px rgba(45,158,107,.18);
     }
-    .cell-placed:hover { border-color: var(--accent-light); background: rgba(45,158,107,.22); }
+    @media (hover: none) { .cell-placed { cursor: pointer; } }
 
-    /* Card value display */
     .cell-card-value {
-      font-family: 'Cinzel', serif;
-      font-size: 1.3rem; font-weight: 700;
-      color: var(--text-primary); line-height: 1;
-      pointer-events: none;
+      font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 700;
+      color: var(--text-primary); line-height: 1; pointer-events: none;
     }
-
-    /* State icon (bottom-right) */
     .cell-state-icon {
       position: absolute; bottom: 3px; right: 4px;
-      font-size: .62rem; line-height: 1; font-weight: 700; pointer-events: none;
+      font-size: .65rem; line-height: 1; font-weight: 700; pointer-events: none;
     }
     .cell-safe   .cell-state-icon { color: var(--accent); }
     .cell-unsafe .cell-state-icon { color: var(--red-light); }
 
-    /* Mode badge (top-right of placed cell) */
+    /* S/U badge – bigger & more readable */
     .cell-mode-badge {
       position: absolute; top: 3px; right: 4px;
-      font-size: .52rem; font-weight: 700;
-      letter-spacing: .04em; line-height: 1;
-      padding: 1px 3px; border-radius: 3px; pointer-events: none;
+      font-size: .6rem; font-weight: 700; letter-spacing: .03em; line-height: 1;
+      padding: 2px 4px; border-radius: 3px; pointer-events: none;
     }
-    .cell-mode-badge.safe   { background: rgba(45,158,107,.3); color: var(--accent-light); }
-    .cell-mode-badge.unsafe { background: rgba(192,57,43,.25); color: var(--red-light); }
+    .cell-mode-badge.safe   { background: rgba(45,158,107,.35); color: var(--accent-light); border: 1px solid rgba(45,158,107,.45); }
+    .cell-mode-badge.unsafe { background: rgba(192,57,43,.3);   color: var(--red-light);    border: 1px solid var(--red-border); }
+
+    /* Long-press highlight */
+    .cell-longpress-ring {
+      position: absolute; inset: 0; border-radius: var(--radius-sm);
+      pointer-events: none; z-index: 10;
+      background: rgba(192,57,43,.18); opacity: 0; transition: opacity .1s;
+    }
+    .cell.pressing .cell-longpress-ring { opacity: 1; }
+
+    /* Shake feedback for occupied cell click */
+    @keyframes cellShake {
+      0%,100% { transform: translateX(0); }
+      20%     { transform: translateX(-4px); }
+      45%     { transform: translateX(4px); }
+      65%     { transform: translateX(-3px); }
+      85%     { transform: translateX(3px); }
+    }
+    .cell.shake { animation: cellShake .3s ease; }
 
     /* ── CONTROLS PANEL ── */
-    .controls-panel { display: flex; flex-direction: column; gap: .8rem; }
+    .controls-panel { display: flex; flex-direction: column; gap: .75rem; }
 
     .control-block {
-      background: var(--bg-card);
-      border: 1px solid var(--border-accent);
-      border-radius: var(--radius-md);
-      overflow: hidden; position: relative;
+      background: var(--bg-card); border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md); overflow: hidden; position: relative;
     }
     .control-block::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
@@ -275,107 +309,97 @@
       opacity: .4; pointer-events: none;
     }
     .block-title {
-      font-size: .62rem; font-weight: 700;
-      letter-spacing: .16em; color: var(--text-muted);
-      padding: .6rem 1rem .3rem;
+      font-size: .62rem; font-weight: 700; letter-spacing: .16em;
+      color: var(--text-muted); padding: .6rem 1rem .3rem;
     }
     .block-body { padding: .3rem .7rem .7rem; }
 
-    /* Modus radio options */
+    /* Modus */
     .modus-option {
-      display: flex; align-items: center; gap: .6rem;
-      padding: .52rem .65rem;
+      display: flex; align-items: center; gap: .55rem; padding: .5rem .6rem;
       border-radius: var(--radius-sm); border: 1px solid var(--border);
-      cursor: pointer; margin-bottom: .38rem; transition: all var(--ease);
+      cursor: pointer; margin-bottom: .35rem; transition: all var(--ease);
+      touch-action: manipulation;
     }
     .modus-option:last-child { margin-bottom: 0; }
     .modus-option input[type="radio"] { display: none; }
-    .modus-option.active-safe   { border-color: var(--accent);      background: rgba(45,158,107,.1); }
-    .modus-option.active-unsafe { border-color: var(--red-border);  background: var(--red-glow); }
-
+    .modus-option.active-safe   { border-color: var(--accent);     background: rgba(45,158,107,.1); }
+    .modus-option.active-unsafe { border-color: var(--red-border); background: var(--red-glow); }
     .radio-dot {
       width: 14px; height: 14px; flex-shrink: 0; border-radius: 50%;
       border: 2px solid var(--border-accent);
-      display: flex; align-items: center; justify-content: center;
-      transition: all var(--ease);
+      display: flex; align-items: center; justify-content: center; transition: all var(--ease);
     }
     .modus-option.active-safe   .radio-dot { border-color: var(--accent);     background: var(--accent); }
     .modus-option.active-unsafe .radio-dot { border-color: var(--red-border); background: var(--red); }
-    .radio-inner {
-      width: 5px; height: 5px; border-radius: 50%; background: white;
-      opacity: 0; transition: opacity var(--ease);
-    }
+    .radio-inner { width: 5px; height: 5px; border-radius: 50%; background: white; opacity: 0; transition: opacity var(--ease); }
     .modus-option.active-safe .radio-inner,
     .modus-option.active-unsafe .radio-inner { opacity: 1; }
     .modus-label { flex: 1; }
     .modus-label-title { font-size: .78rem; font-weight: 600; color: var(--text-primary); }
-    .modus-label-sub   { font-size: .66rem; color: var(--text-secondary); }
+    .modus-label-sub   { font-size: .64rem; color: var(--text-secondary); }
     .modus-icon { font-size: .82rem; }
 
-    /* Card selection grid */
-    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .38rem; }
+    /* Card grid */
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .35rem; }
     .card-btn {
-      padding: .5rem .25rem;
-      background: var(--bg-deep); border: 1px solid var(--border);
+      padding: .5rem .25rem; background: var(--bg-deep); border: 1px solid var(--border);
       border-radius: var(--radius-sm); color: var(--text-secondary);
       font-family: 'Cinzel', serif; font-size: .9rem; font-weight: 600;
-      cursor: pointer; text-align: center; transition: all var(--ease);
+      cursor: pointer; text-align: center; transition: all var(--ease); touch-action: manipulation;
     }
     .card-btn:hover { border-color: var(--border-accent); color: var(--text-primary); background: rgba(45,158,107,.07); }
-    .card-btn.selected {
-      background: rgba(45,158,107,.2); border-color: var(--accent);
-      color: var(--accent-light); box-shadow: 0 0 12px rgba(45,158,107,.14);
-    }
+    .card-btn.selected { background: rgba(45,158,107,.2); border-color: var(--accent); color: var(--accent-light); box-shadow: 0 0 12px rgba(45,158,107,.14); }
 
     /* Action buttons */
-    .action-row { display: grid; grid-template-columns: 1fr; gap: .38rem; margin-bottom: .38rem; }
     .act-btn {
       display: inline-flex; align-items: center; justify-content: center; gap: .3rem;
-      padding: .45rem .6rem; border-radius: var(--radius-sm);
+      width: 100%; padding: .45rem .6rem; border-radius: var(--radius-sm);
       font-family: 'Outfit', sans-serif; font-size: .76rem; font-weight: 500;
       cursor: pointer; border: 1px solid var(--border);
-      background: transparent; color: var(--text-muted); transition: all var(--ease);
+      background: transparent; color: var(--text-muted); transition: all var(--ease); touch-action: manipulation;
     }
     .act-btn:hover:not(:disabled) { background: var(--accent-glow); color: var(--accent-light); border-color: var(--border-accent); }
     .act-btn:disabled { opacity: .28; cursor: not-allowed; }
-    .reset-btn {
-      width: 100%; padding: .5rem;
-      border-radius: var(--radius-sm); cursor: pointer;
-      border: 1px solid var(--red-border);
-      background: rgba(192,57,43,.07); color: var(--red-light);
-      font-family: 'Outfit', sans-serif; font-size: .78rem; font-weight: 600;
+
+    .new-round-btn {
+      width: 100%; padding: .5rem; border-radius: var(--radius-sm); cursor: pointer;
+      border: 1px solid var(--border-accent); background: rgba(45,158,107,.08); color: var(--accent-light);
+      font-family: 'Outfit', sans-serif; font-size: .76rem; font-weight: 600;
       display: flex; align-items: center; justify-content: center; gap: .35rem;
-      transition: all var(--ease);
+      transition: all var(--ease); touch-action: manipulation; margin-top: .35rem;
+    }
+    .new-round-btn:hover { background: rgba(45,158,107,.18); border-color: var(--accent); box-shadow: 0 0 16px rgba(45,158,107,.15); }
+
+    .reset-btn {
+      width: 100%; padding: .48rem; border-radius: var(--radius-sm); cursor: pointer;
+      border: 1px solid var(--red-border); background: rgba(192,57,43,.07); color: var(--red-light);
+      font-family: 'Outfit', sans-serif; font-size: .76rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
+      transition: all var(--ease); touch-action: manipulation; margin-top: .35rem;
     }
     .reset-btn:hover { background: rgba(192,57,43,.16); border-color: rgba(192,57,43,.65); }
 
-    /* Legend toggle */
+    /* Legend */
     .legend-toggle {
       width: 100%; display: flex; align-items: center; justify-content: space-between;
-      background: none; border: none; cursor: pointer;
-      padding: .6rem 1rem .4rem;
+      background: none; border: none; cursor: pointer; padding: .6rem 1rem .4rem;
       color: var(--text-muted); font-size: .62rem; font-weight: 700;
-      letter-spacing: .16em; transition: color var(--ease);
+      letter-spacing: .16em; transition: color var(--ease); touch-action: manipulation;
     }
     .legend-toggle:hover { color: var(--text-secondary); }
     .legend-chevron { font-size: .68rem; transition: transform .22s ease; display: inline-block; }
     .legend-chevron.open { transform: rotate(180deg); }
-    .legend-body {
-      max-height: 0; overflow: hidden;
-      transition: max-height .3s ease, padding .3s ease;
-      padding: 0 .7rem;
-    }
-    .legend-body.open { max-height: 320px; padding: 0 .7rem .7rem; }
+    .legend-body { max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s ease; padding: 0 .7rem; }
+    .legend-body.open { max-height: 360px; padding: 0 .7rem .7rem; }
     .legend-item {
-      display: flex; align-items: flex-start; gap: .5rem;
-      padding: .28rem 0; border-bottom: 1px solid rgba(30,53,40,.4);
-      font-size: .74rem;
+      display: flex; align-items: flex-start; gap: .5rem; padding: .28rem 0;
+      border-bottom: 1px solid rgba(30,53,40,.4); font-size: .74rem;
     }
     .legend-item:last-child { border-bottom: none; }
     .legend-badge {
       width: 22px; height: 22px; flex-shrink: 0; border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .7rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700;
     }
     .lb-placed  { background: rgba(45,158,107,.2); border: 1px solid var(--accent-light); color: var(--text-primary); font-family:'Cinzel',serif; }
     .lb-safe    { background: rgba(45,158,107,.15); border: 1px solid var(--accent); color: var(--accent); }
@@ -386,25 +410,23 @@
     .legend-note { font-size: .67rem; color: var(--text-muted); padding: .45rem 0 .1rem; line-height: 1.6; }
     .legend-note strong { color: var(--accent); }
 
-    /* ── CONFLICT TOAST ── */
-    #conflict-toast {
+    /* ── TOASTS ── */
+    .toast {
       position: fixed; bottom: 1.5rem; left: 50%;
       transform: translateX(-50%) translateY(120px);
-      background: rgba(12,22,18,.97); border: 1px solid var(--red-border);
-      border-radius: var(--radius-md); padding: .7rem 1.2rem;
-      font-size: .78rem; color: var(--red-light);
-      z-index: 500; pointer-events: none;
+      border-radius: var(--radius-md); padding: .65rem 1.15rem;
+      font-size: .78rem; z-index: 500; pointer-events: none;
       transition: transform .3s ease, opacity .3s ease;
-      opacity: 0; max-width: 340px; text-align: center;
-      backdrop-filter: blur(14px);
+      opacity: 0; max-width: 340px; width: calc(100% - 2rem);
+      text-align: center; backdrop-filter: blur(14px);
       box-shadow: 0 4px 24px rgba(0,0,0,.4);
     }
-    #conflict-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    #conflict-toast { background: rgba(12,22,18,.97); border: 1px solid var(--red-border); color: var(--red-light); }
+    #info-toast     { background: rgba(12,22,18,.97); border: 1px solid var(--border-accent); color: var(--text-secondary); }
 
-    /* ── SECTION DIVIDER ── */
-    .divider {
-      display: flex; align-items: center; justify-content: center; gap: .7rem; padding: .3rem 0;
-    }
+    /* ── DIVIDER ── */
+    .divider { display: flex; align-items: center; justify-content: center; gap: .7rem; padding: .3rem 0; }
     .divider::before, .divider::after { content: ''; flex: 1; max-width: 180px; height: 1px; }
     .divider::before { background: linear-gradient(90deg, transparent, var(--border)); }
     .divider::after  { background: linear-gradient(90deg, var(--border), transparent); }
@@ -418,12 +440,10 @@
       50%      { transform: scale(1.38); box-shadow: 0 0 14px rgba(45,158,107,.85); }
     }
 
-    /* ── HOW-TO SECTION ── */
+    /* ── HOW-TO ── */
     .howto-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border-accent);
-      border-radius: var(--radius-lg);
-      padding: 1.35rem 1.5rem;
+      background: var(--bg-card); border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg); padding: 1.25rem 1.4rem;
       position: relative; overflow: hidden;
     }
     .howto-section::before {
@@ -433,12 +453,12 @@
     }
     .howto-title {
       font-family: 'Cinzel', serif; font-size: .88rem; font-weight: 600;
-      color: var(--text-primary); margin-bottom: .9rem;
+      color: var(--text-primary); margin-bottom: .85rem;
       display: flex; align-items: center; gap: .5rem;
     }
-    .howto-steps { display: grid; gap: .55rem; }
-    @media (min-width: 580px) { .howto-steps { grid-template-columns: repeat(2, 1fr); } }
-    .howto-step { display: flex; align-items: flex-start; gap: .6rem; }
+    .howto-steps { display: grid; gap: .5rem; }
+    @media (min-width: 560px) { .howto-steps { grid-template-columns: repeat(2, 1fr); } }
+    .howto-step { display: flex; align-items: flex-start; gap: .55rem; }
     .step-num {
       width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%;
       background: rgba(45,158,107,.18); border: 1px solid var(--accent);
@@ -463,7 +483,6 @@
     .footer-logo .hub  { color: var(--text-primary); }
     .footer-tip-wrap { display: flex; flex-direction: column; align-items: center; gap: .5rem; margin-bottom: .65rem; }
     .footer-tip-label { font-size: .85rem; color: var(--text-muted); }
-    /* Magnetic button wrapper – static, no transform */
     .mag-wrap { position: relative; display: inline-block; }
     .mag-canvas { position: absolute; pointer-events: none; z-index: 0; }
     .btn-tip {
@@ -484,30 +503,31 @@
     @media (max-width: 640px) {
       .app-header { padding: .6rem .9rem; }
       .header-logo { display: none; }
-      .main-wrap { padding: 1rem .75rem 3.5rem; }
-      .cell { min-height: 46px; }
+      .main-wrap { padding: 1rem .75rem 3.5rem; gap: 1rem; }
+      .cell { min-height: 44px; }
+      .cell-card-value { font-size: 1.1rem; }
     }
-    @media (max-width: 420px) {
-      .cell { min-height: 38px; }
-      .cell-card-value { font-size: 1rem; }
-      .cell-coord { font-size: .48rem; }
+    @media (max-width: 400px) {
+      .cell { min-height: 36px; }
+      .cell-card-value { font-size: .9rem; }
+      .cell-coord { font-size: .46rem; }
+      .grid-col-headers, .grid-row { gap: 3px; }
+      .grid-section { padding: .85rem .7rem .7rem; }
+      .cell-mode-badge { font-size: .52rem; padding: 1px 3px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Full-page animated particle background -->
   <canvas id="page-canvas" aria-hidden="true"></canvas>
 
-  <!-- ══════════════════════════════════════════════════
-       HEADER
-  ══════════════════════════════════════════════════ -->
+  <!-- ══ HEADER ══ -->
   <header class="app-header">
     <a href="index.html" class="back-btn" aria-label="Zurück zur Hauptseite">
       ← <span data-i18n="back-btn">Zurück</span>
     </a>
     <div class="app-title-wrap">
-      <div class="app-icon-box">🎮</div>
+      <div class="app-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="3" y2="21"/><line x1="3" y1="19" x2="5" y2="21"/></svg></div>
       <div>
         <div class="app-name">Schnapp<span class="accent">King</span> M2</div>
         <div class="app-sub-text" data-i18n="app-sub">Companion Tool</div>
@@ -522,22 +542,34 @@
     </div>
   </header>
 
-  <!-- ══════════════════════════════════════════════════
-       MAIN
-  ══════════════════════════════════════════════════ -->
+  <!-- ══ MAIN ══ -->
   <main class="main-wrap">
 
-    <!-- HERO TEXT -->
     <div class="tool-hero">
       <h1 data-i18n="hero-title">Schnapp den König — <span style="color:var(--accent)">Tracker</span></h1>
       <p data-i18n="hero-desc">Tracke deine aufgedeckten Karten und visualisiere die Warnungen vor einer 5 in der Nähe.<br>Manuelle Analyse-Hilfe ohne Vorhersagen oder automatische Züge.</p>
     </div>
 
-    <!-- ─── TRACKER LAYOUT ─────────────────────────────── -->
+    <!-- localStorage info -->
+    <div class="info-bar" role="note">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      <span data-i18n="info-bar">Dein Grid wird automatisch im Browser gespeichert (localStorage). Bei gelöschtem Browser-Cache oder Inkognito-Modus geht der Stand verloren.</span>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-wrap" aria-label="Fortschritt">
+      <span class="progress-label" data-i18n="progress-label">FELDER</span>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0" id="progress-bar-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="progress-count" id="progress-count">0 / 25</span>
+    </div>
+
+    <!-- Tracker -->
     <div class="tracker-layout">
 
       <!-- 5×5 GRID -->
-      <div class="grid-section" aria-label="5×5 Spielfeld">
+      <div class="grid-section" id="grid-section" aria-label="5×5 Spielfeld">
         <div class="grid-col-headers">
           <div></div>
           <div class="col-label">A</div>
@@ -563,7 +595,7 @@
                 <div class="modus-label-title" data-i18n="mode-safe-title">Sicher</div>
                 <div class="modus-label-sub"   data-i18n="mode-safe-sub">Keine Warnung — 5 ausgeschlossen</div>
               </div>
-              <span class="modus-icon">✅</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
             </label>
             <label class="modus-option" id="opt-unsafe" onclick="setMode('unsafe')">
               <input type="radio" name="modus" value="unsafe" />
@@ -572,7 +604,7 @@
                 <div class="modus-label-title" data-i18n="mode-unsafe-title">Unsicher</div>
                 <div class="modus-label-sub"   data-i18n="mode-unsafe-sub">Warnung erschien — 5 möglich</div>
               </div>
-              <span class="modus-icon">⚠️</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             </label>
           </div>
         </div>
@@ -581,7 +613,7 @@
         <div class="control-block">
           <div class="block-title" data-i18n="card-title">KARTE WÄHLEN</div>
           <div class="block-body">
-            <div class="card-grid" id="card-grid">
+            <div class="card-grid">
               <button class="card-btn selected" data-card="1" onclick="selectCard('1')">1</button>
               <button class="card-btn"          data-card="2" onclick="selectCard('2')">2</button>
               <button class="card-btn"          data-card="3" onclick="selectCard('3')">3</button>
@@ -596,18 +628,19 @@
         <div class="control-block">
           <div class="block-title" data-i18n="actions-title">AKTIONEN</div>
           <div class="block-body">
-            <div class="action-row">
-              <button class="act-btn" id="undo-btn" onclick="undo()" disabled>
-                ↩ <span data-i18n="btn-undo">Rückgängig</span>
-              </button>
-            </div>
-            <button class="reset-btn" id="reset-btn" onclick="resetGrid()">
-              🗑 <span data-i18n="btn-reset">Reset</span>
+            <button class="act-btn" id="undo-btn" onclick="undo()" disabled>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg> <span data-i18n="btn-undo">Rückgängig</span>
+            </button>
+            <button class="new-round-btn" onclick="newRound()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> <span data-i18n="btn-new-round">Neue Runde</span>
+            </button>
+            <button class="reset-btn" onclick="resetGrid()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> <span data-i18n="btn-reset">Reset</span>
             </button>
           </div>
         </div>
 
-        <!-- LEGENDE (ausklappbar) -->
+        <!-- LEGENDE -->
         <div class="control-block">
           <button class="legend-toggle" id="legend-toggle-btn"
                   onclick="toggleLegend()" aria-expanded="false" aria-controls="legend-body">
@@ -651,21 +684,20 @@
               </div>
             </div>
             <p class="legend-note">
-              <span data-i18n="leg-tip">💡 Tipp: Rechtsklick entfernt Karte.</span><br>
+              <span data-i18n="leg-tip">💡 Desktop: Rechtsklick entfernt Karte. Mobile: Gedrückt halten.</span><br>
               <strong data-i18n="leg-priority">Priorität: Grün überschreibt Rot.</strong>
             </p>
           </div>
         </div>
 
-      </div><!-- /controls-panel -->
-    </div><!-- /tracker-layout -->
+      </div>
+    </div>
 
-    <!-- DIVIDER -->
     <div class="divider" aria-hidden="true"><span class="divider-dot"></span></div>
 
     <!-- SO FUNKTIONIERT'S -->
     <section class="howto-section" aria-label="Anleitung">
-      <div class="howto-title">ℹ️ <span data-i18n="howto-title">So funktioniert's</span></div>
+      <div class="howto-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0;margin-right:.35rem"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span data-i18n="howto-title">So funktioniert's</span></div>
       <div class="howto-steps">
         <div class="howto-step">
           <div class="step-num">1</div>
@@ -677,20 +709,18 @@
         </div>
         <div class="howto-step">
           <div class="step-num">3</div>
-          <div class="step-text" data-i18n="howto-3"><strong>Feld klicken:</strong> Klicke auf das entsprechende Feld im Grid. Die Nachbarfelder werden automatisch markiert.</div>
+          <div class="step-text" data-i18n="howto-3"><strong>Feld klicken:</strong> Klicke auf das entsprechende Feld. Nachbarfelder werden automatisch markiert.</div>
         </div>
         <div class="howto-step">
           <div class="step-num">4</div>
-          <div class="step-text" data-i18n="howto-4"><strong>Rechtsklick</strong> auf eine belegte Zelle entfernt die Karte und alle zugehörigen Markierungen.</div>
+          <div class="step-text" data-i18n="howto-4"><strong>Entfernen:</strong> Desktop: Rechtsklick auf Karte. Mobile: Feld gedrückt halten (lange tippen).</div>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ══════════════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════════════ -->
+  <!-- ══ FOOTER ══ -->
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-logo"><span class="yang">Yang</span><span class="hub">Hub</span></div>
@@ -698,10 +728,11 @@
         <span class="footer-tip-label" data-i18n="footer-tip-label">Gefällt dir YangHub?</span>
         <div class="mag-wrap" id="tip-wrap">
           <canvas class="mag-canvas" id="tip-canvas"></canvas>
-          <a href="https://revolut.me/oskarr1um"
-             class="btn-tip" id="tip-btn"
-             target="_blank" rel="noopener noreferrer"
-             data-i18n="footer-tip-btn">☕ Trinkgeld geben</a>
+          <a href="https://revolut.me/oskarr1um" class="btn-tip" id="tip-btn"
+             target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            <span data-i18n="footer-tip-btn">Trinkgeld geben</span>
+          </a>
         </div>
       </div>
       <p class="footer-copy"       data-i18n="footer-copy">© 2025 YangHub. Alle Rechte vorbehalten.</p>
@@ -709,71 +740,77 @@
     </div>
   </footer>
 
-  <!-- Conflict notification toast -->
-  <div id="conflict-toast" role="alert" aria-live="polite"></div>
+  <div id="conflict-toast" class="toast" role="alert"  aria-live="polite"></div>
+  <div id="info-toast"     class="toast" role="status" aria-live="polite"></div>
 
   <script>
     // ═══════════════════════════════════════════════════════════
-    // TRANSLATIONS  (DE / EN)
+    // TRANSLATIONS
     // ═══════════════════════════════════════════════════════════
     const T = {
       de: {
-        'back-btn': 'Zurück', 'app-sub': 'Companion Tool',
-        'hero-title': 'Schnapp den König — <span style="color:var(--accent)">Tracker</span>',
-        'hero-desc': 'Tracke deine aufgedeckten Karten und visualisiere die Warnungen vor einer 5 in der Nähe.<br>Manuelle Analyse-Hilfe ohne Vorhersagen oder automatische Züge.',
-        'modus-title': 'MODUS',
-        'mode-safe-title': 'Sicher',   'mode-safe-sub':   'Keine Warnung — 5 ausgeschlossen',
-        'mode-unsafe-title': 'Unsicher', 'mode-unsafe-sub': 'Warnung erschien — 5 möglich',
-        'card-title': 'KARTE WÄHLEN',
-        'actions-title': 'AKTIONEN',
-        'btn-undo': 'Rückgängig', 'btn-reset': 'Reset',
-        'legend-title': 'LEGENDE',
-        'leg-placed-title': 'Aufgedeckte Karte', 'leg-placed-sub': 'Im Spiel aufgedeckt.',
-        'leg-safe-title':   '5 Ausgeschlossen',  'leg-safe-sub':   'Keine 5 möglich — sicher.',
-        'leg-unsafe-title': '5 Möglich',          'leg-unsafe-sub': 'Warnung — 5 in der Nähe.',
-        'leg-unknown-title': 'Unbekannt',         'leg-unknown-sub': 'Keine Info.',
-        'leg-king-title': 'König (K)',             'leg-king-sub':   'König platziert.',
-        'leg-tip':      '💡 Tipp: Rechtsklick entfernt Karte.',
-        'leg-priority': 'Priorität: Grün überschreibt Rot.',
-        'howto-title': "So funktioniert's",
-        'howto-1': '<strong>Modus wählen:</strong> „Sicher" wenn keine Warnung erschien, „Unsicher" wenn eine Warnung kam.',
-        'howto-2': '<strong>Karte wählen:</strong> Wähle die Karte (1–5 oder König), die du im Spiel aufgedeckt hast.',
-        'howto-3': '<strong>Feld klicken:</strong> Klicke auf das entsprechende Feld im Grid. Die Nachbarfelder werden automatisch markiert.',
-        'howto-4': '<strong>Rechtsklick</strong> auf eine belegte Zelle entfernt die Karte und alle zugehörigen Markierungen.',
-        'footer-tip-label': 'Gefällt dir YangHub?', 'footer-tip-btn': '☕ Trinkgeld geben',
-        'footer-copy': '© 2025 YangHub. Alle Rechte vorbehalten.',
-        'footer-disclaimer': 'YangHub ist kein offizielles Produkt von Gameforge oder Metin2.',
-        'conflict-msg': '⚠️ Konflikt: Ein Nachbarfeld ist bereits als 5-Ausschluss markiert — sichere Info hat Vorrang.',
-        'confirm-reset': 'Grid wirklich zurücksetzen?',
+        'back-btn':'Zurück','app-sub':'Companion Tool',
+        'hero-title':'Schnapp den König — <span style="color:var(--accent)">Tracker</span>',
+        'hero-desc':'Tracke deine aufgedeckten Karten und visualisiere die Warnungen vor einer 5 in der Nähe.<br>Manuelle Analyse-Hilfe ohne Vorhersagen oder automatische Züge.',
+        'info-bar':'Dein Grid wird automatisch im Browser gespeichert (localStorage). Bei gelöschtem Browser-Cache oder Inkognito-Modus geht der Stand verloren.',
+        'progress-label':'FELDER',
+        'modus-title':'MODUS',
+        'mode-safe-title':'Sicher',    'mode-safe-sub':'Keine Warnung — 5 ausgeschlossen',
+        'mode-unsafe-title':'Unsicher','mode-unsafe-sub':'Warnung erschien — 5 möglich',
+        'card-title':'KARTE WÄHLEN','actions-title':'AKTIONEN',
+        'btn-undo':'Rückgängig','btn-reset':'Reset','btn-new-round':'Neue Runde',
+        'legend-title':'LEGENDE',
+        'leg-placed-title':'Aufgedeckte Karte','leg-placed-sub':'Im Spiel aufgedeckt.',
+        'leg-safe-title':'5 Ausgeschlossen',   'leg-safe-sub':'Keine 5 möglich — sicher.',
+        'leg-unsafe-title':'5 Möglich',        'leg-unsafe-sub':'Warnung — 5 in der Nähe.',
+        'leg-unknown-title':'Unbekannt',        'leg-unknown-sub':'Keine Info.',
+        'leg-king-title':'König (K)',            'leg-king-sub':'König platziert.',
+        'leg-tip':'💡 Desktop: Rechtsklick entfernt Karte. Mobile: Gedrückt halten.',
+        'leg-priority':'Priorität: Grün überschreibt Rot.',
+        'howto-title':"So funktioniert's",
+        'howto-1':'<strong>Modus wählen:</strong> „Sicher" wenn keine Warnung erschien, „Unsicher" wenn eine Warnung kam.',
+        'howto-2':'<strong>Karte wählen:</strong> Wähle die Karte (1–5 oder König), die du im Spiel aufgedeckt hast.',
+        'howto-3':'<strong>Feld klicken:</strong> Klicke auf das entsprechende Feld. Nachbarfelder werden automatisch markiert.',
+        'howto-4':'<strong>Entfernen:</strong> Desktop: Rechtsklick auf Karte. Mobile: Feld gedrückt halten (lange tippen).',
+        'footer-tip-label':'Gefällt dir YangHub?','footer-tip-btn':'Trinkgeld geben',
+        'footer-copy':'© 2025 YangHub. Alle Rechte vorbehalten.',
+        'footer-disclaimer':'YangHub ist kein offizielles Produkt von Gameforge oder Metin2.',
+        'conflict-msg':'⚡ Konflikt: Nachbarfeld bereits als 5-Ausschluss markiert — sichere Info hat Vorrang.',
+        'info-remove':'Karte entfernt',
+        'confirm-reset':'Grid wirklich zurücksetzen? Alle Daten gehen verloren.',
+        'confirm-new-round':'Neue Runde starten? Das aktuelle Grid wird geleert.',
       },
       en: {
-        'back-btn': 'Back', 'app-sub': 'Companion Tool',
-        'hero-title': 'Catch the King — <span style="color:var(--accent)">Tracker</span>',
-        'hero-desc': 'Track your revealed cards and visualize warnings near a 5.<br>Manual analysis aid — no predictions, no automatic moves.',
-        'modus-title': 'MODE',
-        'mode-safe-title': 'Safe',   'mode-safe-sub':   'No warning — 5 excluded',
-        'mode-unsafe-title': 'Unsafe', 'mode-unsafe-sub': 'Warning appeared — 5 possible',
-        'card-title': 'CHOOSE CARD',
-        'actions-title': 'ACTIONS',
-        'btn-undo': 'Undo', 'btn-reset': 'Reset',
-        'legend-title': 'LEGEND',
-        'leg-placed-title': 'Revealed Card',  'leg-placed-sub': 'Revealed in game.',
-        'leg-safe-title':   '5 Excluded',     'leg-safe-sub':   'No 5 possible — safe.',
-        'leg-unsafe-title': '5 Possible',     'leg-unsafe-sub': 'Warning — 5 nearby.',
-        'leg-unknown-title': 'Unknown',        'leg-unknown-sub': 'No info.',
-        'leg-king-title': 'King (K)',          'leg-king-sub':   'King placed.',
-        'leg-tip':      '💡 Tip: Right-click removes card.',
-        'leg-priority': 'Priority: Green overrides Red.',
-        'howto-title': "How it works",
-        'howto-1': '<strong>Choose mode:</strong> "Safe" if no warning appeared, "Unsafe" if a warning came.',
-        'howto-2': '<strong>Choose card:</strong> Select the card (1–5 or King) you revealed in game.',
-        'howto-3': '<strong>Click cell:</strong> Click the corresponding cell in the grid. Neighboring cells are automatically marked.',
-        'howto-4': '<strong>Right-click</strong> a filled cell to remove the card and its markings.',
-        'footer-tip-label': 'Enjoying YangHub?', 'footer-tip-btn': '☕ Leave a tip',
-        'footer-copy': '© 2025 YangHub. All rights reserved.',
-        'footer-disclaimer': 'YangHub is not an official product of Gameforge or Metin2.',
-        'conflict-msg': '⚠️ Conflict: A neighboring cell is already marked as 5-excluded — safe info takes priority.',
-        'confirm-reset': 'Really reset the grid?',
+        'back-btn':'Back','app-sub':'Companion Tool',
+        'hero-title':'Catch the King — <span style="color:var(--accent)">Tracker</span>',
+        'hero-desc':'Track your revealed cards and visualize warnings near a 5.<br>Manual analysis aid — no predictions, no automatic moves.',
+        'info-bar':'Your grid is automatically saved in your browser (localStorage). It will be lost if you clear your cache or use incognito mode.',
+        'progress-label':'CELLS',
+        'modus-title':'MODE',
+        'mode-safe-title':'Safe',    'mode-safe-sub':'No warning — 5 excluded',
+        'mode-unsafe-title':'Unsafe','mode-unsafe-sub':'Warning appeared — 5 possible',
+        'card-title':'CHOOSE CARD','actions-title':'ACTIONS',
+        'btn-undo':'Undo','btn-reset':'Reset','btn-new-round':'New Round',
+        'legend-title':'LEGEND',
+        'leg-placed-title':'Revealed Card','leg-placed-sub':'Revealed in game.',
+        'leg-safe-title':'5 Excluded',    'leg-safe-sub':'No 5 possible — safe.',
+        'leg-unsafe-title':'5 Possible',  'leg-unsafe-sub':'Warning — 5 nearby.',
+        'leg-unknown-title':'Unknown',     'leg-unknown-sub':'No info.',
+        'leg-king-title':'King (K)',        'leg-king-sub':'King placed.',
+        'leg-tip':'💡 Desktop: Right-click removes card. Mobile: Long press.',
+        'leg-priority':'Priority: Green overrides Red.',
+        'howto-title':"How it works",
+        'howto-1':'<strong>Choose mode:</strong> "Safe" if no warning appeared, "Unsafe" if a warning came.',
+        'howto-2':'<strong>Choose card:</strong> Select the card (1–5 or King) you revealed in game.',
+        'howto-3':'<strong>Click cell:</strong> Click the corresponding cell. Neighboring cells are automatically marked.',
+        'howto-4':'<strong>Remove:</strong> Desktop: Right-click on a card. Mobile: Long press (hold) the cell.',
+        'footer-tip-label':'Enjoying YangHub?','footer-tip-btn':'Leave a tip',
+        'footer-copy':'© 2025 YangHub. All rights reserved.',
+        'footer-disclaimer':'YangHub is not an official product of Gameforge or Metin2.',
+        'conflict-msg':'⚡ Conflict: Neighbor already marked as 5-excluded — safe info takes priority.',
+        'info-remove':'Card removed',
+        'confirm-reset':'Really reset the grid? All data will be lost.',
+        'confirm-new-round':'Start a new round? The current grid will be cleared.',
       }
     };
 
@@ -793,12 +830,12 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // GRID STATE & LOGIC
+    // GRID STATE
     // ═══════════════════════════════════════════════════════════
     const ROWS = 5, COLS = 5;
     const COL_LABELS = ['A','B','C','D','E'];
+    const LS_KEY = 'yh-schnapp-grid';
 
-    // placed[r][c] = { card: '1'|'2'|'3'|'4'|'5'|'K', mode: 'safe'|'unsafe' } | null
     let placed    = emptyGrid();
     let undoStack = [];
     let selectedCard = '1';
@@ -811,7 +848,41 @@
       return g.map(row => row.map(cell => cell ? {...cell} : null));
     }
 
-    // Derive neighbor marking states from all placed cards
+    // localStorage
+    function saveGrid() {
+      try { localStorage.setItem(LS_KEY, JSON.stringify(placed)); } catch(e) {}
+    }
+    function loadGrid() {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length === ROWS &&
+            parsed.every(row => Array.isArray(row) && row.length === COLS)) {
+          placed = parsed;
+        }
+      } catch(e) {}
+    }
+
+    function countPlaced() {
+      let n = 0;
+      for (let r = 0; r < ROWS; r++)
+        for (let c = 0; c < COLS; c++)
+          if (placed[r][c]) n++;
+      return n;
+    }
+
+    function updateProgress() {
+      const n   = countPlaced();
+      const pct = (n / 25) * 100;
+      const fill  = document.getElementById('progress-fill');
+      const count = document.getElementById('progress-count');
+      const track = document.getElementById('progress-bar-track');
+      if (fill)  fill.style.width = pct + '%';
+      if (count) count.textContent = n + ' / 25';
+      if (track) track.setAttribute('aria-valuenow', n);
+    }
+
     function calcNeighborStates() {
       const states = Array.from({length: ROWS}, () => Array(COLS).fill(null));
       for (let r = 0; r < ROWS; r++) {
@@ -823,9 +894,9 @@
               if (dr === 0 && dc === 0) continue;
               const nr = r + dr, nc = c + dc;
               if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
-              if (placed[nr][nc]) continue; // cell has a card → skip neighbor marking
+              if (placed[nr][nc]) continue;
               if (mode === 'safe') {
-                states[nr][nc] = 'safe';   // safe always wins
+                states[nr][nc] = 'safe';
               } else {
                 if (states[nr][nc] !== 'safe') states[nr][nc] = 'unsafe';
               }
@@ -836,7 +907,6 @@
       return states;
     }
 
-    // Build & render the complete grid DOM
     function buildGrid() {
       const container = document.getElementById('grid-rows');
       container.innerHTML = '';
@@ -846,7 +916,6 @@
         const rowEl = document.createElement('div');
         rowEl.className = 'grid-row';
 
-        // Row number label
         const lbl = document.createElement('div');
         lbl.className = 'row-label';
         lbl.textContent = r + 1;
@@ -860,6 +929,11 @@
           cell.setAttribute('tabindex', '0');
           cell.setAttribute('aria-label', `${COL_LABELS[c]}${r+1}`);
 
+          // Long-press ring overlay
+          const ring = document.createElement('div');
+          ring.className = 'cell-longpress-ring';
+          cell.appendChild(ring);
+
           // Coordinate label
           const coord = document.createElement('span');
           coord.className = 'cell-coord';
@@ -868,7 +942,6 @@
 
           const p = placed[r][c];
           if (p) {
-            // ── Placed card ──
             cell.classList.add('cell-placed');
             const val = document.createElement('div');
             val.className = 'cell-card-value';
@@ -879,7 +952,6 @@
             badge.textContent = p.mode === 'safe' ? 'S' : 'U';
             cell.appendChild(badge);
           } else {
-            // ── Neighbor state ──
             const ns = neighborStates[r][c];
             if (ns === 'safe') {
               cell.classList.add('cell-safe');
@@ -896,47 +968,76 @@
             }
           }
 
-          // ── Event listeners ──
+          // Desktop: click = place, right-click = remove
           cell.addEventListener('click', () => handleCellClick(r, c));
           cell.addEventListener('contextmenu', e => { e.preventDefault(); handleCellRemove(r, c); });
+
+          // Keyboard
           cell.addEventListener('keydown', e => {
             if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCellClick(r, c); }
             if (e.key === 'Delete' || e.key === 'Backspace') handleCellRemove(r, c);
           });
+
+          // Mobile long press (500ms) to remove
+          let lpTimer = null;
+          cell.addEventListener('touchstart', () => {
+            lpTimer = setTimeout(() => {
+              lpTimer = null;
+              handleCellRemove(r, c);
+            }, 500);
+            cell.classList.add('pressing');
+          }, {passive: true});
+
+          const cancelLp = () => {
+            if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; }
+            cell.classList.remove('pressing');
+          };
+          cell.addEventListener('touchend',    cancelLp, {passive: true});
+          cell.addEventListener('touchmove',   cancelLp, {passive: true});
+          cell.addEventListener('touchcancel', cancelLp, {passive: true});
 
           rowEl.appendChild(cell);
         }
         container.appendChild(rowEl);
       }
       updateUndoBtn();
+      updateProgress();
+      saveGrid();
     }
 
     function handleCellClick(r, c) {
-      if (placed[r][c]) return; // already placed — use right-click to remove
+      if (placed[r][c]) {
+        // Shake feedback – cell is occupied
+        const el = document.getElementById(`cell-${r}-${c}`);
+        if (el) {
+          el.classList.remove('shake');
+          void el.offsetWidth; // force reflow
+          el.classList.add('shake');
+          el.addEventListener('animationend', () => el.classList.remove('shake'), {once: true});
+        }
+        return;
+      }
 
+      // Conflict check
       const neighborStates = calcNeighborStates();
       let hasConflict = false;
-
-      // Conflict check: placing unsafe card, but some neighbors we'd mark unsafe are already safe
       if (selectedMode === 'unsafe') {
         for (let dr = -1; dr <= 1; dr++) {
           for (let dc = -1; dc <= 1; dc++) {
             if (dr === 0 && dc === 0) continue;
             const nr = r + dr, nc = c + dc;
             if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
-            if (!placed[nr][nc] && neighborStates[nr][nc] === 'safe') { hasConflict = true; }
+            if (!placed[nr][nc] && neighborStates[nr][nc] === 'safe') hasConflict = true;
           }
         }
       }
 
-      // Save undo snapshot
       undoStack.push(cloneGrid(placed));
       if (undoStack.length > 50) undoStack.shift();
 
       placed[r][c] = { card: selectedCard, mode: selectedMode };
       buildGrid();
-
-      if (hasConflict) showConflict();
+      if (hasConflict) showToast('conflict-toast', T[lang]['conflict-msg'], 3500);
     }
 
     function handleCellRemove(r, c) {
@@ -944,6 +1045,7 @@
       undoStack.push(cloneGrid(placed));
       placed[r][c] = null;
       buildGrid();
+      showToast('info-toast', T[lang]['info-remove'], 1800);
     }
 
     function undo() {
@@ -952,9 +1054,21 @@
       buildGrid();
     }
 
+    function newRound() {
+      if (!confirm(T[lang]['confirm-new-round'])) return;
+      const section = document.getElementById('grid-section');
+      section.classList.add('new-round-anim');
+      section.addEventListener('animationend', () => {
+        section.classList.remove('new-round-anim');
+        undoStack.push(cloneGrid(placed));
+        placed = emptyGrid();
+        buildGrid();
+      }, {once: true});
+    }
+
     function resetGrid() {
       if (!confirm(T[lang]['confirm-reset'])) return;
-      undoStack.push(cloneGrid(placed));
+      undoStack = [];
       placed = emptyGrid();
       buildGrid();
     }
@@ -977,17 +1091,17 @@
       );
     }
 
-    // ── Conflict toast ──
-    let conflictTimer = null;
-    function showConflict() {
-      const toast = document.getElementById('conflict-toast');
-      toast.textContent = T[lang]['conflict-msg'];
+    // Toast helper
+    const toastTimers = {};
+    function showToast(id, msg, duration) {
+      const toast = document.getElementById(id);
+      if (!toast) return;
+      toast.textContent = msg;
       toast.classList.add('show');
-      if (conflictTimer) clearTimeout(conflictTimer);
-      conflictTimer = setTimeout(() => toast.classList.remove('show'), 3500);
+      if (toastTimers[id]) clearTimeout(toastTimers[id]);
+      toastTimers[id] = setTimeout(() => toast.classList.remove('show'), duration);
     }
 
-    // ── Legend toggle ──
     function toggleLegend() {
       const body    = document.getElementById('legend-body');
       const chevron = document.getElementById('legend-chevron');
@@ -998,7 +1112,7 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // BACKGROUND PARTICLES (same system as index.html)
+    // BACKGROUND PARTICLES
     // ═══════════════════════════════════════════════════════════
     (function() {
       const canvas = document.getElementById('page-canvas');
@@ -1008,23 +1122,23 @@
       window.addEventListener('resize', resize);
       const colors = ['rgba(45,158,107,0.32)','rgba(232,224,208,0.13)','rgba(100,160,130,0.2)','rgba(255,255,255,0.07)'];
       const pts = Array.from({length: 42}, () => ({
-        x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
-        r: .55 + Math.random() * 1.15,
-        vx: (Math.random() - .38) * .14, vy: (Math.random() - .5) * .14,
-        c: colors[Math.floor(Math.random() * colors.length)],
-        op: .14 + Math.random() * .46, ph: Math.random() * Math.PI * 2, ps: .004 + Math.random() * .009
+        x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
+        r: .55+Math.random()*1.15,
+        vx: (Math.random()-.38)*.14, vy: (Math.random()-.5)*.14,
+        c: colors[Math.floor(Math.random()*colors.length)],
+        op: .14+Math.random()*.46, ph: Math.random()*Math.PI*2, ps: .004+Math.random()*.009
       }));
       (function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         pts.forEach(p => {
-          p.x += p.vx; p.y += p.vy; p.ph += p.ps;
-          if (p.x > canvas.width+5 || p.x < -5 || p.y > canvas.height+5 || p.y < -5) {
-            p.x = Math.random() * canvas.width;
-            p.y = Math.random() < .5 ? -5 : canvas.height + 5;
+          p.x+=p.vx; p.y+=p.vy; p.ph+=p.ps;
+          if(p.x>canvas.width+5||p.x<-5||p.y>canvas.height+5||p.y<-5){
+            p.x=Math.random()*canvas.width;
+            p.y=Math.random()<.5?-5:canvas.height+5;
           }
-          const op = (p.op * (.7 + .3 * Math.sin(p.ph))).toFixed(2);
-          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = p.c.replace(/[\d.]+\)$/, op + ')');
+          const op=(p.op*(.7+.3*Math.sin(p.ph))).toFixed(2);
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle=p.c.replace(/[\d.]+\)$/,op+')');
           ctx.fill();
         });
         requestAnimationFrame(draw);
@@ -1032,10 +1146,7 @@
     })();
 
     // ═══════════════════════════════════════════════════════════
-    // MAGNETIC BUTTON PARTICLE EFFECT (footer tip button)
-    // wrapId: static wrapper (radius measurement)
-    // btnId:  button (gets is-hovered for glow)
-    // canvasId: canvas behind the button
+    // MAGNETIC FOOTER BUTTON
     // ═══════════════════════════════════════════════════════════
     function initButtonParticles(wrapId, btnId, canvasId) {
       const wrap   = document.getElementById(wrapId);
@@ -1081,8 +1192,7 @@
       function tick() {
         const r  = wrap.getBoundingClientRect();
         const cx = r.left + r.width/2, cy = r.top + r.height/2;
-        const dx = mx - cx, dy = my - cy;
-        isNear = (dx*dx + dy*dy) < (RADIUS * RADIUS);
+        isNear = ((mx-cx)**2 + (my-cy)**2) < (RADIUS * RADIUS);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const cr  = canvas.getBoundingClientRect();
         const lmx = mx - cr.left, lmy = my - cr.top;
@@ -1092,8 +1202,7 @@
             p.x  += (lmx - p.x) * p.speed;
             p.y  += (lmy - p.y) * p.speed;
             p.op  = Math.min(1, p.op + 0.06);
-            const ddx = p.x - lmx, ddy = p.y - lmy;
-            if ((ddx*ddx + ddy*ddy) < 16) { Object.assign(p, spawnParticle()); p.op = 0; }
+            if ((p.x-lmx)**2 + (p.y-lmy)**2 < 16) { Object.assign(p, spawnParticle()); p.op = 0; }
           } else {
             p.op = Math.max(0, p.op - 0.04);
           }
@@ -1114,6 +1223,7 @@
       btn.addEventListener('click', () => applyLang(btn.dataset.lang))
     );
 
+    loadGrid();
     buildGrid();
     applyLang(lang);
     initButtonParticles('tip-wrap', 'tip-btn', 'tip-canvas');

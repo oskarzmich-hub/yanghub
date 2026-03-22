@@ -32,6 +32,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
+    /* ── SVG ICONS ── */
+    .tool-svg { display:block; color:var(--accent); }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     :root {
@@ -298,7 +300,7 @@
         <article class="tool-card fade-in" id="card-1" data-href="notes.html" role="button" tabindex="0">
           <canvas class="card-canvas" id="card-canvas-1" aria-hidden="true"></canvas>
           <div class="card-content">
-            <div class="tool-icon">📋</div>
+            <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
             <h3 data-i18n="tool1-name">Metin2 Notes</h3>
             <p data-i18n="tool1-desc">Preiskalkulator &amp; Notizen für den Markt. Erfasse Itempreise und berechne Mengen automatisch.</p>
           </div>
@@ -306,7 +308,7 @@
         <article class="tool-card fade-in" id="card-2" data-href="schnapp-king.html" role="button" tabindex="0">
           <canvas class="card-canvas" id="card-canvas-2" aria-hidden="true"></canvas>
           <div class="card-content">
-            <div class="tool-icon">🎮</div>
+            <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="3" y2="21"/><line x1="3" y1="19" x2="5" y2="21"/></svg></div>
             <h3 data-i18n="tool2-name">SchnappKingM2</h3>
             <p data-i18n="tool2-desc">Companion-Tool für 'Schnapp den König'. Tracke Karten und visualisiere die Warnungs-Logik.</p>
           </div>
@@ -314,7 +316,7 @@
         <article class="tool-card fade-in" id="card-3" data-href="tools/okey-tracker.html" role="button" tabindex="0">
           <canvas class="card-canvas" id="card-canvas-3" aria-hidden="true"></canvas>
           <div class="card-content">
-            <div class="tool-icon">🎯</div>
+            <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
             <h3 data-i18n="tool3-name">Okey-Event Tracker</h3>
             <p data-i18n="tool3-desc">Behalte den Überblick über alle Karten im Okey-Event. Markiere gespielte Karten und plane Kombinationen.</p>
           </div>
@@ -350,7 +352,10 @@
         <span class="footer-tip-label" data-i18n="footer-tip-label">Gefällt dir YangHub?</span>
         <div class="mag-wrap" id="tip-wrap">
           <canvas class="mag-canvas" id="tip-canvas"></canvas>
-          <a href="https://revolut.me/oskarr1um" class="btn-tip" id="tip-btn" target="_blank" rel="noopener noreferrer" data-i18n="footer-tip-btn">☕ Trinkgeld geben</a>
+          <a href="https://revolut.me/oskarr1um" class="btn-tip" id="tip-btn" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+            <span data-i18n="footer-tip-btn">Trinkgeld geben</span>
+          </a>
         </div>
       </div>
       <p class="footer-copy" data-i18n="footer-copy">© 2025 YangHub. Alle Rechte vorbehalten.</p>
@@ -384,7 +389,7 @@
         "about-li2":"<strong>SchnappKingM2</strong> — Tracker für das 'Schnapp den König'-Minispiel.",
         "about-li3":"<strong>Okey-Event Tracker</strong> — Kartenübersicht für das Okey-Event.",
         "about-text3":"Alle Tools sind aktiv in Entwicklung — Updates und neue Features kommen regelmäßig.",
-        "footer-tip-label":"Gefällt dir YangHub?","footer-tip-btn":"☕ Trinkgeld geben",
+        "footer-tip-label":"Gefällt dir YangHub?","footer-tip-btn":"Trinkgeld geben",
         "footer-copy":"© 2025 YangHub. Alle Rechte vorbehalten.",
         "footer-disclaimer":"YangHub ist kein offizielles Produkt von Gameforge oder Metin2."
       },
@@ -409,7 +414,7 @@
         "about-li2":"<strong>SchnappKingM2</strong> — Tracker for the 'Catch the King' mini-game.",
         "about-li3":"<strong>Okey-Event Tracker</strong> — Card overview for the Okey Event.",
         "about-text3":"All tools are actively in development — updates and new features arrive regularly.",
-        "footer-tip-label":"Enjoying YangHub?","footer-tip-btn":"☕ Leave a tip",
+        "footer-tip-label":"Enjoying YangHub?","footer-tip-btn":"Leave a tip",
         "footer-copy":"© 2025 YangHub. All rights reserved.",
         "footer-disclaimer":"YangHub is not an official product of Gameforge or Metin2."
       }
@@ -661,48 +666,52 @@
     initCardParticles("card-3", "card-canvas-3");
 
     // ═══════════════════════════════════════════════════════════
-    // EVENTS
+    // EVENTS – direkt ausführen (Script ist am Ende von <body>,
+    //           DOM ist bereits vollständig geparst)
     // ═══════════════════════════════════════════════════════════
-    document.addEventListener("DOMContentLoaded", () => {
-      applyLang(lang);
+    applyLang(lang);
 
-      // Sprach-Buttons
-      document.querySelectorAll(".lang-btn").forEach(btn =>
-        btn.addEventListener("click", () => applyLang(btn.dataset.lang))
-      );
+    // Sprach-Buttons
+    document.querySelectorAll(".lang-btn").forEach(btn =>
+      btn.addEventListener("click", () => applyLang(btn.dataset.lang))
+    );
 
-      // Hero Button → scroll zu Tools
-      document.getElementById("hero-btn").addEventListener("click", () =>
-        document.getElementById("tools").scrollIntoView({behavior:"smooth"})
-      );
+    // Hero Button → scroll zu Tools
+    document.getElementById("hero-btn").addEventListener("click", () =>
+      document.getElementById("tools").scrollIntoView({behavior:"smooth"})
+    );
 
-      // Scroll-Pfeil
-      const arrow = document.getElementById("scroll-arrow");
-      arrow.addEventListener("click", () =>
-        document.getElementById("tools").scrollIntoView({behavior:"smooth"})
-      );
-      arrow.addEventListener("keydown", e =>
-        e.key === "Enter" && document.getElementById("tools").scrollIntoView({behavior:"smooth"})
-      );
-      window.addEventListener("scroll", () => {
-        arrow.style.opacity = window.scrollY > 100 ? "0" : "1";
+    // Scroll-Pfeil
+    const arrow = document.getElementById("scroll-arrow");
+    arrow.addEventListener("click", () =>
+      document.getElementById("tools").scrollIntoView({behavior:"smooth"})
+    );
+    arrow.addEventListener("keydown", e =>
+      e.key === "Enter" && document.getElementById("tools").scrollIntoView({behavior:"smooth"})
+    );
+    window.addEventListener("scroll", () => {
+      arrow.style.opacity = window.scrollY > 100 ? "0" : "1";
+    });
+
+    // Fade-in beim Scrollen
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }
       });
+    }, {threshold: 0, rootMargin: "0px 0px -50px 0px"});
+    document.querySelectorAll(".fade-in").forEach(el => obs.observe(el));
 
-      // Fade-in beim Scrollen
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }
-        });
-      }, {threshold: .12});
-      document.querySelectorAll(".fade-in").forEach(el => obs.observe(el));
+    // Fallback: nach 1.5s alle noch unsichtbaren Elemente einblenden
+    setTimeout(() => {
+      document.querySelectorAll(".fade-in:not(.visible)").forEach(el => el.classList.add("visible"));
+    }, 1500);
 
-      // Tool-Karten klickbar machen
-      document.querySelectorAll(".tool-card[data-href]").forEach(card => {
-        card.addEventListener("click", () => window.location.href = card.dataset.href);
-        card.addEventListener("keydown", e =>
-          e.key === "Enter" && (window.location.href = card.dataset.href)
-        );
-      });
+    // Tool-Karten klickbar machen
+    document.querySelectorAll(".tool-card[data-href]").forEach(card => {
+      card.addEventListener("click", () => window.location.href = card.dataset.href);
+      card.addEventListener("keydown", e =>
+        e.key === "Enter" && (window.location.href = card.dataset.href)
+      );
     });
   </script>
 </body>
