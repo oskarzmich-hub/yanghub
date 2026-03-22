@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impressum & Datenschutz | YangHub</title>
+  <meta name="description" content="Impressum und Datenschutzerklärung von YangHub – Angaben gemäß § 5 DDG und DSGVO." />
+  <meta name="robots" content="noindex, follow" />
+  <meta property="og:image" content="https://yanghub.de/preview.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="YangHub – Kostenlose Metin2 Tools" />
+  <meta name="theme-color" content="#0c1a15" />
+  <link rel="canonical" href="https://yanghub.de/impressum" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    :root {
+      --bg-deep:       #07100d;
+      --bg-main:       #0c1a15;
+      --bg-card:       #111f18;
+      --border:        #1e3528;
+      --border-accent: #2d6b4a;
+      --accent:        #2d9e6b;
+      --accent-light:  #3dbf82;
+      --accent-glow:   rgba(45,158,107,.15);
+      --text-primary:  #e8e0d0;
+      --text-secondary:#8fa898;
+      --text-muted:    #4a6357;
+      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+      --ease: .25s ease;
+    }
+    body {
+      background: var(--bg-main);
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    .app-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 1.5rem;
+      background: rgba(7,16,13,.9); border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-logo {
+      font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 700;
+      text-decoration: none; color: inherit;
+    }
+    .header-logo .yang { color: var(--accent); }
+    .header-logo .hub  { color: var(--text-primary); }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse 70% 55% at 50% 30%, rgba(13,40,28,.9) 0%, var(--bg-deep) 70%);
+      padding: 4rem 1.5rem 5rem;
+    }
+    #particles-canvas {
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    }
+
+    /* ── CONTENT ── */
+    .imprint-wrap {
+      position: relative; z-index: 1;
+      max-width: 680px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 2.5rem;
+    }
+
+    /* Page title */
+    .imprint-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 700; color: var(--text-primary);
+      letter-spacing: -.01em;
+    }
+    .imprint-title-line {
+      width: clamp(80px, 30%, 240px); height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      margin-top: .6rem;
+    }
+
+    /* Section blocks */
+    .imprint-section {
+      display: flex; flex-direction: column; gap: .55rem;
+    }
+    .imprint-section h2 {
+      font-family: 'Cinzel', serif;
+      font-size: .8rem; font-weight: 600;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .15rem;
+    }
+    .imprint-section p,
+    .imprint-section address {
+      font-size: .92rem; color: var(--text-secondary);
+      line-height: 1.75; font-style: normal;
+    }
+    .imprint-section a {
+      color: var(--accent-light); text-decoration: none;
+      transition: color var(--ease);
+    }
+    .imprint-section a:hover  { color: var(--text-primary); }
+    .imprint-section a:visited { color: var(--accent-light); }
+
+    /* Divider between sections */
+    .imprint-divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* ── MAGNETIC BUTTON ── */
+    .mag-wrap {
+      position: relative; display: inline-block; margin-top: .5rem;
+      width: fit-content; align-self: flex-start;
+    }
+    .mag-canvas {
+      position: absolute; pointer-events: none; z-index: 0;
+    }
+    .btn-back {
+      position: relative; z-index: 1;
+      display: inline-flex; align-items: center; gap: .6rem;
+      padding: .85rem 2.1rem;
+      background: transparent;
+      border: 1px solid var(--border-accent); border-radius: 999px;
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif; font-size: .84rem;
+      font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none;
+      transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
+      user-select: none;
+    }
+    .btn-back.is-hovered {
+      background: rgba(45,158,107,.1);
+      border-color: var(--accent);
+      box-shadow: 0 0 30px rgba(45,158,107,.18), inset 0 0 20px rgba(45,158,107,.04);
+    }
+    .btn-back:visited { color: var(--text-primary); }
+    .btn-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 8px var(--accent);
+      flex-shrink: 0;
+      animation: dotHeartbeat 2.8s ease-in-out infinite;
+    }
+    @keyframes dotHeartbeat {
+      0%,100% { transform: scale(1);    box-shadow: 0 0 6px var(--accent); }
+      14%      { transform: scale(1.45); box-shadow: 0 0 12px var(--accent-light); }
+      28%      { transform: scale(1);    box-shadow: 0 0 6px var(--accent); }
+      42%      { transform: scale(1.28); box-shadow: 0 0 10px var(--accent-light); }
+      56%      { transform: scale(1);    box-shadow: 0 0 6px var(--accent); }
+    }
+    .btn-back.is-hovered .btn-dot {
+      transform: scale(1.4); box-shadow: 0 0 14px var(--accent-light);
+      animation-play-state: paused;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.5rem 1.25rem;
+      background: var(--bg-deep); border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-copy { font-size: .75rem; color: var(--text-muted); margin-bottom: .2rem; }
+    .footer-disclaimer { font-size: .72rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <a href="/" class="header-logo" aria-label="YangHub Startseite">
+      <span class="yang">Yang</span><span class="hub">Hub</span>
+    </a>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+    <div class="imprint-wrap">
+
+      <!-- Titel -->
+      <div>
+        <h1 class="imprint-title">Impressum</h1>
+        <div class="imprint-title-line" aria-hidden="true"></div>
+      </div>
+
+      <!-- Angaben gemäß § 5 DDG -->
+      <div class="imprint-section">
+        <h2>Angaben gemäß § 5 DDG</h2>
+        <address>
+          Oskar Zmich<br />
+          Hauptstraße 5e<br />
+          21357 Wittorf<br />
+          Deutschland
+        </address>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- Kontakt -->
+      <div class="imprint-section">
+        <h2>Kontakt</h2>
+        <p>
+          E-Mail: <a href="mailto:trustoskar@gmail.com">trustoskar@gmail.com</a>
+        </p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- Verantwortlich -->
+      <div class="imprint-section">
+        <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+        <p>Oskar Zmich (gleiche Anschrift wie oben)</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- Haftungsausschluss -->
+      <div class="imprint-section">
+        <h2>Haftungsausschluss</h2>
+        <p><strong style="color:var(--text-primary);font-weight:500;">Haftung für Inhalte</strong><br />
+        Die Inhalte dieser Seite wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann ich jedoch keine Gewähr übernehmen.</p>
+        <p><strong style="color:var(--text-primary);font-weight:500;">Haftung für Links</strong><br />
+        Mein Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</p>
+        <p><strong style="color:var(--text-primary);font-weight:500;">Urheberrecht</strong><br />
+        Die von mir erstellten Inhalte und Werke auf dieser Seite unterliegen dem deutschen Urheberrecht. Beiträge Dritter sind als solche gekennzeichnet. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- EU-Streitschlichtung -->
+      <div class="imprint-section">
+        <h2>EU-Streitschlichtung</h2>
+        <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+          <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>.
+          Ich bin nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- Hinweis -->
+      <div class="imprint-section">
+        <h2>Hinweis</h2>
+        <p>Dieses Projekt ist ein inoffizielles Fan-/Hilfsprojekt und steht in keiner Verbindung zu Gameforge, Metin2 oder Webzen. Alle Spiel- und Markennamen sind Eigentum ihrer jeweiligen Inhaber.</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- ── DATENSCHUTZ BLOCK TITLE ── -->
+      <div style="padding-top:1rem;">
+        <h1 class="imprint-title">Datenschutz&shy;erklärung</h1>
+        <div class="imprint-title-line" aria-hidden="true"></div>
+      </div>
+
+      <!-- 1. Verantwortlicher -->
+      <div class="imprint-section">
+        <h2>Verantwortlicher</h2>
+        <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p>
+        <address style="margin-top:.4rem;">
+          Oskar Zmich<br />
+          Hauptstraße 5e<br />
+          21357 Wittorf<br />
+          Deutschland<br />
+          E-Mail: <a href="mailto:trustoskar@gmail.com">trustoskar@gmail.com</a>
+        </address>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- 2. Allgemeines -->
+      <div class="imprint-section">
+        <h2>Allgemeines zur Datenverarbeitung</h2>
+        <p>Der Schutz deiner persönlichen Daten ist mir wichtig. YangHub ist bewusst so gestaltet, dass so wenig Daten wie möglich anfallen. Diese Website erhebt, verarbeitet oder speichert <strong style="color:var(--text-primary);font-weight:500;">keine personenbezogenen Daten</strong> auf eigenen Servern.</p>
+        <p>Es gibt keine Nutzerkonten, keine Registrierung, keine Anmeldung und kein Login. Alle Funktionen der Website stehen ohne Angabe persönlicher Daten zur Verfügung.</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- 3. Lokale Speicherung -->
+      <div class="imprint-section">
+        <h2>Lokale Speicherung (localStorage)</h2>
+        <p>Einige Tools speichern Nutzereinstellungen und -daten ausschließlich lokal im Browser des Nutzers über die <code style="font-size:.82rem;color:var(--accent);background:rgba(45,158,107,.08);padding:.1rem .35rem;border-radius:4px;">localStorage</code>-Technologie. Dazu gehören z. B.:</p>
+        <ul style="list-style:none;margin:.5rem 0 .5rem 0;display:flex;flex-direction:column;gap:.3rem;">
+          <li style="color:var(--text-secondary);font-size:.92rem;padding-left:1.2rem;position:relative;"><span style="color:var(--accent);position:absolute;left:0;">•</span>Spracheinstellung (Deutsch / Englisch)</li>
+          <li style="color:var(--text-secondary);font-size:.92rem;padding-left:1.2rem;position:relative;"><span style="color:var(--accent);position:absolute;left:0;">•</span>Eingetragene Notizen und Itempreise (Metin2 Notes)</li>
+          <li style="color:var(--text-secondary);font-size:.92rem;padding-left:1.2rem;position:relative;"><span style="color:var(--accent);position:absolute;left:0;">•</span>Kartenmarkierungen (SchnappKingM2, Okey-Event Tracker)</li>
+        </ul>
+        <p>Diese Daten verlassen das Gerät des Nutzers nicht, werden nicht an Server übertragen und sind ausschließlich lokal im verwendeten Browser gespeichert. Sie können jederzeit über die Browser-Einstellungen gelöscht werden.</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- 4. Cookies -->
+      <div class="imprint-section">
+        <h2>Cookies</h2>
+        <p>YangHub setzt <strong style="color:var(--text-primary);font-weight:500;">keine Cookies</strong> zu Tracking-, Analyse- oder Werbezwecken. Es werden ausschließlich technisch notwendige Browser-Mechanismen (localStorage) verwendet, die keine Cookies im klassischen Sinne darstellen und keine Daten an Dritte übermitteln.</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- 5. Hosting / Vercel -->
+      <div class="imprint-section">
+        <h2>Hosting & Server-Logs</h2>
+        <p>Diese Website wird gehostet von:</p>
+        <p style="margin-top:.4rem;"><strong style="color:var(--text-primary);font-weight:500;">Vercel Inc.</strong><br />
+        440 N Barranca Ave #4133, Covina, CA 91723, USA<br />
+        <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Vercel</a></p>
+        <p style="margin-top:.6rem;">Beim Aufruf der Website werden durch den Hosting-Anbieter technische Zugriffsdaten (sog. Server-Logs) erfasst. Dazu können gehören: IP-Adresse, Datum und Uhrzeit des Abrufs, aufgerufene URL, übertragene Datenmenge, HTTP-Statuscode sowie der verwendete Browser. Diese Daten werden ausschließlich zur Sicherstellung des technischen Betriebs und zur Fehleranalyse verarbeitet und nicht zur Identifizierung einzelner Nutzer genutzt. Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem sicheren Betrieb der Website).</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- 6. Google Fonts -->
+      <div class="imprint-section">
+        <h2>Google Fonts</h2>
+        <p>Diese Website lädt Schriftarten über den Dienst <strong style="color:var(--text-primary);font-weight:500;">Google Fonts</strong> (Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA). Dabei wird beim Laden der Seite eine Verbindung zu Google-Servern hergestellt, bei der technische Daten (u. a. die IP-Adresse des Nutzers) übertragen werden können. Die Einbindung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer einheitlichen Darstellung). Weitere Informationen findest du in der <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Google</a>.</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- 7. Externe Links -->
+      <div class="imprint-section">
+        <h2>Externe Links</h2>
+        <p>Diese Website enthält Links zu externen Diensten Dritter (z. B. Revolut für freiwillige Trinkgeld-Zahlungen). Beim Aufrufen dieser Links gelten die Datenschutzbestimmungen des jeweiligen Anbieters. Ich habe keinen Einfluss auf deren Datenverarbeitungspraktiken und übernehme dafür keine Verantwortung.</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- 8. Rechte der Nutzer -->
+      <div class="imprint-section">
+        <h2>Deine Rechte als Nutzer (DSGVO)</h2>
+        <p>Gemäß der Datenschutz-Grundverordnung (DSGVO) stehen dir folgende Rechte zu:</p>
+        <ul style="list-style:none;margin:.5rem 0 .5rem 0;display:flex;flex-direction:column;gap:.3rem;">
+          <li style="color:var(--text-secondary);font-size:.92rem;padding-left:1.2rem;position:relative;"><span style="color:var(--accent);position:absolute;left:0;">•</span><strong style="color:var(--text-primary);font-weight:500;">Auskunft</strong> – Du hast das Recht zu erfahren, welche Daten über dich gespeichert sind (Art. 15 DSGVO).</li>
+          <li style="color:var(--text-secondary);font-size:.92rem;padding-left:1.2rem;position:relative;"><span style="color:var(--accent);position:absolute;left:0;">•</span><strong style="color:var(--text-primary);font-weight:500;">Berichtigung</strong> – Unrichtige Daten können korrigiert werden (Art. 16 DSGVO).</li>
+          <li style="color:var(--text-secondary);font-size:.92rem;padding-left:1.2rem;position:relative;"><span style="color:var(--accent);position:absolute;left:0;">•</span><strong style="color:var(--text-primary);font-weight:500;">Löschung</strong> – Du kannst die Löschung deiner Daten verlangen (Art. 17 DSGVO). Lokale Daten löschst du direkt über deinen Browser.</li>
+          <li style="color:var(--text-secondary);font-size:.92rem;padding-left:1.2rem;position:relative;"><span style="color:var(--accent);position:absolute;left:0;">•</span><strong style="color:var(--text-primary);font-weight:500;">Widerspruch</strong> – Du kannst der Verarbeitung deiner Daten widersprechen (Art. 21 DSGVO).</li>
+          <li style="color:var(--text-secondary);font-size:.92rem;padding-left:1.2rem;position:relative;"><span style="color:var(--accent);position:absolute;left:0;">•</span><strong style="color:var(--text-primary);font-weight:500;">Beschwerde</strong> – Du hast das Recht, dich bei einer Datenschutzaufsichtsbehörde zu beschweren.</li>
+        </ul>
+        <p>Da über YangHub selbst keine personenbezogenen Daten auf Servern gespeichert werden, können Auskunfts- und Löschanfragen per E-Mail an <a href="mailto:trustoskar@gmail.com">trustoskar@gmail.com</a> gestellt werden.</p>
+      </div>
+
+      <div class="imprint-divider" aria-hidden="true"></div>
+
+      <!-- 9. Änderungen -->
+      <div class="imprint-section">
+        <h2>Änderungen dieser Datenschutzerklärung</h2>
+        <p>Ich behalte mir vor, diese Datenschutzerklärung bei Bedarf anzupassen, um sie an geänderte Rechtslage oder Änderungen am Dienst anzupassen. Die jeweils aktuelle Version ist unter <a href="https://yanghub.de/impressum" target="_blank" rel="noopener noreferrer">yanghub.de/impressum</a> abrufbar.</p>
+        <p style="margin-top:.4rem;color:var(--text-muted);font-size:.82rem;">Stand: März 2026</p>
+      </div>
+
+      <!-- CTA Button -->
+      <div class="mag-wrap" id="back-wrap">
+        <canvas class="mag-canvas" id="back-canvas"></canvas>
+        <a href="/" class="btn-back" id="back-btn" aria-label="Zurück zur Hauptseite">
+          <span class="btn-dot"></span>
+          Zurück zur Hauptseite
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-copy">© <span id="footer-year"></span> YangHub. Alle Rechte vorbehalten.</p>
+    <p class="footer-disclaimer">YangHub ist kein offizielles Produkt von Gameforge oder Metin2.</p>
+  </footer>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // HINTERGRUND-PARTIKEL
+    // ═══════════════════════════════════════════════════════════
+    const canvas = document.getElementById('particles-canvas');
+    const ctx    = canvas.getContext('2d');
+    const COUNT  = 55;
+
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function spawn() {
+      return {
+        x:     Math.random() * canvas.width,
+        y:     Math.random() * canvas.height,
+        vx:    (Math.random() - .5) * .28,
+        vy:    (Math.random() - .5) * .28,
+        size:  .5 + Math.random() * 1.4,
+        op:    Math.random() * .45 + .05,
+        pulse: Math.random() * Math.PI * 2,
+      };
+    }
+    const particles = Array.from({length: COUNT}, spawn);
+
+    (function tick() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x    += p.vx;
+        p.y    += p.vy;
+        p.pulse += .018;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width)  p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+        const alpha = (p.op * (.5 + .5 * Math.sin(p.pulse))).toFixed(2);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(45,158,107,${alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(tick);
+    })();
+
+    // ═══════════════════════════════════════════════════════════
+    // MAGNET-PARTIKEL BUTTON
+    // ═══════════════════════════════════════════════════════════
+    function initButtonParticles(wrapId, btnId, canvasId) {
+      const wrap   = document.getElementById(wrapId);
+      const btn    = document.getElementById(btnId);
+      const canvas = document.getElementById(canvasId);
+      if (!wrap || !btn || !canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      const RADIUS = 120;
+      const COUNT  = 24;
+
+      function resizeCanvas() {
+        const r = wrap.getBoundingClientRect();
+        canvas.width               = r.width  + 160;
+        canvas.height              = r.height + 160;
+        canvas.style.position      = 'absolute';
+        canvas.style.left          = '-80px';
+        canvas.style.top           = '-80px';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex        = '0';
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      function spawnParticle() {
+        const angle = Math.random() * Math.PI * 2;
+        const dist  = 48 + Math.random() * 38;
+        return {
+          x:     canvas.width  / 2 + Math.cos(angle) * dist,
+          y:     canvas.height / 2 + Math.sin(angle) * dist,
+          size:  0.5 + Math.random() * 1.3,
+          op:    0,
+          pulse: Math.random() * Math.PI * 2,
+          speed: 0.010 + Math.random() * 0.016,
+        };
+      }
+
+      const pts = Array.from({length: COUNT}, spawnParticle);
+      let mx = -999, my = -999, isNear = false;
+
+      window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+      window.addEventListener('mouseleave', () => { mx = -999; my = -999; });
+
+      wrap.addEventListener('mouseenter', () => btn.classList.add('is-hovered'));
+      wrap.addEventListener('mouseleave', () => btn.classList.remove('is-hovered'));
+
+      function tick() {
+        const r  = wrap.getBoundingClientRect();
+        const cx = r.left + r.width  / 2;
+        const cy = r.top  + r.height / 2;
+        const dx = mx - cx, dy = my - cy;
+        isNear   = (dx*dx + dy*dy) < (RADIUS * RADIUS);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const cr  = canvas.getBoundingClientRect();
+        const lmx = mx - cr.left;
+        const lmy = my - cr.top;
+
+        pts.forEach(p => {
+          p.pulse += 0.04;
+          if (isNear) {
+            p.x  += (lmx - p.x) * p.speed;
+            p.y  += (lmy - p.y) * p.speed;
+            p.op  = Math.min(1, p.op + 0.06);
+            const ddx = p.x - lmx, ddy = p.y - lmy;
+            if ((ddx*ddx + ddy*ddy) < 16) { Object.assign(p, spawnParticle()); p.op = 0; }
+          } else {
+            p.op = Math.max(0, p.op - 0.04);
+          }
+          if (p.op < 0.01) return;
+          const alpha = (p.op * (0.3 + 0.2 * Math.sin(p.pulse))).toFixed(2);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(45,158,107,${alpha})`;
+          ctx.fill();
+        });
+
+        requestAnimationFrame(tick);
+      }
+      tick();
+    }
+
+    initButtonParticles('back-wrap', 'back-btn', 'back-canvas');
+
+    // Footer Jahr
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
