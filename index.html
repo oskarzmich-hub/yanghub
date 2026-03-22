@@ -13,10 +13,9 @@
   <meta property="og:description" content="Yang-Preisrechner, Markt-Notizen & mehr – kostenlos für die Metin2-Community." />
   <meta property="og:locale"      content="de_DE" />
   <meta name="author" content="YangHub" />
-  <!-- canonical: set to full URL once domain is live, e.g. https://yanghub.de/ -->
-  <!-- <link rel="canonical" href="https://yanghub.de/" /> -->
-  <!-- og:url + og:image: add once domain + screenshot are ready -->
-  <!-- <meta property="og:url"   content="https://yanghub.de/" /> -->
+  <link rel="canonical" href="https://yanghub.de/" />
+  <meta property="og:url"   content="https://yanghub.de/" />
+  <!-- og:image: add once preview screenshot is ready -->
   <!-- <meta property="og:image" content="https://yanghub.de/preview.png" /> -->
   <script type="application/ld+json">
   {
@@ -253,21 +252,21 @@
       display: flex; align-items: center; gap: .35rem;
       font-family: 'Outfit', sans-serif;
       font-size: .6rem; font-weight: 600; letter-spacing: .13em;
-      text-transform: uppercase; color: rgba(220,120,40,.75);
-      background: rgba(220,120,40,.06);
-      border: 1px solid rgba(220,120,40,.22);
+      text-transform: uppercase; color: var(--accent-light);
+      background: rgba(45,158,107,.08);
+      border: 1px solid rgba(45,158,107,.28);
       border-radius: 999px; padding: .18rem .55rem .18rem .45rem;
       pointer-events: none;
     }
     .indev-dot {
       width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
-      background: rgba(220,120,40,.9);
-      box-shadow: 0 0 5px rgba(220,120,40,.7);
+      background: var(--accent);
+      box-shadow: 0 0 5px rgba(45,158,107,.8);
       animation: indevPulse 2.4s ease-in-out infinite;
     }
     @keyframes indevPulse {
-      0%,100% { opacity: 1;   box-shadow: 0 0 5px rgba(220,120,40,.7); }
-      50%      { opacity: .45; box-shadow: 0 0 2px rgba(220,120,40,.3); }
+      0%,100% { opacity: 1;   box-shadow: 0 0 6px rgba(45,158,107,.8); }
+      50%      { opacity: .45; box-shadow: 0 0 2px rgba(45,158,107,.3); }
     }
 
     /* Okey-Karte: nicht klickbar + subtiler oranger Highlight */
@@ -284,8 +283,82 @@
     .fade-in.visible { opacity:1; transform:translateY(0); }
     .fade-in:nth-child(2) { transition-delay:.1s; }
     .fade-in:nth-child(3) { transition-delay:.2s; }
+
+    /* ── KONTAKT BUTTON ── */
+    .btn-contact {
+      display: inline-flex; align-items: center; gap: .45rem;
+      margin-top: 1.1rem;
+      padding: .55rem 1.3rem;
+      background: transparent; border: 1px solid var(--border-accent);
+      border-radius: 999px; color: var(--text-secondary);
+      font-family: 'Outfit', sans-serif; font-size: .85rem; font-weight: 500;
+      cursor: pointer; transition: all .25s ease;
+    }
+    .btn-contact:hover {
+      background: var(--accent-glow); color: var(--accent-light);
+      border-color: var(--accent); box-shadow: 0 0 22px rgba(45,158,107,.15);
+    }
+
+    /* ── KONTAKT MODAL ── */
+    .yh-modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(7,16,13,.82); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .2s ease;
+    }
+    .yh-modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .yh-modal {
+      background: var(--bg-card); border: 1px solid var(--border-accent);
+      border-radius: 20px; padding: 2rem 2rem 1.5rem;
+      max-width: 380px; width: calc(100% - 2.5rem);
+      transform: translateY(12px) scale(.97); transition: transform .2s ease;
+      box-shadow: 0 16px 48px rgba(0,0,0,.6), 0 0 32px rgba(45,158,107,.08);
+      position: relative;
+    }
+    .yh-modal-overlay.open .yh-modal { transform: translateY(0) scale(1); }
+    .yh-modal-title {
+      font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: .5rem;
+    }
+    .yh-modal-text {
+      font-size: .875rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;
+    }
+    .yh-modal-email {
+      display: flex; align-items: center; gap: .55rem;
+      background: rgba(45,158,107,.08); border: 1px solid var(--border-accent);
+      border-radius: 8px; padding: .65rem .9rem;
+      margin-bottom: 1.3rem;
+    }
+    .yh-modal-email a {
+      color: var(--accent-light); text-decoration: none; font-size: .88rem;
+      font-weight: 500; word-break: break-all;
+    }
+    .yh-modal-email a:hover { text-decoration: underline; }
+    .yh-modal-close {
+      display: block; width: 100%;
+      padding: .55rem 1rem; border-radius: 999px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-secondary); font-family: 'Outfit', sans-serif;
+      font-size: .83rem; font-weight: 500; cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .yh-modal-close:hover { border-color: var(--border-accent); color: var(--text-primary); }
   </style>
 </head>
+<body>
+
+  <!-- KONTAKT MODAL -->
+  <div class="yh-modal-overlay" id="modal-contact" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+    <div class="yh-modal">
+      <h4 class="yh-modal-title" id="contact-modal-title" data-i18n="contact-modal-title">Kontakt</h4>
+      <p class="yh-modal-text" data-i18n="contact-modal-text">Bug gefunden, Idee gehabt oder einfach hallo sagen – schreib mir.</p>
+      <div class="yh-modal-email">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--accent)"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href="mailto:trustoskar@gmail.com">trustoskar@gmail.com</a>
+      </div>
+      <button type="button" class="yh-modal-close" onclick="closeContactModal()" data-i18n="modal-close">Schließen</button>
+    </div>
+  </div>
 <body>
 
   <!-- SPRACH-SWITCH -->
@@ -305,15 +378,15 @@
       </div>
       <h1 class="hero-title"><span class="yang">Yang</span><span class="hub">Hub</span></h1>
       <div class="hero-divider" aria-hidden="true"></div>
-      <p class="hero-sub" data-i18n="hero-sub">Dein zentraler Hub für <span class="accent">Metin2</span> – Yang-Preisrechner, Markt-Tools &amp; mehr.</p>
-      <p class="hero-sub2" data-i18n="hero-sub2">Kostenlos. Kein Account. Für die Community.</p>
+      <p class="hero-sub" data-i18n="hero-sub">Alles für deinen Metin2-Alltag – Marktpreise, Event-Tracker & mehr. <span class="accent">Kostenlos.</span></p>
+      <p class="hero-sub2" data-i18n="hero-sub2">Kein Account. Keine Werbung. Einfach benutzen.</p>
 
       <!-- Wrapper bleibt statisch. Canvas liegt dahinter für Partikel. -->
       <div class="mag-wrap" id="mag-wrap">
         <canvas class="mag-canvas" id="mag-canvas"></canvas>
         <button type="button" class="btn-primary" id="hero-btn">
           <span class="btn-icon-dot"></span>
-          <span data-i18n="hero-btn">Zu den Apps</span>
+          <span data-i18n="hero-btn">Tools entdecken</span>
         </button>
       </div>
     </div>
@@ -329,33 +402,33 @@
     <div class="container">
       <p class="section-label" data-i18n="tools-label">DAS ARSENAL</p>
       <h2 class="section-title" data-i18n="tools-title">Tools &amp; Apps</h2>
-      <p class="section-desc" data-i18n="tools-desc">Kostenlose Metin2 Tools für die deutsche Community. Von Spielern, für Spieler.</p>
+      <p class="section-desc" data-i18n="tools-desc">Kostenlose Metin2 Tools – kein Login, keine Werbung, direkt loslegen.</p>
       <div class="tools-grid">
         <article class="tool-card fade-in" id="card-1" data-href="notes.html" role="button" tabindex="0">
           <canvas class="card-canvas" id="card-canvas-1" aria-hidden="true"></canvas>
-          <span class="indev-badge" aria-label="In Entwicklung"><span class="indev-dot"></span>In Dev</span>
+          <span class="indev-badge" aria-label="Beta"><span class="indev-dot"></span>Beta</span>
           <div class="card-content">
             <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
             <h3 data-i18n="tool1-name">Metin2 Notes</h3>
-            <p data-i18n="tool1-desc">Preiskalkulator &amp; Notizen für den Markt. Erfasse Itempreise und berechne Mengen automatisch.</p>
+            <p data-i18n="tool1-desc">Itempreise eintragen, Mengen automatisch berechnen – alles auf einen Blick. Für den Markt-Grind.</p>
           </div>
         </article>
         <article class="tool-card fade-in" id="card-2" data-href="schnapp-king.html" role="button" tabindex="0">
           <canvas class="card-canvas" id="card-canvas-2" aria-hidden="true"></canvas>
-          <span class="indev-badge" aria-label="In Entwicklung"><span class="indev-dot"></span>In Dev</span>
+          <span class="indev-badge" aria-label="Beta"><span class="indev-dot"></span>Beta</span>
           <div class="card-content">
             <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="3" y2="21"/><line x1="3" y1="19" x2="5" y2="21"/></svg></div>
             <h3 data-i18n="tool2-name">SchnappKingM2</h3>
-            <p data-i18n="tool2-desc">Companion-Tool für 'Schnapp den König'. Tracke Karten und visualisiere die Warnungs-Logik.</p>
+            <p data-i18n="tool2-desc">Karten markieren, Warnungen im Blick – dein Begleiter fürs Schnapp-den-König-Event.</p>
           </div>
         </article>
         <article class="tool-card fade-in" id="card-3" data-href="okey-tracker.html" role="button" tabindex="0">
           <canvas class="card-canvas" id="card-canvas-3" aria-hidden="true"></canvas>
-          <span class="indev-badge" aria-label="In Entwicklung"><span class="indev-dot"></span>In Dev</span>
+          <span class="indev-badge" aria-label="Beta"><span class="indev-dot"></span>Beta</span>
           <div class="card-content">
             <div class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tool-svg"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
             <h3 data-i18n="tool3-name">Okey-Event Tracker</h3>
-            <p data-i18n="tool3-desc">Behalte den Überblick über alle Karten im Okey-Event. Markiere gespielte Karten und plane Kombinationen.</p>
+            <p data-i18n="tool3-desc">Welche Karten sind noch da? Markiere genommene Karten und plane deine nächste Kombi.</p>
           </div>
         </article>
       </div>
@@ -367,16 +440,20 @@
     <div class="container">
       <p class="section-label" data-i18n="about-label">DIE VISION</p>
       <h2 class="section-title" data-i18n="about-title">Über YangHub</h2>
-      <p class="section-desc" data-i18n="about-sub">Ein Ort für alle Metin2 Tools – kostenlos für die Community.</p>
+      <p class="section-desc" data-i18n="about-sub">Ich bin Oskar. YangHub ist mein Community-Projekt für Metin2-Spieler.</p>
       <div class="about-box fade-in">
-        <p data-i18n="about-text1"><strong class="accent">YangHub</strong> ist meine Vision, einen zentralen Ort zu schaffen, an dem Metin2 Spieler alles finden, was sie brauchen.</p>
-        <p data-i18n="about-text2">Aktuell bietet YangHub drei kostenlose Tools:</p>
+        <p data-i18n="about-text1">Ich spiele Metin2 seit Jahren und hatte irgendwann genug davon, Preise im Kopf zu rechnen oder Event-Karten auf Papier zu tracken. Also hab ich <strong class="accent">YangHub</strong> gebaut – für mich und für euch.</p>
+        <p data-i18n="about-text2">Drei Tools, alle kostenlos:</p>
         <ul>
-          <li data-i18n="about-li1"><strong>Metin2 Notes</strong> — Preiskalkulator und Schnellnotizen für den Markt.</li>
-          <li data-i18n="about-li2"><strong>SchnappKingM2</strong> — Tracker für das 'Schnapp den König'-Minispiel.</li>
-          <li data-i18n="about-li3"><strong>Okey-Event Tracker</strong> — Kartenübersicht für das Okey-Event.</li>
+          <li data-i18n="about-li1"><strong>Metin2 Notes</strong> — Preiskalkulator & Schnellnotizen für den Markthandel.</li>
+          <li data-i18n="about-li2"><strong>SchnappKingM2</strong> — Kartentracker fürs Schnapp-den-König-Minispiel.</li>
+          <li data-i18n="about-li3"><strong>Okey-Event Tracker</strong> — Behalte den Überblick über alle Okey-Karten.</li>
         </ul>
-        <p data-i18n="about-text3">Alle Tools sind aktiv in Entwicklung — Updates und neue Features kommen regelmäßig.</p>
+        <p data-i18n="about-text3">Alle Tools sind kostenlos und werden laufend verbessert. Feedback? Gerne.</p>
+        <button type="button" class="btn-contact" onclick="openContactModal()" aria-label="Kontakt öffnen">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span data-i18n="btn-contact">Kontakt</span>
+        </button>
       </div>
     </div>
   </section>
@@ -395,7 +472,7 @@
           </a>
         </div>
       </div>
-      <p class="footer-copy" data-i18n="footer-copy">© 2025 YangHub. Alle Rechte vorbehalten.</p>
+      <p class="footer-copy" data-i18n="footer-copy">© <span id="footer-year"></span> YangHub. Alle Rechte vorbehalten.</p>
       <p class="footer-disclaimer" data-i18n="footer-disclaimer">YangHub ist kein offizielles Produkt von Gameforge oder Metin2.</p>
     </div>
   </footer>
@@ -407,52 +484,60 @@
     const t = {
       de: {
         "hero-badge":"METIN2 TOOLS HUB",
-        "hero-sub":'Dein zentraler Hub für <span class="accent">Metin2</span> – Yang-Preisrechner, Markt-Tools & mehr.',
-        "hero-sub2":"Kostenlos. Kein Account. Für die Community.",
-        "hero-btn":"Zu den Apps",
+        "hero-sub":'Alles für deinen Metin2-Alltag – Marktpreise, Event-Tracker & mehr. <span class="accent">Kostenlos.</span>',
+        "hero-sub2":"Kein Account. Keine Werbung. Einfach benutzen.",
+        "hero-btn":"Tools entdecken",
         "tools-label":"DAS ARSENAL","tools-title":"Tools &amp; Apps",
-        "tools-desc":"Kostenlose Metin2 Tools für die deutsche Community. Von Spielern, für Spieler.",
+        "tools-desc":"Kostenlose Metin2 Tools – kein Login, keine Werbung, direkt loslegen.",
         "tool1-name":"Metin2 Notes",
-        "tool1-desc":"Preiskalkulator & Notizen für den Markt. Erfasse Itempreise und berechne Mengen automatisch.",
+        "tool1-desc":"Itempreise eintragen, Mengen automatisch berechnen – alles auf einen Blick. Für den Markt-Grind.",
         "tool2-name":"SchnappKingM2",
-        "tool2-desc":"Companion-Tool für 'Schnapp den König'. Tracke Karten und visualisiere die Warnungs-Logik.",
+        "tool2-desc":"Karten markieren, Warnungen im Blick – dein Begleiter fürs Schnapp-den-König-Event.",
         "tool3-name":"Okey-Event Tracker",
-        "tool3-desc":"Behalte den Überblick über alle Karten im Okey-Event. Markiere gespielte Karten und plane Kombinationen.",
+        "tool3-desc":"Welche Karten sind noch da? Markiere genommene Karten und plane deine nächste Kombi.",
         "about-label":"DIE VISION","about-title":"Über YangHub",
-        "about-sub":"Ein Ort für alle Metin2 Tools – kostenlos für die Community.",
-        "about-text1":'<strong class="accent">YangHub</strong> ist meine Vision, einen zentralen Ort zu schaffen, an dem Metin2 Spieler alles finden, was sie brauchen.',
-        "about-text2":"Aktuell bietet YangHub drei kostenlose Tools:",
-        "about-li1":"<strong>Metin2 Notes</strong> — Preiskalkulator und Schnellnotizen für den Markt.",
-        "about-li2":"<strong>SchnappKingM2</strong> — Tracker für das 'Schnapp den König'-Minispiel.",
-        "about-li3":"<strong>Okey-Event Tracker</strong> — Kartenübersicht für das Okey-Event.",
-        "about-text3":"Alle Tools sind aktiv in Entwicklung — Updates und neue Features kommen regelmäßig.",
+        "about-sub":"Ich bin Oskar. YangHub ist mein Community-Projekt für Metin2-Spieler.",
+        "about-text1":'Ich spiele Metin2 seit Jahren und hatte irgendwann genug davon, Preise im Kopf zu rechnen oder Event-Karten auf Papier zu tracken. Also hab ich <strong class="accent">YangHub</strong> gebaut – für mich und für euch.',
+        "about-text2":"Drei Tools, alle kostenlos:",
+        "about-li1":"<strong>Metin2 Notes</strong> — Preiskalkulator & Schnellnotizen für den Markthandel.",
+        "about-li2":"<strong>SchnappKingM2</strong> — Kartentracker fürs Schnapp-den-König-Minispiel.",
+        "about-li3":"<strong>Okey-Event Tracker</strong> — Behalte den Überblick über alle Okey-Karten.",
+        "about-text3":"Alle Tools sind kostenlos und werden laufend verbessert. Feedback? Gerne.",
+        "btn-contact":"Kontakt",
+        "contact-modal-title":"Kontakt",
+        "contact-modal-text":"Bug gefunden, Idee gehabt oder einfach hallo sagen – schreib mir.",
+        "modal-close":"Schließen",
         "footer-tip-label":"Gefällt dir YangHub?","footer-tip-btn":"Trinkgeld geben",
-        "footer-copy":"© 2025 YangHub. Alle Rechte vorbehalten.",
+        "footer-copy":"© " + new Date().getFullYear() + " YangHub. Alle Rechte vorbehalten.",
         "footer-disclaimer":"YangHub ist kein offizielles Produkt von Gameforge oder Metin2."
       },
       en: {
         "hero-badge":"METIN2 TOOLS HUB",
-        "hero-sub":'Your central hub for <span class="accent">Metin2</span> – Yang calculator, market tools &amp; more.',
-        "hero-sub2":"Free. No account. For the community.",
-        "hero-btn":"Go to Apps",
+        "hero-sub":'Everything for your Metin2 grind – market prices, event trackers & more. <span class="accent">Free.</span>',
+        "hero-sub2":"No account. No ads. Just use it.",
+        "hero-btn":"Explore Tools",
         "tools-label":"THE ARSENAL","tools-title":"Tools & Apps",
-        "tools-desc":"Free Metin2 tools for the community. By players, for players.",
+        "tools-desc":"Free Metin2 tools – no login, no ads, just open and go.",
         "tool1-name":"Metin2 Notes",
-        "tool1-desc":"Price calculator & notes for the market. Track item prices and calculate quantities automatically.",
+        "tool1-desc":"Enter item prices, calculate quantities automatically – everything at a glance. Built for market grinding.",
         "tool2-name":"SchnappKingM2",
-        "tool2-desc":"Companion tool for 'Catch the King'. Track cards and visualize warning logic.",
+        "tool2-desc":"Mark cards, track warnings – your companion for the Catch the King event.",
         "tool3-name":"Okey-Event Tracker",
-        "tool3-desc":"Keep track of all cards in the Okey Event. Mark played cards and plan combinations.",
+        "tool3-desc":"Which cards are still in play? Mark taken cards and plan your next combo.",
         "about-label":"THE VISION","about-title":"About YangHub",
-        "about-sub":"One place for all Metin2 Tools – free for the community.",
-        "about-text1":'<strong class="accent">YangHub</strong> is my vision to create a central place where Metin2 players can find everything they need.',
-        "about-text2":"YangHub currently offers three free tools:",
-        "about-li1":"<strong>Metin2 Notes</strong> — Price calculator and quick notes for the market.",
-        "about-li2":"<strong>SchnappKingM2</strong> — Tracker for the 'Catch the King' mini-game.",
-        "about-li3":"<strong>Okey-Event Tracker</strong> — Card overview for the Okey Event.",
-        "about-text3":"All tools are actively in development — updates and new features arrive regularly.",
+        "about-sub":"I'm Oskar. YangHub is my community project for Metin2 players.",
+        "about-text1":'I\'ve been playing Metin2 for years and got tired of doing price math in my head and tracking event cards on paper. So I built <strong class="accent">YangHub</strong> – for myself and for you.',
+        "about-text2":"Three tools, all free:",
+        "about-li1":"<strong>Metin2 Notes</strong> — Price calculator & quick notes for market trading.",
+        "about-li2":"<strong>SchnappKingM2</strong> — Card tracker for the Catch the King mini-game.",
+        "about-li3":"<strong>Okey-Event Tracker</strong> — Keep track of all Okey cards.",
+        "about-text3":"All tools are free and get updated regularly. Got feedback? I'm listening.",
+        "btn-contact":"Contact",
+        "contact-modal-title":"Contact",
+        "contact-modal-text":"Found a bug, got an idea or just want to say hi – feel free to reach out.",
+        "modal-close":"Close",
         "footer-tip-label":"Enjoying YangHub?","footer-tip-btn":"Leave a tip",
-        "footer-copy":"© 2025 YangHub. All rights reserved.",
+        "footer-copy":"© " + new Date().getFullYear() + " YangHub. All rights reserved.",
         "footer-disclaimer":"YangHub is not an official product of Gameforge or Metin2."
       }
     };
@@ -598,10 +683,6 @@
       tick();
     }
 
-    // Hero Button + Footer Trinkgeld Button
-    initButtonParticles("mag-wrap", "hero-btn", "mag-canvas");
-    initButtonParticles("tip-wrap", "tip-btn",  "tip-canvas");
-
     // ═══════════════════════════════════════════════════════════
     // TOOL CARD PARTICLE EFFECT
     // Larger version for big cards: particles are spread across
@@ -706,7 +787,6 @@
     // EVENTS – direkt ausführen (Script ist am Ende von <body>,
     //           DOM ist bereits vollständig geparst)
     // ═══════════════════════════════════════════════════════════
-    applyLang(lang);
 
     // Sprach-Buttons
     document.querySelectorAll(".lang-btn").forEach(btn =>
@@ -750,6 +830,26 @@
         e.key === "Enter" && (window.location.href = card.dataset.href)
       );
     });
+
+    // ── KONTAKT MODAL ──
+    function openContactModal() {
+      const overlay = document.getElementById('modal-contact');
+      overlay.classList.add('open');
+      overlay.addEventListener('click', e => { if (e.target === overlay) closeContactModal(); }, {once: true});
+    }
+    function closeContactModal() {
+      document.getElementById('modal-contact').classList.remove('open');
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeContactModal();
+    });
+
+    // Footer Jahr
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    applyLang(lang);
+    initButtonParticles("mag-wrap", "hero-btn", "mag-canvas");
+    initButtonParticles("tip-wrap", "tip-btn", "tip-canvas");
   </script>
 </body>
 </html>

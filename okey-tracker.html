@@ -13,8 +13,9 @@
   <meta property="og:description" content="Tracke deine Okey-Karten, plane Kombinationen und behalte den Überblick im Metin2 Okey-Event." />
   <meta property="og:locale"      content="de_DE" />
   <meta name="author" content="YangHub" />
-  <!-- <link rel="canonical" href="https://yanghub.de/okey-tracker.html" /> -->
-  <!-- <meta property="og:url"   content="https://yanghub.de/okey-tracker.html" /> -->
+  <link rel="canonical" href="https://yanghub.de/okey-tracker.html" />
+  <meta property="og:url"   content="https://yanghub.de/okey-tracker.html" />
+  <!-- og:image: add once preview screenshot is ready -->
   <!-- <meta property="og:image" content="https://yanghub.de/preview-okey.png" /> -->
   <script type="application/ld+json">
   {
@@ -429,6 +430,13 @@
     .pts-dot-sm.r { background: var(--red-text); }
     .pts-dot-sm.y { background: var(--yellow-text); }
 
+    /* Punkte-Hinweis */
+    .pts-tip {
+      text-align: center; margin-top: 1rem;
+      font-size: .75rem; color: var(--text-muted);
+      padding-top: .85rem; border-top: 1px solid var(--border);
+    }
+
     /* ── HOWTO SECTION ── */
     .howto-section {
       background: var(--bg-card); border: 1px solid var(--border-accent);
@@ -585,13 +593,13 @@
       <!-- HERO -->
       <div class="tool-hero">
         <h1 data-i18n="hero-title">Okey Event — <span style="color:var(--accent)">Tracker</span></h1>
-        <p data-i18n="hero-desc">Behalte den Überblick über alle Karten im Okey-Event.<br>Markiere gespielte Karten und plane deine Kombinationen.</p>
+        <p data-i18n="hero-desc">Welche Karten sind noch im Spiel? Markiere genommene Karten und plane deine nächste Kombi.</p>
       </div>
 
       <!-- INFO BAR -->
       <div class="info-bar" role="note">
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        <span data-i18n="info-bar">Dein Stand wird automatisch im Browser gespeichert (localStorage). Bei gelöschtem Cache oder Inkognito-Modus geht der Stand verloren.</span>
+        <span data-i18n="info-bar">Dein Stand wird automatisch gespeichert. Bei gelöschtem Cache oder Inkognito-Modus geht er verloren.</span>
       </div>
 
       <!-- TRACKER LAYOUT -->
@@ -762,6 +770,7 @@
           </div>
 
         </div>
+        <p class="pts-tip" data-i18n="pts-tip">💡 Höhere Kartenwerte und gleiche Farben ergeben mehr Punkte!</p>
       </section>
 
       <!-- SO FUNKTIONIERT'S -->
@@ -821,60 +830,60 @@
       de: {
         'back-btn':'Zurück','app-sub':'Event Companion',
         'hero-title':'Okey Event — <span style="color:var(--accent)">Tracker</span>',
-        'hero-desc':'Behalte den Überblick über alle Karten im Okey-Event.<br>Markiere gespielte Karten und plane deine Kombinationen.',
-        'info-bar':'Dein Stand wird automatisch im Browser gespeichert (localStorage). Bei gelöschtem Cache oder Inkognito-Modus geht der Stand verloren.',
+        'hero-desc':'Welche Karten sind noch im Spiel? Markiere genommene Karten und plane deine nächste Kombi.',
+        'info-bar':'Dein Stand wird automatisch gespeichert. Bei gelöschtem Cache oder Inkognito-Modus geht er verloren.',
         'color-blue':'Blau','color-red':'Rot','color-yellow':'Gelb',
         'panel-remaining':'VERBLEIBEND','panel-actions':'AKTIONEN','panel-help':'HILFE',
         'btn-undo':'Rückgängig','btn-reset':'Reset',
         'total-label':'Gesamt übrig: ',
-        'help-1':'Klicke auf eine Karte um sie als genommen zu markieren',
-        'help-2':'Erneut klicken setzt die Karte zurück',
-        'help-3':'Nutze „Rückgängig" um die letzte Aktion rückgängig zu machen',
+        'help-1':'Karte klicken = als genommen markieren',
+        'help-2':'Nochmal klicken = Karte zurücksetzen',
+        'help-3':'„Rückgängig" macht die letzte Aktion rückgängig',
         'points-title':'Punktetabelle',
         'pts-groups':'Gruppen (Gleiche Karten)','pts-sequences':'Reihen (Sequenzen)',
         'pts-col-cards':'Karten','pts-col-points':'Punkte',
         'pts-col-mixed':'Versch. Farben','pts-col-same':'Gleiche Farbe',
-        'howto-title':"So funktioniert's",
-        'howto-1':'<strong>Karte markieren:</strong> Klicke auf eine Karte, sobald sie im Spiel genommen wurde. Die Karte wird ausgegraut.',
-        'howto-2':'<strong>Rückgängig:</strong> Klicke erneut auf eine markierte Karte oder nutze den „Rückgängig"-Button.',
-        'howto-3':'<strong>Übersicht:</strong> Die Badges oben rechts zeigen dir wie viele Karten pro Farbe noch verfügbar sind.',
-        'howto-4':'<strong>Kombinationen planen:</strong> Nutze die Punktetabelle unten als Referenz für optimale Karten-Kombis.',
+        'pts-tip':'💡 Höhere Kartenwerte und gleiche Farben ergeben mehr Punkte!',
+        'howto-title':"So geht's",
+        'howto-1':'<strong>Karte markieren:</strong> Klick auf eine Karte sobald sie im Spiel genommen wurde – sie wird ausgegraut.',
+        'howto-2':'<strong>Rückgängig:</strong> Nochmal auf die Karte klicken oder den „Rückgängig"-Button nutzen.',
+        'howto-3':'<strong>Übersicht:</strong> Die Zahlen rechts zeigen wie viele Karten pro Farbe noch übrig sind.',
+        'howto-4':'<strong>Kombi planen:</strong> Die Punktetabelle unten zeigt dir welche Kombis sich am meisten lohnen.',
         'footer-tip-label':'Gefällt dir YangHub?','footer-tip-btn':'Trinkgeld geben',
         'footer-copy':'© ' + new Date().getFullYear() + ' YangHub. Alle Rechte vorbehalten.',
         'footer-disclaimer':'YangHub ist kein offizielles Produkt von Gameforge oder Metin2.',
         'modal-reset-title':'Zurücksetzen?',
-        'modal-reset-text':'Alle Karten werden wieder als verfügbar markiert. Diese Aktion kann nicht rückgängig gemacht werden.',
+        'modal-reset-text':'Alle Karten werden wieder auf verfügbar gesetzt. Das lässt sich nicht rückgängig machen.',
         'modal-reset-confirm':'Zurücksetzen','modal-cancel':'Abbrechen',
-        'rem-label':'{n}/8',
       },
       en: {
         'back-btn':'Back','app-sub':'Event Companion',
         'hero-title':'Okey Event — <span style="color:var(--accent)">Tracker</span>',
-        'hero-desc':'Keep track of all cards in the Okey Event.<br>Mark played cards and plan your combinations.',
-        'info-bar':'Your progress is automatically saved in your browser (localStorage). It will be lost if you clear your cache or use incognito mode.',
+        'hero-desc':'Which cards are still in play? Mark taken cards and plan your next combo.',
+        'info-bar':'Your progress is saved automatically. Clearing cache or using incognito will reset it.',
         'color-blue':'Blue','color-red':'Red','color-yellow':'Yellow',
         'panel-remaining':'REMAINING','panel-actions':'ACTIONS','panel-help':'HELP',
         'btn-undo':'Undo','btn-reset':'Reset',
         'total-label':'Total remaining: ',
         'help-1':'Click a card to mark it as taken',
         'help-2':'Click again to restore the card',
-        'help-3':'Use "Undo" to reverse the last action',
+        'help-3':'"Undo" reverses the last action',
         'points-title':'Points Table',
         'pts-groups':'Groups (Same Cards)','pts-sequences':'Sequences (Runs)',
         'pts-col-cards':'Cards','pts-col-points':'Points',
         'pts-col-mixed':'Mixed Colors','pts-col-same':'Same Color',
+        'pts-tip':'💡 Higher card values and matching colors score more points!',
         'howto-title':'How it works',
-        'howto-1':'<strong>Mark a card:</strong> Click on a card once it has been taken in the game. The card will be dimmed.',
-        'howto-2':'<strong>Undo:</strong> Click a marked card again or use the "Undo" button.',
-        'howto-3':'<strong>Overview:</strong> The badges on the right show how many cards per color are still available.',
-        'howto-4':'<strong>Plan combos:</strong> Use the points table below as a reference for optimal card combinations.',
+        'howto-1':'<strong>Mark a card:</strong> Click it once it has been taken in the game – it will be dimmed.',
+        'howto-2':'<strong>Undo:</strong> Click the card again or use the "Undo" button.',
+        'howto-3':'<strong>Overview:</strong> The numbers on the right show how many cards per color are left.',
+        'howto-4':'<strong>Plan combos:</strong> Check the points table below to see which combos are worth the most.',
         'footer-tip-label':'Enjoying YangHub?','footer-tip-btn':'Leave a tip',
         'footer-copy':'© ' + new Date().getFullYear() + ' YangHub. All rights reserved.',
         'footer-disclaimer':'YangHub is not an official product of Gameforge or Metin2.',
         'modal-reset-title':'Reset?',
-        'modal-reset-text':'All cards will be restored to available. This action cannot be undone.',
+        'modal-reset-text':'All cards will be restored to available. This cannot be undone.',
         'modal-reset-confirm':'Reset','modal-cancel':'Cancel',
-        'rem-label':'{n}/8',
       }
     };
 

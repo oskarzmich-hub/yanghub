@@ -13,8 +13,9 @@
   <meta property="og:description" content="Tracke deine aufgedeckten Karten und visualisiere die Warnungen vor einer 5 in der Nähe." />
   <meta property="og:locale"      content="de_DE" />
   <meta name="author" content="YangHub" />
-  <!-- <link rel="canonical" href="https://yanghub.de/schnapp-king.html" /> -->
-  <!-- <meta property="og:url"   content="https://yanghub.de/schnapp-king.html" /> -->
+  <link rel="canonical" href="https://yanghub.de/schnapp-king.html" />
+  <meta property="og:url"   content="https://yanghub.de/schnapp-king.html" />
+  <!-- og:image: add once preview screenshot is ready -->
   <!-- <meta property="og:image" content="https://yanghub.de/preview-schnapp.png" /> -->
   <script type="application/ld+json">
   {
@@ -606,13 +607,13 @@
 
     <div class="tool-hero">
       <h1 data-i18n="hero-title">Schnapp den König — <span style="color:var(--accent)">Tracker</span></h1>
-      <p data-i18n="hero-desc">Tracke deine aufgedeckten Karten und visualisiere die Warnungen vor einer 5 in der Nähe.<br>Manuelle Analyse-Hilfe ohne Vorhersagen oder automatische Züge.</p>
+      <p data-i18n="hero-desc">Markiere aufgedeckte Karten und behalte die Warnungen im Blick.<br>Kein Autoplay, keine Vorhersagen – nur du und das Brett.</p>
     </div>
 
     <!-- localStorage info -->
     <div class="info-bar" role="note">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-      <span data-i18n="info-bar">Dein Grid wird automatisch im Browser gespeichert (localStorage). Bei gelöschtem Browser-Cache oder Inkognito-Modus geht der Stand verloren.</span>
+      <span data-i18n="info-bar">Dein Stand wird automatisch gespeichert. Bei gelöschtem Cache oder Inkognito-Modus geht er verloren.</span>
     </div>
 
     <!-- Progress -->
@@ -756,23 +757,23 @@
 
     <!-- SO FUNKTIONIERT'S -->
     <section class="howto-section" aria-label="Anleitung">
-      <div class="howto-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0;margin-right:.35rem"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span data-i18n="howto-title">So funktioniert's</span></div>
+      <div class="howto-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0;margin-right:.35rem"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span data-i18n="howto-title">So geht's</span></div>
       <div class="howto-steps">
         <div class="howto-step">
           <div class="step-num">1</div>
-          <div class="step-text" data-i18n="howto-1"><strong>Modus wählen:</strong> „Sicher" wenn keine Warnung erschien, „Unsicher" wenn eine Warnung kam.</div>
+          <div class="step-text" data-i18n="howto-1"><strong>Modus wählen:</strong> Sicher = keine Warnung. Unsicher = Warnung ist erschienen.</div>
         </div>
         <div class="howto-step">
           <div class="step-num">2</div>
-          <div class="step-text" data-i18n="howto-2"><strong>Karte wählen:</strong> Wähle die Karte (1–5 oder König), die du im Spiel aufgedeckt hast.</div>
+          <div class="step-text" data-i18n="howto-2"><strong>Karte wählen:</strong> Welche Karte (1–5 oder König) hast du gerade aufgedeckt?</div>
         </div>
         <div class="howto-step">
           <div class="step-num">3</div>
-          <div class="step-text" data-i18n="howto-3"><strong>Feld klicken:</strong> Klicke auf das entsprechende Feld. Nachbarfelder werden automatisch markiert.</div>
+          <div class="step-text" data-i18n="howto-3"><strong>Feld klicken:</strong> Klick auf das Feld im Grid. Nachbarn werden automatisch markiert.</div>
         </div>
         <div class="howto-step">
           <div class="step-num">4</div>
-          <div class="step-text" data-i18n="howto-4"><strong>Entfernen:</strong> Desktop: Rechtsklick auf Karte. Mobile: Feld gedrückt halten (lange tippen).</div>
+          <div class="step-text" data-i18n="howto-4"><strong>Karte entfernen:</strong> Rechtsklick (Desktop) oder gedrückt halten (Mobile).</div>
         </div>
       </div>
     </section>
@@ -810,8 +811,8 @@
       de: {
         'back-btn':'Zurück','app-sub':'Companion Tool',
         'hero-title':'Schnapp den König — <span style="color:var(--accent)">Tracker</span>',
-        'hero-desc':'Tracke deine aufgedeckten Karten und visualisiere die Warnungen vor einer 5 in der Nähe.<br>Manuelle Analyse-Hilfe ohne Vorhersagen oder automatische Züge.',
-        'info-bar':'Dein Grid wird automatisch im Browser gespeichert (localStorage). Bei gelöschtem Browser-Cache oder Inkognito-Modus geht der Stand verloren.',
+        'hero-desc':'Markiere aufgedeckte Karten und behalte die Warnungen im Blick.<br>Kein Autoplay, keine Vorhersagen – nur du und das Brett.',
+        'info-bar':'Dein Stand wird automatisch gespeichert. Bei gelöschtem Cache oder Inkognito-Modus geht er verloren.',
         'progress-label':'FELDER',
         'modus-title':'MODUS',
         'mode-safe-title':'Sicher',    'mode-safe-sub':'Keine Warnung — 5 ausgeschlossen',
@@ -819,22 +820,22 @@
         'card-title':'KARTE WÄHLEN','actions-title':'AKTIONEN',
         'btn-undo':'Rückgängig','btn-reset':'Reset','btn-new-round':'Neue Runde',
         'legend-title':'LEGENDE',
-        'leg-placed-title':'Aufgedeckte Karte','leg-placed-sub':'Im Spiel aufgedeckt.',
-        'leg-safe-title':'5 Ausgeschlossen',   'leg-safe-sub':'Keine 5 möglich — sicher.',
-        'leg-unsafe-title':'5 Möglich',        'leg-unsafe-sub':'Warnung — 5 in der Nähe.',
-        'leg-unknown-title':'Unbekannt',        'leg-unknown-sub':'Keine Info.',
-        'leg-king-title':'König (K)',            'leg-king-sub':'König platziert.',
-        'leg-tip':'💡 Desktop: Rechtsklick entfernt Karte. Mobile: Gedrückt halten.',
-        'leg-priority':'Priorität: Grün überschreibt Rot.',
-        'howto-title':"So funktioniert's",
-        'howto-1':'<strong>Modus wählen:</strong> „Sicher" wenn keine Warnung erschien, „Unsicher" wenn eine Warnung kam.',
-        'howto-2':'<strong>Karte wählen:</strong> Wähle die Karte (1–5 oder König), die du im Spiel aufgedeckt hast.',
-        'howto-3':'<strong>Feld klicken:</strong> Klicke auf das entsprechende Feld. Nachbarfelder werden automatisch markiert.',
-        'howto-4':'<strong>Entfernen:</strong> Desktop: Rechtsklick auf Karte. Mobile: Feld gedrückt halten (lange tippen).',
+        'leg-placed-title':'Aufgedeckt','leg-placed-sub':'Diese Karte wurde im Spiel aufgedeckt.',
+        'leg-safe-title':'Sicher',     'leg-safe-sub':'Keine 5 möglich hier.',
+        'leg-unsafe-title':'Warnung',  'leg-unsafe-sub':'5 in der Nähe — Vorsicht!',
+        'leg-unknown-title':'Unbekannt','leg-unknown-sub':'Noch keine Info.',
+        'leg-king-title':'König (K)',   'leg-king-sub':'König wurde hier platziert.',
+        'leg-tip':'💡 Desktop: Rechtsklick entfernt eine Karte. Mobile: Gedrückt halten.',
+        'leg-priority':'Grün hat immer Vorrang vor Rot.',
+        'howto-title':"So geht's",
+        'howto-1':'<strong>Modus wählen:</strong> Sicher = keine Warnung. Unsicher = Warnung ist erschienen.',
+        'howto-2':'<strong>Karte wählen:</strong> Welche Karte (1–5 oder König) hast du gerade aufgedeckt?',
+        'howto-3':'<strong>Feld klicken:</strong> Klick auf das Feld im Grid. Nachbarn werden automatisch markiert.',
+        'howto-4':'<strong>Karte entfernen:</strong> Rechtsklick (Desktop) oder gedrückt halten (Mobile).',
         'footer-tip-label':'Gefällt dir YangHub?','footer-tip-btn':'Trinkgeld geben',
         'footer-copy':'© ' + new Date().getFullYear() + ' YangHub. Alle Rechte vorbehalten.',
         'footer-disclaimer':'YangHub ist kein offizielles Produkt von Gameforge oder Metin2.',
-        'conflict-msg':'⚡ Konflikt: Nachbarfeld bereits als 5-Ausschluss markiert — sichere Info hat Vorrang.',
+        'conflict-msg':'⚡ Konflikt: Feld ist bereits als sicher markiert — sichere Info hat Vorrang.',
         'info-remove':'Karte entfernt',
         'confirm-reset':'Grid wirklich zurücksetzen? Alle Daten gehen verloren.',
         'confirm-new-round':'Neue Runde starten? Das aktuelle Grid wird geleert.',
@@ -842,15 +843,15 @@
         'modal-new-round-text':    'Das aktuelle Grid wird geleert. Alle Markierungen gehen verloren.',
         'modal-new-round-confirm': 'Neue Runde',
         'modal-reset-title':       'Grid zurücksetzen?',
-        'modal-reset-text':        'Alle Daten gehen verloren. Diese Aktion kann nicht rückgängig gemacht werden.',
+        'modal-reset-text':        'Alle Daten gehen verloren. Das lässt sich nicht rückgängig machen.',
         'modal-reset-confirm':     'Zurücksetzen',
         'modal-cancel':            'Abbrechen',
       },
       en: {
         'back-btn':'Back','app-sub':'Companion Tool',
         'hero-title':'Catch the King — <span style="color:var(--accent)">Tracker</span>',
-        'hero-desc':'Track your revealed cards and visualize warnings near a 5.<br>Manual analysis aid — no predictions, no automatic moves.',
-        'info-bar':'Your grid is automatically saved in your browser (localStorage). It will be lost if you clear your cache or use incognito mode.',
+        'hero-desc':'Mark revealed cards and keep track of warnings on the board.<br>No autoplay, no predictions – just you and the grid.',
+        'info-bar':'Your progress is saved automatically. Clearing cache or using incognito will reset it.',
         'progress-label':'CELLS',
         'modus-title':'MODE',
         'mode-safe-title':'Safe',    'mode-safe-sub':'No warning — 5 excluded',
@@ -858,22 +859,22 @@
         'card-title':'CHOOSE CARD','actions-title':'ACTIONS',
         'btn-undo':'Undo','btn-reset':'Reset','btn-new-round':'New Round',
         'legend-title':'LEGEND',
-        'leg-placed-title':'Revealed Card','leg-placed-sub':'Revealed in game.',
-        'leg-safe-title':'5 Excluded',    'leg-safe-sub':'No 5 possible — safe.',
-        'leg-unsafe-title':'5 Possible',  'leg-unsafe-sub':'Warning — 5 nearby.',
-        'leg-unknown-title':'Unknown',     'leg-unknown-sub':'No info.',
-        'leg-king-title':'King (K)',        'leg-king-sub':'King placed.',
-        'leg-tip':'💡 Desktop: Right-click removes card. Mobile: Long press.',
-        'leg-priority':'Priority: Green overrides Red.',
+        'leg-placed-title':'Revealed',  'leg-placed-sub':'This card was revealed in game.',
+        'leg-safe-title':'Safe',        'leg-safe-sub':'No 5 possible here.',
+        'leg-unsafe-title':'Warning',   'leg-unsafe-sub':'5 nearby — watch out!',
+        'leg-unknown-title':'Unknown',  'leg-unknown-sub':'No info yet.',
+        'leg-king-title':'King (K)',     'leg-king-sub':'King was placed here.',
+        'leg-tip':'💡 Desktop: Right-click removes a card. Mobile: Long press.',
+        'leg-priority':'Green always overrides Red.',
         'howto-title':"How it works",
-        'howto-1':'<strong>Choose mode:</strong> "Safe" if no warning appeared, "Unsafe" if a warning came.',
-        'howto-2':'<strong>Choose card:</strong> Select the card (1–5 or King) you revealed in game.',
-        'howto-3':'<strong>Click cell:</strong> Click the corresponding cell. Neighboring cells are automatically marked.',
-        'howto-4':'<strong>Remove:</strong> Desktop: Right-click on a card. Mobile: Long press (hold) the cell.',
+        'howto-1':'<strong>Choose mode:</strong> Safe = no warning. Unsafe = warning appeared.',
+        'howto-2':'<strong>Choose card:</strong> Which card (1–5 or King) did you just reveal?',
+        'howto-3':'<strong>Click cell:</strong> Click the cell in the grid. Neighbors are marked automatically.',
+        'howto-4':'<strong>Remove card:</strong> Right-click (Desktop) or long press (Mobile).',
         'footer-tip-label':'Enjoying YangHub?','footer-tip-btn':'Leave a tip',
         'footer-copy':'© ' + new Date().getFullYear() + ' YangHub. All rights reserved.',
         'footer-disclaimer':'YangHub is not an official product of Gameforge or Metin2.',
-        'conflict-msg':'⚡ Conflict: Neighbor already marked as 5-excluded — safe info takes priority.',
+        'conflict-msg':'⚡ Conflict: Cell already marked as safe — safe info takes priority.',
         'info-remove':'Card removed',
         'confirm-reset':'Really reset the grid? All data will be lost.',
         'confirm-new-round':'Start a new round? The current grid will be cleared.',
@@ -881,7 +882,7 @@
         'modal-new-round-text':    'The current grid will be cleared. All markings will be lost.',
         'modal-new-round-confirm': 'New Round',
         'modal-reset-title':       'Reset Grid?',
-        'modal-reset-text':        'All data will be lost. This action cannot be undone.',
+        'modal-reset-text':        'All data will be lost. This cannot be undone.',
         'modal-reset-confirm':     'Reset',
         'modal-cancel':            'Cancel',
       }

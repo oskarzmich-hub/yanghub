@@ -13,9 +13,9 @@
   <meta property="og:description" content="Yang-Kalkulator für alle Mengen + Markt-Schnellnotizen. Kostenlos für Metin2-Spieler." />
   <meta property="og:locale"      content="de_DE" />
   <meta name="author" content="YangHub" />
-  <!-- canonical: set to full URL once domain is live -->
-  <!-- <link rel="canonical" href="https://yanghub.de/notes.html" /> -->
-  <!-- <meta property="og:url"   content="https://yanghub.de/notes.html" /> -->
+  <link rel="canonical" href="https://yanghub.de/notes.html" />
+  <meta property="og:url"   content="https://yanghub.de/notes.html" />
+  <!-- og:image: add once preview screenshot is ready -->
   <!-- <meta property="og:image" content="https://yanghub.de/preview-notes.png" /> -->
   <script type="application/ld+json">
   {
@@ -512,7 +512,7 @@
       <p data-i18n="modal-reset-notes-text">Alle Notizen werden unwiderruflich gelöscht.</p>
       <div class="yh-modal-btns">
         <button type="button" class="yh-modal-cancel" id="modal-reset-notes-cancel" data-i18n="modal-cancel">Abbrechen</button>
-        <button type="button" class="yh-modal-confirm" id="modal-reset-notes-confirm" data-i18n="modal-confirm">Löschen</button>
+        <button type="button" class="yh-modal-confirm" id="modal-reset-notes-confirm" data-i18n="modal-confirm-notes">Löschen</button>
       </div>
     </div>
   </div>
@@ -524,7 +524,10 @@
        APP HEADER
   ══════════════════════════════════════════════════ -->
   <header class="app-header">
-    <a href="index.html" class="back-btn" id="back-btn" aria-label="Zurück zur Hauptseite" data-i18n="back-btn">← Zurück</a>
+    <a href="index.html" class="back-btn" id="back-btn" aria-label="Zurück zur Hauptseite">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-i18n="back-btn">Zurück</span>
+    </a>
 
     <div class="app-title-wrap">
       <div class="app-icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
@@ -666,63 +669,61 @@
     const T = {
       de: {
         'calc-title':   'Preiskalkulator',
-        'calc-sub':     'Gib einen Preis bei beliebiger Menge ein',
+        'calc-sub':     'Preis bei einer Menge eingeben – Rest wird automatisch berechnet',
         'notes-title':  'Schnellnotizen',
-        'notes-sub':    'Für deine Metin2-Notizen',
+        'notes-sub':    'Dein Notizbuch für den Markt-Grind',
         'btn-undo':     'Rückgängig',
         'btn-reset':    'Reset',
-        'btn-add':      '+ Neues Item hinzufügen',
+        'btn-add':      '+ Item hinzufügen',
         'th-item':      'Item',
-        'th-custom':    'Custom',
-        'calc-tip':     '💡 K = Tausend · M = Millionen · B = Milliarden — Eingabe z.B. "5M" = 5.000.000',
-        'notes-tip':    '💡 Ctrl+B Fett · Ctrl+I Kursiv · Ctrl+U Unterstrichen',
+        'th-custom':    'Eigene Menge',
+        'calc-tip':     '💡 K = Tausend · M = Millionen · B = Milliarden — z.B. „5M" = 5.000.000',
+        'notes-tip':    '💡 Strg+B Fett · Strg+I Kursiv · Strg+U Unterstrichen',
         'p-item':       'Itemname...',
         'p-menge':      'Menge...',
-        'p-notes':      'Schreibe hier deine Metin2-Notizen...',
-        'q-reset-calc': 'Tabelle wirklich zurücksetzen?',
-        'q-reset-notes':'Notizen wirklich löschen?',
+        'p-notes':      'Deine Notizen hier...',
         'modal-reset-calc-title':  'Kalkulator zurücksetzen?',
-        'modal-reset-calc-text':   'Alle Einträge werden gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.',
+        'modal-reset-calc-text':   'Alle Einträge werden gelöscht. Das lässt sich nicht rückgängig machen.',
         'modal-reset-notes-title': 'Notizen löschen?',
         'modal-reset-notes-text':  'Alle Notizen werden unwiderruflich gelöscht.',
         'modal-cancel':  'Abbrechen',
         'modal-confirm': 'Zurücksetzen',
+        'modal-confirm-notes': 'Löschen',
         'footer-tip-label': 'Gefällt dir YangHub?',
         'footer-tip-btn':   'Trinkgeld geben',
         'footer-copy':      '© ' + new Date().getFullYear() + ' YangHub. Alle Rechte vorbehalten.',
         'footer-disclaimer':'YangHub ist kein offizielles Produkt von Gameforge oder Metin2.',
-        'back-btn':         '← Zurück',
+        'back-btn':         'Zurück',
         'back-btn-aria':    'Zurück zur Hauptseite',
         'app-sub':          'Preiskalkulator & Notizen',
       },
       en: {
         'calc-title':   'Price Calculator',
-        'calc-sub':     'Enter a price for any quantity',
+        'calc-sub':     'Enter a price for any quantity – the rest is calculated automatically',
         'notes-title':  'Quick Notes',
-        'notes-sub':    'For your Metin2 notes',
+        'notes-sub':    'Your notepad for market grinding',
         'btn-undo':     'Undo',
         'btn-reset':    'Reset',
-        'btn-add':      '+ Add new item',
+        'btn-add':      '+ Add item',
         'th-item':      'Item',
-        'th-custom':    'Custom',
+        'th-custom':    'Custom Qty',
         'calc-tip':     '💡 K = Thousand · M = Million · B = Billion — e.g. "5M" = 5,000,000',
         'notes-tip':    '💡 Ctrl+B Bold · Ctrl+I Italic · Ctrl+U Underline',
         'p-item':       'Item name...',
         'p-menge':      'Amount...',
-        'p-notes':      'Write your Metin2 notes here...',
-        'q-reset-calc': 'Really reset the table?',
-        'q-reset-notes':'Really clear all notes?',
+        'p-notes':      'Your notes here...',
         'modal-reset-calc-title':  'Reset Calculator?',
-        'modal-reset-calc-text':   'All entries will be deleted. This action cannot be undone.',
+        'modal-reset-calc-text':   'All entries will be deleted. This cannot be undone.',
         'modal-reset-notes-title': 'Delete Notes?',
         'modal-reset-notes-text':  'All notes will be permanently deleted.',
         'modal-cancel':  'Cancel',
         'modal-confirm': 'Reset',
+        'modal-confirm-notes': 'Delete',
         'footer-tip-label': 'Enjoying YangHub?',
         'footer-tip-btn':   'Leave a tip',
         'footer-copy':      '© ' + new Date().getFullYear() + ' YangHub. All rights reserved.',
         'footer-disclaimer':'YangHub is not an official product of Gameforge or Metin2.',
-        'back-btn':         '← Back',
+        'back-btn':         'Back',
         'back-btn-aria':    'Back to main page',
         'app-sub':          'Price Calculator & Notes',
       }
