@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YangHub – Kostenlose Metin2 Tools | Yang-Preisrechner, Markt-Notizen & mehr</title>
+  <meta name="description" content="YangHub – kostenlose Metin2 Tools für die deutsche Community. Yang-Preisrechner, Markt-Notizen, SchnappKing-Tracker und Okey-Event-Tracker. Gratis, ohne Anmeldung." />
+  <meta name="keywords" content="Metin2, YangHub, Metin2 Tools, Yang Preisrechner, Metin2 Markt, Metin2 kostenlos, Schnapp den König, Okey Event, Metin2 Deutschland" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0c1a15" />
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="YangHub – Kostenlose Metin2 Tools" />
+  <meta property="og:description" content="Yang-Preisrechner, Markt-Notizen & mehr – kostenlos für die Metin2-Community." />
+  <meta property="og:locale"      content="de_DE" />
+  <meta name="author" content="YangHub" />
+  <!-- canonical: set to full URL once domain is live, e.g. https://yanghub.de/ -->
+  <!-- <link rel="canonical" href="https://yanghub.de/" /> -->
+  <!-- og:url + og:image: add once domain + screenshot are ready -->
+  <!-- <meta property="og:url"   content="https://yanghub.de/" /> -->
+  <!-- <meta property="og:image" content="https://yanghub.de/preview.png" /> -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "YangHub",
+    "description": "Kostenlose Metin2 Tools für die deutsche Community – Yang-Preisrechner, Markt-Notizen, SchnappKing-Tracker und Okey-Event-Tracker.",
+    "inLanguage": ["de", "en"],
+    "audience": { "@type": "Audience", "audienceType": "Metin2 Spieler" }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    :root {
+      --bg-deep:       #07100d;
+      --bg-main:       #0c1a15;
+      --bg-card:       #111f18;
+      --bg-card-hover: #162a20;
+      --border:        #1e3528;
+      --border-accent: #2d6b4a;
+      --accent:        #2d9e6b;
+      --accent-light:  #3dbf82;
+      --accent-glow:   rgba(45,158,107,.15);
+      --text-primary:  #e8e0d0;
+      --text-secondary:#8fa898;
+      --text-muted:    #4a6357;
+      --radius-sm:6px; --radius-md:12px; --radius-lg:20px;
+      --ease:.25s ease;
+    }
+    body {
+      background: var(--bg-main);
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .accent { color: var(--accent); }
+    .container { width:100%; max-width:1100px; margin:0 auto; padding:0 1.25rem; }
+
+    /* LANG SWITCH */
+    .lang-switch {
+      position:fixed; top:1rem; right:1.25rem; z-index:999;
+      display:flex; gap:2px;
+      background:rgba(7,16,13,.9); border:1px solid var(--border);
+      border-radius:var(--radius-sm); padding:3px; backdrop-filter:blur(8px);
+    }
+    .lang-btn {
+      background:transparent; border:none; color:var(--text-muted);
+      font-family:'Outfit',sans-serif; font-size:.72rem; font-weight:600;
+      letter-spacing:.08em; padding:.3rem .65rem; border-radius:4px;
+      cursor:pointer; transition:color var(--ease),background var(--ease);
+    }
+    .lang-btn:hover { color:var(--text-primary); }
+    .lang-btn.active { background:var(--border-accent); color:var(--accent-light); }
+
+    /* HERO */
+    #hero {
+      position:relative; min-height:100vh;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; overflow:hidden; padding:2rem 1.25rem;
+      background:radial-gradient(ellipse 80% 60% at 50% 40%, rgba(13,40,28,.95) 0%, var(--bg-deep) 70%);
+    }
+    #particles-canvas { position:absolute; inset:0; pointer-events:none; z-index:0; }
+    .hero-content {
+      position:relative; z-index:1;
+      display:flex; flex-direction:column; align-items:center; gap:1.1rem;
+    }
+    .hero-badge {
+      display:flex; align-items:center; gap:.5rem;
+      font-size:.68rem; font-weight:600; letter-spacing:.22em; color:var(--text-muted);
+    }
+    .hero-badge::before,.hero-badge::after {
+      content:''; display:block; width:40px; height:1px; background:var(--border-accent);
+    }
+    .badge-dot { width:5px; height:5px; border-radius:50%; background:var(--accent); }
+    .hero-title {
+      font-family:'Cinzel',serif;
+      font-size:clamp(3.5rem,13vw,8.5rem);
+      font-weight:700; line-height:1; letter-spacing:-.02em;
+    }
+    .hero-title .yang { color:var(--accent); }
+    .hero-title .hub  { color:var(--text-primary); }
+    .hero-divider {
+      width:clamp(180px,50%,480px); height:1px;
+      background:linear-gradient(90deg,transparent,var(--accent),transparent);
+      margin:-.2rem 0;
+    }
+    .hero-sub  { font-size:clamp(.92rem,2.4vw,1.1rem); color:var(--text-secondary); max-width:480px; }
+    .hero-sub2 { font-size:clamp(.82rem,1.8vw,.97rem); color:var(--text-muted); letter-spacing:.03em; }
+
+    /* MAGNETIC BUTTON WRAPPER – statisch, kein transform */
+    .mag-wrap {
+      position:relative;
+      display:inline-block;
+      margin-top:.4rem;
+    }
+    /* Canvas liegt hinter dem Button für Partikel-Effekt */
+    .mag-canvas {
+      position:absolute;
+      pointer-events:none;
+      z-index:0;
+    }
+    .btn-primary {
+      position:relative; z-index:1;
+      display:inline-flex; align-items:center; gap:.6rem;
+      padding:.85rem 2.1rem;
+      background:transparent;
+      border:1px solid var(--border-accent); border-radius:999px;
+      color:var(--text-primary);
+      font-family:'Outfit',sans-serif; font-size:.84rem;
+      font-weight:500; letter-spacing:.1em; text-transform:uppercase;
+      cursor:pointer;
+      /* Kein transform hier – Button bleibt immer statisch */
+      transition:background .3s ease, border-color .3s ease, box-shadow .3s ease;
+      user-select:none;
+    }
+    .btn-primary.is-hovered {
+      background:rgba(45,158,107,.1);
+      border-color:var(--accent);
+      box-shadow:0 0 30px rgba(45,158,107,.18), inset 0 0 20px rgba(45,158,107,.04);
+    }
+    .btn-icon-dot {
+      width:7px; height:7px; border-radius:50%;
+      background:var(--accent); box-shadow:0 0 8px var(--accent);
+      flex-shrink:0;
+      transition:transform .3s ease, box-shadow .3s ease;
+      animation: dotHeartbeat 2.8s ease-in-out infinite;
+    }
+    /* Subtle double-beat pulse – like a heartbeat */
+    @keyframes dotHeartbeat {
+      0%,100% { transform:scale(1);    box-shadow:0 0 6px var(--accent); }
+      14%      { transform:scale(1.45); box-shadow:0 0 12px var(--accent-light); }
+      28%      { transform:scale(1);    box-shadow:0 0 6px var(--accent); }
+      42%      { transform:scale(1.28); box-shadow:0 0 10px var(--accent-light); }
+      56%      { transform:scale(1);    box-shadow:0 0 6px var(--accent); }
+    }
+    .btn-primary.is-hovered .btn-icon-dot {
+      transform:scale(1.4); box-shadow:0 0 14px var(--accent-light);
+      animation-play-state: paused; /* hover-glow takes over */
+    }
+
+    #scroll-arrow {
+      position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+      z-index:1; display:flex; flex-direction:column; align-items:center; gap:.4rem;
+      cursor:pointer; transition:opacity .4s ease;
+    }
+    .scroll-dots { display:flex; gap:5px; }
+    .scroll-dots span { width:5px; height:5px; border-radius:50%; background:var(--text-muted); opacity:.45; }
+    .scroll-dots span:nth-child(2) { opacity:.9; background:var(--accent); }
+    .scroll-chevron { color:var(--text-muted); font-size:1.2rem; animation:bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
+
+    /* TOOLS */
+    #tools { padding:5rem 0; background:var(--bg-deep); }
+    .section-label { font-size:.68rem; font-weight:600; letter-spacing:.22em; color:var(--accent); text-align:center; margin-bottom:.6rem; }
+    .section-title { font-family:'Cinzel',serif; font-size:clamp(1.8rem,5vw,2.8rem); font-weight:600; text-align:center; color:var(--text-primary); margin-bottom:.75rem; }
+    .section-desc { text-align:center; color:var(--text-secondary); font-size:.95rem; max-width:500px; margin:0 auto 3rem; }
+    .tools-grid { display:grid; grid-template-columns:1fr; gap:1.25rem; }
+    @media(min-width:640px) { .tools-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(min-width:900px) { .tools-grid { grid-template-columns:repeat(3,1fr); } }
+    .tool-card {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius-md); padding:1.75rem 1.5rem;
+      cursor:pointer; position:relative; overflow:hidden; outline:none;
+      transition:border-color var(--ease),background var(--ease),transform var(--ease),box-shadow var(--ease);
+    }
+    .tool-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,transparent,var(--accent),transparent);
+      opacity:0; transition:opacity var(--ease);
+    }
+    .tool-card:hover,.tool-card:focus {
+      border-color:var(--border-accent); background:var(--bg-card-hover);
+      transform:translateY(-4px); box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 28px var(--accent-glow);
+    }
+    .tool-card:hover::before,.tool-card:focus::before { opacity:1; }
+    /* Canvas sits behind card content */
+    .card-canvas {
+      position:absolute; inset:0; pointer-events:none; z-index:0;
+      width:100%; height:100%;
+    }
+    /* All real content floats above the canvas */
+    .card-content { position:relative; z-index:1; }
+    .tool-icon {
+      width:44px; height:44px; border:1px solid var(--border-accent);
+      border-radius:var(--radius-sm); display:flex; align-items:center;
+      justify-content:center; font-size:1.25rem; margin-bottom:1rem; background:var(--accent-glow);
+    }
+    .tool-card h3 { font-family:'Cinzel',serif; font-size:1rem; font-weight:600; color:var(--text-primary); margin-bottom:.5rem; }
+    .tool-card p  { font-size:.875rem; color:var(--text-secondary); line-height:1.55; }
+
+    /* ABOUT */
+    #about { padding:5rem 0; background:var(--bg-main); }
+    .about-box {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius-lg); padding:2.5rem 2rem;
+      max-width:750px; margin:0 auto;
+    }
+    .about-box p { color:var(--text-secondary); margin-bottom:.9rem; font-size:.95rem; }
+    .about-box ul { list-style:none; margin:.5rem 0 1rem; display:flex; flex-direction:column; gap:.4rem; }
+    .about-box ul li { color:var(--text-secondary); font-size:.9rem; padding-left:1.2rem; position:relative; }
+    .about-box ul li::before { content:'•'; color:var(--accent); position:absolute; left:0; }
+    @media(min-width:768px) { .about-box { padding:3rem 3.5rem; } }
+
+    /* FOOTER */
+    footer { padding:3rem 0 2rem; background:var(--bg-deep); border-top:1px solid var(--border); text-align:center; }
+    .footer-logo { font-family:'Cinzel',serif; font-size:1.5rem; font-weight:600; margin-bottom:1.25rem; }
+    .footer-logo .yang { color:var(--accent); }
+    .footer-logo .hub  { color:var(--text-primary); }
+    .footer-tip { display:flex; flex-direction:column; align-items:center; gap:.6rem; margin-bottom:2rem; }
+    .footer-tip-label { font-size:.85rem; color:var(--text-muted); }
+    .btn-tip {
+      display:inline-flex; align-items:center; gap:.4rem; padding:.6rem 1.5rem;
+      background:transparent; border:1px solid var(--border-accent); border-radius:999px;
+      color:var(--text-secondary); font-family:'Outfit',sans-serif; font-size:.85rem;
+      cursor:pointer; text-decoration:none;
+      transition:background var(--ease),color var(--ease),border-color var(--ease);
+    }
+    .btn-tip:hover, .btn-tip.is-hovered { background:var(--accent-glow); color:var(--accent-light); border-color:var(--accent); box-shadow:0 0 30px rgba(45,158,107,.18); }
+    .footer-copy,.footer-disclaimer { font-size:.75rem; color:var(--text-muted); margin-bottom:.25rem; }
+
+    /* FADE-IN */
+    .fade-in { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+    .fade-in:nth-child(2) { transition-delay:.1s; }
+    .fade-in:nth-child(3) { transition-delay:.2s; }
+  </style>
+</head>
+<body>
+
+  <!-- SPRACH-SWITCH -->
+  <div class="lang-switch">
+    <button class="lang-btn active" data-lang="de">DE</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span data-i18n="hero-badge">METIN2 TOOLS HUB</span>
+        <span class="badge-dot"></span>
+      </div>
+      <h1 class="hero-title"><span class="yang">Yang</span><span class="hub">Hub</span></h1>
+      <div class="hero-divider" aria-hidden="true"></div>
+      <p class="hero-sub" data-i18n="hero-sub">Dein zentraler Hub für <span class="accent">Metin2</span> – Yang-Preisrechner, Markt-Tools &amp; mehr.</p>
+      <p class="hero-sub2" data-i18n="hero-sub2">Kostenlos. Kein Account. Für die Community.</p>
+
+      <!-- Wrapper bleibt statisch. Canvas liegt dahinter für Partikel. -->
+      <div class="mag-wrap" id="mag-wrap">
+        <canvas class="mag-canvas" id="mag-canvas"></canvas>
+        <button class="btn-primary" id="hero-btn">
+          <span class="btn-icon-dot"></span>
+          <span data-i18n="hero-btn">Zu den Apps</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="scroll-arrow" role="button" tabindex="0" aria-label="Nach unten scrollen">
+      <div class="scroll-dots"><span></span><span></span><span></span></div>
+      <div class="scroll-chevron">&#8964;</div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section id="tools" aria-label="Tools und Apps">
+    <div class="container">
+      <p class="section-label" data-i18n="tools-label">DAS ARSENAL</p>
+      <h2 class="section-title" data-i18n="tools-title">Tools &amp; Apps</h2>
+      <p class="section-desc" data-i18n="tools-desc">Kostenlose Metin2 Tools für die deutsche Community. Von Spielern, für Spieler.</p>
+      <div class="tools-grid">
+        <article class="tool-card fade-in" id="card-1" data-href="notes.html" role="button" tabindex="0">
+          <canvas class="card-canvas" id="card-canvas-1" aria-hidden="true"></canvas>
+          <div class="card-content">
+            <div class="tool-icon">📋</div>
+            <h3 data-i18n="tool1-name">Metin2 Notes</h3>
+            <p data-i18n="tool1-desc">Preiskalkulator &amp; Notizen für den Markt. Erfasse Itempreise und berechne Mengen automatisch.</p>
+          </div>
+        </article>
+        <article class="tool-card fade-in" id="card-2" data-href="tools/schnapp-king.html" role="button" tabindex="0">
+          <canvas class="card-canvas" id="card-canvas-2" aria-hidden="true"></canvas>
+          <div class="card-content">
+            <div class="tool-icon">🎮</div>
+            <h3 data-i18n="tool2-name">SchnappKingM2</h3>
+            <p data-i18n="tool2-desc">Companion-Tool für 'Schnapp den König'. Tracke Karten und visualisiere die Warnungs-Logik.</p>
+          </div>
+        </article>
+        <article class="tool-card fade-in" id="card-3" data-href="tools/okey-tracker.html" role="button" tabindex="0">
+          <canvas class="card-canvas" id="card-canvas-3" aria-hidden="true"></canvas>
+          <div class="card-content">
+            <div class="tool-icon">🎯</div>
+            <h3 data-i18n="tool3-name">Okey-Event Tracker</h3>
+            <p data-i18n="tool3-desc">Behalte den Überblick über alle Karten im Okey-Event. Markiere gespielte Karten und plane Kombinationen.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÜBER -->
+  <section id="about">
+    <div class="container">
+      <p class="section-label" data-i18n="about-label">DIE VISION</p>
+      <h2 class="section-title" data-i18n="about-title">Über YangHub</h2>
+      <p class="section-desc" data-i18n="about-sub">Ein Ort für alle Metin2 Tools – kostenlos für die Community.</p>
+      <div class="about-box fade-in">
+        <p data-i18n="about-text1"><strong class="accent">YangHub</strong> ist meine Vision, einen zentralen Ort zu schaffen, an dem Metin2 Spieler alles finden, was sie brauchen.</p>
+        <p data-i18n="about-text2">Aktuell bietet YangHub drei kostenlose Tools:</p>
+        <ul>
+          <li data-i18n="about-li1"><strong>Metin2 Notes</strong> — Preiskalkulator und Schnellnotizen für den Markt.</li>
+          <li data-i18n="about-li2"><strong>SchnappKingM2</strong> — Tracker für das 'Schnapp den König'-Minispiel.</li>
+          <li data-i18n="about-li3"><strong>Okey-Event Tracker</strong> — Kartenübersicht für das Okey-Event.</li>
+        </ul>
+        <p data-i18n="about-text3">Alle Tools sind aktiv in Entwicklung — Updates und neue Features kommen regelmäßig.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-logo"><span class="yang">Yang</span><span class="hub">Hub</span></div>
+      <div class="footer-tip">
+        <span class="footer-tip-label" data-i18n="footer-tip-label">Gefällt dir YangHub?</span>
+        <div class="mag-wrap" id="tip-wrap">
+          <canvas class="mag-canvas" id="tip-canvas"></canvas>
+          <a href="https://revolut.me/oskarr1um" class="btn-tip" id="tip-btn" target="_blank" rel="noopener noreferrer" data-i18n="footer-tip-btn">☕ Trinkgeld geben</a>
+        </div>
+      </div>
+      <p class="footer-copy" data-i18n="footer-copy">© 2025 YangHub. Alle Rechte vorbehalten.</p>
+      <p class="footer-disclaimer" data-i18n="footer-disclaimer">YangHub ist kein offizielles Produkt von Gameforge oder Metin2.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // ÜBERSETZUNGEN (DE / EN)
+    // ═══════════════════════════════════════════════════════════
+    const t = {
+      de: {
+        "hero-badge":"METIN2 TOOLS HUB",
+        "hero-sub":'Dein zentraler Hub für <span class="accent">Metin2</span> – Yang-Preisrechner, Markt-Tools & mehr.',
+        "hero-sub2":"Kostenlos. Kein Account. Für die Community.",
+        "hero-btn":"Zu den Apps",
+        "tools-label":"DAS ARSENAL","tools-title":"Tools &amp; Apps",
+        "tools-desc":"Kostenlose Metin2 Tools für die deutsche Community. Von Spielern, für Spieler.",
+        "tool1-name":"Metin2 Notes",
+        "tool1-desc":"Preiskalkulator & Notizen für den Markt. Erfasse Itempreise und berechne Mengen automatisch.",
+        "tool2-name":"SchnappKingM2",
+        "tool2-desc":"Companion-Tool für 'Schnapp den König'. Tracke Karten und visualisiere die Warnungs-Logik.",
+        "tool3-name":"Okey-Event Tracker",
+        "tool3-desc":"Behalte den Überblick über alle Karten im Okey-Event. Markiere gespielte Karten und plane Kombinationen.",
+        "about-label":"DIE VISION","about-title":"Über YangHub",
+        "about-sub":"Ein Ort für alle Metin2 Tools – kostenlos für die Community.",
+        "about-text1":'<strong class="accent">YangHub</strong> ist meine Vision, einen zentralen Ort zu schaffen, an dem Metin2 Spieler alles finden, was sie brauchen.',
+        "about-text2":"Aktuell bietet YangHub drei kostenlose Tools:",
+        "about-li1":"<strong>Metin2 Notes</strong> — Preiskalkulator und Schnellnotizen für den Markt.",
+        "about-li2":"<strong>SchnappKingM2</strong> — Tracker für das 'Schnapp den König'-Minispiel.",
+        "about-li3":"<strong>Okey-Event Tracker</strong> — Kartenübersicht für das Okey-Event.",
+        "about-text3":"Alle Tools sind aktiv in Entwicklung — Updates und neue Features kommen regelmäßig.",
+        "footer-tip-label":"Gefällt dir YangHub?","footer-tip-btn":"☕ Trinkgeld geben",
+        "footer-copy":"© 2025 YangHub. Alle Rechte vorbehalten.",
+        "footer-disclaimer":"YangHub ist kein offizielles Produkt von Gameforge oder Metin2."
+      },
+      en: {
+        "hero-badge":"METIN2 TOOLS HUB",
+        "hero-sub":'Your central hub for <span class="accent">Metin2</span> – Yang calculator, market tools &amp; more.',
+        "hero-sub2":"Free. No account. For the community.",
+        "hero-btn":"Go to Apps",
+        "tools-label":"THE ARSENAL","tools-title":"Tools & Apps",
+        "tools-desc":"Free Metin2 tools for the community. By players, for players.",
+        "tool1-name":"Metin2 Notes",
+        "tool1-desc":"Price calculator & notes for the market. Track item prices and calculate quantities automatically.",
+        "tool2-name":"SchnappKingM2",
+        "tool2-desc":"Companion tool for 'Catch the King'. Track cards and visualize warning logic.",
+        "tool3-name":"Okey-Event Tracker",
+        "tool3-desc":"Keep track of all cards in the Okey Event. Mark played cards and plan combinations.",
+        "about-label":"THE VISION","about-title":"About YangHub",
+        "about-sub":"One place for all Metin2 Tools – free for the community.",
+        "about-text1":'<strong class="accent">YangHub</strong> is my vision to create a central place where Metin2 players can find everything they need.',
+        "about-text2":"YangHub currently offers three free tools:",
+        "about-li1":"<strong>Metin2 Notes</strong> — Price calculator and quick notes for the market.",
+        "about-li2":"<strong>SchnappKingM2</strong> — Tracker for the 'Catch the King' mini-game.",
+        "about-li3":"<strong>Okey-Event Tracker</strong> — Card overview for the Okey Event.",
+        "about-text3":"All tools are actively in development — updates and new features arrive regularly.",
+        "footer-tip-label":"Enjoying YangHub?","footer-tip-btn":"☕ Leave a tip",
+        "footer-copy":"© 2025 YangHub. All rights reserved.",
+        "footer-disclaimer":"YangHub is not an official product of Gameforge or Metin2."
+      }
+    };
+
+    let lang = (function() {
+      try { return localStorage.getItem("yh-lang") || "de"; }
+      catch(e) { return "de"; }
+    })();
+
+    function applyLang(l) {
+      lang = l;
+      try { localStorage.setItem("yh-lang", l); } catch(e) {}
+      document.documentElement.lang = l; // keep <html lang> in sync for SEO + accessibility
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const k = el.getAttribute("data-i18n");
+        if (t[l][k] !== undefined) el.innerHTML = t[l][k];
+      });
+      document.querySelectorAll(".lang-btn").forEach(btn =>
+        btn.classList.toggle("active", btn.dataset.lang === l)
+      );
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // HINTERGRUND-PARTIKEL (Hero Canvas)
+    // ═══════════════════════════════════════════════════════════
+    (function() {
+      const canvas = document.getElementById("particles-canvas");
+      const ctx    = canvas.getContext("2d");
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener("resize", resize);
+      const colors = ["rgba(45,158,107,0.45)","rgba(232,224,208,0.20)","rgba(100,160,130,0.28)","rgba(255,255,255,0.12)"];
+      const pts = Array.from({length:55}, () => ({
+        x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight,
+        r:.8+Math.random()*1.4,
+        vx:(Math.random()-.35)*.18, vy:(Math.random()-.5)*.18,
+        c:colors[Math.floor(Math.random()*colors.length)],
+        op:.2+Math.random()*.6, ph:Math.random()*Math.PI*2, ps:.005+Math.random()*.01
+      }));
+      (function draw() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        pts.forEach(p => {
+          p.x+=p.vx; p.y+=p.vy; p.ph+=p.ps;
+          if(p.x>canvas.width+5||p.x<-5||p.y>canvas.height+5||p.y<-5){
+            p.x=Math.random()*canvas.width;
+            p.y=Math.random()<.5?-5:canvas.height+5;
+          }
+          const op=(p.op*(.7+.3*Math.sin(p.ph))).toFixed(2);
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle=p.c.replace(/[\d.]+\)$/,op+")");
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      })();
+    })();
+
+    // ═══════════════════════════════════════════════════════════
+    // BUTTON PARTIKEL-EFFEKT (wiederverwendbar)
+    // wrapId:   ID des statischen Wrappers (für Radius-Messung)
+    // btnId:    ID des Buttons (bekommt is-hovered Klasse für Glow)
+    // canvasId: ID des Canvas hinter dem Button
+    // Button bewegt sich NICHT – nur Partikel fließen zur Maus.
+    // ═══════════════════════════════════════════════════════════
+    function initButtonParticles(wrapId, btnId, canvasId) {
+      const wrap   = document.getElementById(wrapId);
+      const btn    = document.getElementById(btnId);
+      const canvas = document.getElementById(canvasId);
+      if (!wrap || !btn || !canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      const RADIUS = 120;
+      const COUNT  = 24;
+
+      function resizeCanvas() {
+        const r = wrap.getBoundingClientRect();
+        canvas.width               = r.width  + 160;
+        canvas.height              = r.height + 160;
+        canvas.style.position      = "absolute";
+        canvas.style.left          = "-80px";
+        canvas.style.top           = "-80px";
+        canvas.style.pointerEvents = "none";
+        canvas.style.zIndex        = "0";
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      function spawnParticle() {
+        const angle = Math.random() * Math.PI * 2;
+        const dist  = 48 + Math.random() * 38;
+        return {
+          x:     canvas.width  / 2 + Math.cos(angle) * dist,
+          y:     canvas.height / 2 + Math.sin(angle) * dist,
+          size:  0.5 + Math.random() * 1.3,
+          op:    0,
+          pulse: Math.random() * Math.PI * 2,
+          speed: 0.010 + Math.random() * 0.016,
+        };
+      }
+
+      const particles = Array.from({length: COUNT}, spawnParticle);
+      let mx = -999, my = -999, isNear = false;
+
+      window.addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; });
+      window.addEventListener("mouseleave", () => { mx = -999; my = -999; });
+
+      wrap.addEventListener("mouseenter", () => btn.classList.add("is-hovered"));
+      wrap.addEventListener("mouseleave", () => btn.classList.remove("is-hovered"));
+
+      function tick() {
+        const r  = wrap.getBoundingClientRect();
+        const cx = r.left + r.width  / 2;
+        const cy = r.top  + r.height / 2;
+        const dx = mx - cx, dy = my - cy;
+        isNear   = (dx*dx + dy*dy) < (RADIUS * RADIUS);
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const cr  = canvas.getBoundingClientRect();
+        const lmx = mx - cr.left;
+        const lmy = my - cr.top;
+
+        particles.forEach(p => {
+          p.pulse += 0.04;
+          if (isNear) {
+            p.x  += (lmx - p.x) * p.speed;
+            p.y  += (lmy - p.y) * p.speed;
+            p.op  = Math.min(1, p.op + 0.06);
+            const ddx = p.x - lmx, ddy = p.y - lmy;
+            if ((ddx*ddx + ddy*ddy) < 16) { Object.assign(p, spawnParticle()); p.op = 0; }
+          } else {
+            p.op = Math.max(0, p.op - 0.04);
+          }
+          if (p.op < 0.01) return;
+          const alpha = (p.op * (0.3 + 0.2 * Math.sin(p.pulse))).toFixed(2);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(45,158,107,${alpha})`;
+          ctx.fill();
+        });
+
+        requestAnimationFrame(tick);
+      }
+      tick();
+    }
+
+    // Hero Button + Footer Trinkgeld Button
+    initButtonParticles("mag-wrap", "hero-btn", "mag-canvas");
+    initButtonParticles("tip-wrap", "tip-btn",  "tip-canvas");
+
+    // ═══════════════════════════════════════════════════════════
+    // TOOL CARD PARTICLE EFFECT
+    // Larger version for big cards: particles are spread across
+    // the whole card surface and drift toward the mouse cursor.
+    // cardId:   ID of the tool-card article element
+    // canvasId: ID of the canvas inside the card
+    // ═══════════════════════════════════════════════════════════
+    function initCardParticles(cardId, canvasId) {
+      const card   = document.getElementById(cardId);
+      const canvas = document.getElementById(canvasId);
+      if (!card || !canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      const COUNT = 40;
+
+      // Size canvas to match card exactly
+      function resizeCanvas() {
+        const r = card.getBoundingClientRect();
+        canvas.width  = r.width;
+        canvas.height = r.height;
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      // Spawn a particle at a random position – uses canvas dimensions (already synced to card)
+      function spawnParticle() {
+        return {
+          x:     Math.random() * canvas.width,
+          y:     Math.random() * canvas.height,
+          size:  0.6 + Math.random() * 1.6,
+          op:    0,
+          pulse: Math.random() * Math.PI * 2,
+          speed: 0.007 + Math.random() * 0.013,
+        };
+      }
+
+      const particles = Array.from({length: COUNT}, spawnParticle);
+      let mx = -999, my = -999, isHovered = false;
+
+      // Track mouse in global coords, convert to card-local in tick()
+      window.addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; });
+      window.addEventListener("mouseleave", () => { mx = -999; my = -999; });
+
+      card.addEventListener("mouseenter", () => { isHovered = true; });
+      card.addEventListener("mouseleave", () => { isHovered = false; });
+
+      function tick() {
+        const r   = card.getBoundingClientRect();
+        // Convert global mouse to canvas-local coords
+        const lmx = mx - r.left;
+        const lmy = my - r.top;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Resize canvas if card dimensions changed (e.g. on window resize)
+        if (canvas.width !== r.width || canvas.height !== r.height) {
+          canvas.width  = r.width;
+          canvas.height = r.height;
+        }
+
+        particles.forEach(p => {
+          p.pulse += 0.035;
+
+          if (isHovered && mx !== -999) {
+            // Drift toward mouse
+            p.x   += (lmx - p.x) * p.speed;
+            p.y   += (lmy - p.y) * p.speed;
+            p.op   = Math.min(1, p.op + 0.055);
+
+            // If particle reaches mouse, respawn it at a random edge position
+            const ddx = p.x - lmx, ddy = p.y - lmy;
+            if ((ddx * ddx + ddy * ddy) < 9) {
+              Object.assign(p, spawnParticle());
+              p.op = 0;
+            }
+          } else {
+            // Slowly drift and fade out
+            p.x += (Math.random() - 0.5) * 0.3;
+            p.y += (Math.random() - 0.5) * 0.3;
+            p.op = Math.max(0, p.op - 0.03);
+          }
+
+          if (p.op < 0.01) return;
+          const alpha = (p.op * (0.35 + 0.22 * Math.sin(p.pulse))).toFixed(2);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(45,158,107,${alpha})`;
+          ctx.fill();
+        });
+
+        requestAnimationFrame(tick);
+      }
+      tick();
+    }
+
+    // Initialise particle effect on all three tool cards
+    initCardParticles("card-1", "card-canvas-1");
+    initCardParticles("card-2", "card-canvas-2");
+    initCardParticles("card-3", "card-canvas-3");
+
+    // ═══════════════════════════════════════════════════════════
+    // EVENTS
+    // ═══════════════════════════════════════════════════════════
+    document.addEventListener("DOMContentLoaded", () => {
+      applyLang(lang);
+
+      // Sprach-Buttons
+      document.querySelectorAll(".lang-btn").forEach(btn =>
+        btn.addEventListener("click", () => applyLang(btn.dataset.lang))
+      );
+
+      // Hero Button → scroll zu Tools
+      document.getElementById("hero-btn").addEventListener("click", () =>
+        document.getElementById("tools").scrollIntoView({behavior:"smooth"})
+      );
+
+      // Scroll-Pfeil
+      const arrow = document.getElementById("scroll-arrow");
+      arrow.addEventListener("click", () =>
+        document.getElementById("tools").scrollIntoView({behavior:"smooth"})
+      );
+      arrow.addEventListener("keydown", e =>
+        e.key === "Enter" && document.getElementById("tools").scrollIntoView({behavior:"smooth"})
+      );
+      window.addEventListener("scroll", () => {
+        arrow.style.opacity = window.scrollY > 100 ? "0" : "1";
+      });
+
+      // Fade-in beim Scrollen
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }
+        });
+      }, {threshold: .12});
+      document.querySelectorAll(".fade-in").forEach(el => obs.observe(el));
+
+      // Tool-Karten klickbar machen
+      document.querySelectorAll(".tool-card[data-href]").forEach(card => {
+        card.addEventListener("click", () => window.location.href = card.dataset.href);
+        card.addEventListener("keydown", e =>
+          e.key === "Enter" && (window.location.href = card.dataset.href)
+        );
+      });
+    });
+  </script>
+</body>
+</html>
