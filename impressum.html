@@ -501,23 +501,4 @@
           } else {
             p.op = Math.max(0, p.op - 0.04);
           }
-          if (p.op < 0.01) return;
-          const alpha = (p.op * (0.3 + 0.2 * Math.sin(p.pulse))).toFixed(2);
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(45,158,107,${alpha})`;
-          ctx.fill();
-        });
-
-        requestAnimationFrame(tick);
-      }
-      tick();
-    }
-
-    initButtonParticles('back-wrap', 'back-btn', 'back-canvas');
-
-    // Footer Jahr
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+          if (p.op < 0.01

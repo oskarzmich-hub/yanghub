@@ -248,6 +248,12 @@
     }
     .btn-tip:hover, .btn-tip.is-hovered { background:var(--accent-glow); color:var(--accent-light); border-color:var(--accent); box-shadow:0 0 30px rgba(45,158,107,.18); }
     .footer-copy,.footer-disclaimer { font-size:.75rem; color:var(--text-muted); margin-bottom:.25rem; }
+    .footer-legal { margin-top:.6rem; }
+    .footer-legal a {
+      font-size:.7rem; color:var(--text-muted); text-decoration:none;
+      opacity:.55; transition:opacity .2s ease;
+    }
+    .footer-legal a:hover { opacity:1; }
 
     /* ── IN DEV BADGE – oben rechts jeder Karte ── */
     .indev-badge {
@@ -476,6 +482,9 @@
       </div>
       <p class="footer-copy" data-i18n="footer-copy">© <span id="footer-year"></span> YangHub. Alle Rechte vorbehalten.</p>
       <p class="footer-disclaimer" data-i18n="footer-disclaimer">YangHub ist kein offizielles Produkt von Gameforge oder Metin2.</p>
+      <div class="footer-legal">
+        <a href="impressum.html" data-i18n="footer-legal">Impressum &amp; Datenschutz</a>
+      </div>
     </div>
   </footer>
 
@@ -511,7 +520,8 @@
         "modal-close":"Schließen",
         "footer-tip-label":"Gefällt dir YangHub?","footer-tip-btn":"Trinkgeld geben",
         "footer-copy":"© " + new Date().getFullYear() + " YangHub. Alle Rechte vorbehalten.",
-        "footer-disclaimer":"YangHub ist kein offizielles Produkt von Gameforge oder Metin2."
+        "footer-disclaimer":"YangHub ist kein offizielles Produkt von Gameforge oder Metin2.",
+        "footer-legal":"Impressum & Datenschutz"
       },
       en: {
         "hero-badge":"METIN2 TOOLS HUB",
@@ -540,7 +550,8 @@
         "modal-close":"Close",
         "footer-tip-label":"Enjoying YangHub?","footer-tip-btn":"Leave a tip",
         "footer-copy":"© " + new Date().getFullYear() + " YangHub. All rights reserved.",
-        "footer-disclaimer":"YangHub is not an official product of Gameforge or Metin2."
+        "footer-disclaimer":"YangHub is not an official product of Gameforge or Metin2.",
+        "footer-legal":"Imprint & Privacy Policy"
       }
     };
 
@@ -847,11 +858,4 @@
     });
 
     // Footer Jahr
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
-
-    applyLang(lang);
-    initButtonParticles("mag-wrap", "hero-btn", "mag-canvas");
-    initButtonParticles("tip-wrap", "tip-btn", "tip-canvas");
-  </script>
-</body>
-</html>
+    document.
